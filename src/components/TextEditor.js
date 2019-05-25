@@ -38,6 +38,30 @@ const initialValue = Value.fromJSON({
   }
 });
 
+function MarkHotKey(options) {
+  const { key, type } = options;
+
+  // Return our "plugin" object, containing the `onKeyDown` handler.
+  return {
+    onKeyDown(event, editor, next) {
+      // If it doesn't match our `key`, let other plugins handle it.
+      if (!event.metaKey || event.key !== key) return next();
+
+      // Prevent the default characters from being inserted.
+      event.preventDefault();
+
+      // Toggle the mark `type`.
+      editor.toggleMark(type);
+    }
+  };
+}
+
+const plugins = [
+  MarkHotKey({ key: "b", type: "bold" }),
+  MarkHotKey({ key: "i", type: "italic" }),
+  MarkHotKey({ key: "u", type: "underline" })
+];
+
 export default class TextEditor extends Component {
   state = {
     value: initialValue
@@ -50,37 +74,6 @@ export default class TextEditor extends Component {
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
     this.setState({ value });
-  };
-
-  onKeyDown = (event, editor, next) => {
-    if (!event.metaKey) return next();
-    event.preventDefault();
-
-    switch (event.key) {
-      case "b": {
-        editor.toggleMark("bold");
-        return true;
-      }
-      case "i": {
-        editor.toggleMark("italic");
-        return true;
-      }
-      case "c": {
-        editor.toggleMark("code");
-        return true;
-      }
-      case "l": {
-        editor.toggleMark("list");
-        return true;
-      }
-      case "u": {
-        editor.toggleMark("underline");
-        return true;
-      }
-      default: {
-        return next();
-      }
-    }
   };
 
   onMarkClick = (event, type) => {
@@ -142,10 +135,10 @@ export default class TextEditor extends Component {
           </button>
         </FormatToolbar>
         <Editor
-          value={this.state.value}
           ref={this.ref}
+          plugins={plugins}
+          value={this.state.value}
           onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
           renderMark={this.renderMark}
         />
       </Fragment>
