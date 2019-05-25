@@ -1,7 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { Editor } from "slate-react";
 import { Value } from "slate";
-import { BoldMark, ItalicMark, FormatToolbar } from "./index";
+import {
+  BoldMark,
+  ItalicMark,
+  CodeMark,
+  ListMark,
+  UnderlineMark,
+  FormatToolbar
+} from "./index";
 import Icon from "react-icons-kit";
 import { bold } from "react-icons-kit/feather/bold";
 import { italic } from "react-icons-kit/feather/italic";
@@ -74,9 +81,6 @@ export default class TextEditor extends Component {
         return next();
       }
     }
-    // if (event.key != "`" || !event.ctrlKey) return next();
-    // event.preventDefault();
-    // editor.setBlocks("code");
   };
 
   onMarkClick = (event, type) => {
@@ -91,15 +95,11 @@ export default class TextEditor extends Component {
       case "italic":
         return <ItalicMark {...props} />;
       case "code":
-        return <code {...props.attributes}>{props.children}</code>;
+        return <CodeMark {...props} />;
       case "list":
-        return (
-          <ul {...process.attributes}>
-            <li>{props.children}</li>
-          </ul>
-        );
+        return <ListMark {...props} />;
       case "underline":
-        return <u {...props.attributes}>{props.children}</u>;
+        return <UnderlineMark {...props} />;
       default: {
         return next();
       }
