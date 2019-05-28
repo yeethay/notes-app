@@ -1,5 +1,5 @@
 import React from "react";
 
-const CodeMark = props => <code>{props.children}</code>;
+const CodeMark = props => <code {...props.attributes}>{props.children}</code>;
 
 export default CodeMark;
