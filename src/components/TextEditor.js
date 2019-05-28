@@ -28,7 +28,7 @@ const initialValue = Value.fromJSON({
             object: "text",
             leaves: [
               {
-                text: "My first paragraph!"
+                text: ""
               }
             ]
           }
@@ -140,6 +140,7 @@ export default class TextEditor extends Component {
           value={this.state.value}
           onChange={this.onChange}
           renderMark={this.renderMark}
+          autoFocus={true}
         />
       </Fragment>
     );
