@@ -17,7 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "CI=true react-scripts test test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom",
     "test:coverage": "yarn test --coverage",
     "eject": "react-scripts eject",
     "predeploy": "yarn build ",
