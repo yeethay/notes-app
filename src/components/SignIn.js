@@ -38,8 +38,8 @@ class SignIn extends Component {
       .auth()
       .signInWithPopup(provider)
       .then((result) => {
-        var token = result.credential.accessToken;
-        var user = result.user;
+        // var token = result.credential.accessToken;
+        // var user = result.user;
         this.setState({loggedIn: 'Log Out'})
       });
   }

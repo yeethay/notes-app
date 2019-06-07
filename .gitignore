@@ -84,5 +84,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # vim
-*.swp
-*.swo
+*.sw[a-z]
