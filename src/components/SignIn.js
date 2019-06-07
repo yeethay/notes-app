@@ -16,22 +16,31 @@ class SignIn extends Component {
       appId: "1:967381980154:web:5a5a8276ddab77a1"
     };
 
+    this.state = {
+      loggedIn: 'Log In',
+    };
+
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   }
 
   render() {
-    return <button onClick={this.signInCallback}>Dicks</button>;
+    return (
+      <button onClick={this.signInCallback}>
+        {this.state.loggedIn}
+      </button>
+    );
   }
 
-  signInCallback() {
+  signInCallback = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(function(result) {
+      .then((result) => {
         var token = result.credential.accessToken;
         var user = result.user;
+        this.setState({loggedIn: 'Log Out'})
       });
   }
 }
