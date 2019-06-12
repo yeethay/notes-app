@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { TextEditor } from "./components";
+import TextEditor from "./components/editor/TextEditor";
 
 function App() {
   return (
