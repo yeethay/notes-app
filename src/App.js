@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import "./App.css";
-import { TextEditor } from "./components";
 import NavBar from "./components/NavBar";
+import TextEditor from "./components/editor/TextEditor";
 
 function App() {
   return (
