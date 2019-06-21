@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 import "./App.css";
 import { TextEditor } from "./components";
-import SignIn from "./components/SignIn";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <Fragment>
-      <SignIn />
+      <NavBar />
       <div className="rich-text-editor">
         <TextEditor />
       </div>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as firebase from "firebase/app";
+import Button from "react-bootstrap/Button";
 import "firebase/auth";
 
 class SignIn extends Component {
@@ -17,7 +18,7 @@ class SignIn extends Component {
     };
 
     this.state = {
-      loggedIn: 'Log In',
+      loggedIn: "Log In"
     };
 
     // Initialize Firebase
@@ -25,11 +26,7 @@ class SignIn extends Component {
   }
 
   render() {
-    return (
-      <button onClick={this.signInCallback}>
-        {this.state.loggedIn}
-      </button>
-    );
+    return <Button onClick={this.signInCallback}>{this.state.loggedIn}</Button>;
   }
 
   signInCallback = () => {
@@ -37,12 +34,12 @@ class SignIn extends Component {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then((result) => {
+      .then(result => {
         // var token = result.credential.accessToken;
         // var user = result.user;
-        this.setState({loggedIn: 'Log Out'})
+        this.setState({ loggedIn: "Log Out" });
       });
-  }
+  };
 }
 
 export default SignIn;
