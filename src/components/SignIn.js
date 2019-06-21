@@ -26,19 +26,37 @@ class SignIn extends Component {
   }
 
   render() {
-    return <Button onClick={this.signInCallback}>{this.state.loggedIn}</Button>;
+    return (
+      <Button onClick={this.authButtonClickCallback}>
+        {this.state.loggedIn}
+      </Button>
+    );
   }
 
-  signInCallback = () => {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(result => {
-        // var token = result.credential.accessToken;
-        // var user = result.user;
-        this.setState({ loggedIn: "Log Out" });
-      });
+  authButtonClickCallback = () => {
+    if (this.state.loggedIn === "Log In") {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithPopup(provider)
+        .then(result => {
+          // var token = result.credential.accessToken;
+          // var user = result.user;
+          this.setState({ loggedIn: "Log Out" });
+          console.log("Logged In" + firebase.auth().currentUser.displayName);
+        });
+    } else {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log(firebase.auth().currentUser.displayName);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      this.setState({ loggedIn: "Log In" });
+    }
   };
 }
 
