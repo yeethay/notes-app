@@ -1,63 +1,63 @@
 import React, { Component } from "react";
-import * as firebase from "firebase/app";
 import Button from "react-bootstrap/Button";
-import "firebase/auth";
+import firebase from "firebase/app";
+import { auth } from "../firebase";
 
 class SignIn extends Component {
   constructor(props) {
     super(props);
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyDqk-tCkJUNKqN1rwhHDvOUrMQ80KDdnYI",
-      authDomain: "fouronesixnine-notes-app.firebaseapp.com",
-      databaseURL: "https://fouronesixnine-notes-app.firebaseio.com",
-      projectId: "fouronesixnine-notes-app",
-      storageBucket: "",
-      messagingSenderId: "967381980154",
-      appId: "1:967381980154:web:5a5a8276ddab77a1"
-    };
 
     this.state = {
-      loggedIn: "Log In"
+      loggedIn: false,
+      photoUrl: ""
     };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
   }
 
-  render() {
-    return (
-      <Button onClick={this.authButtonClickCallback}>
-        {this.state.loggedIn}
-      </Button>
-    );
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        console.log("Logged in as " + user.displayName);
+        this.setState({ loggedIn: true });
+      } else {
+        console.log("Not currently logged in");
+        this.setState({ loggedIn: false });
+      }
+    });
   }
 
   authButtonClickCallback = () => {
-    if (this.state.loggedIn === "Log In") {
+    if (!this.state.loggedIn) {
       var provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then(result => {
-          // var token = result.credential.accessToken;
-          // var user = result.user;
-          this.setState({ loggedIn: "Log Out" });
-          console.log("Logged In" + firebase.auth().currentUser.displayName);
+      auth.signInWithPopup(provider).then(result => {
+        // var token = result.credential.accessToken;
+        // var user = result.user;
+        this.setState({
+          loggedIn: true
         });
+      });
     } else {
-      firebase
-        .auth()
+      auth
         .signOut()
         .then(() => {
-          console.log(firebase.auth().currentUser.displayName);
+          this.setState({
+            loggedIn: false
+          });
         })
         .catch(err => {
           console.error(err);
         });
-      this.setState({ loggedIn: "Log In" });
     }
   };
+
+  render() {
+    return (
+      <div>
+        <Button onClick={this.authButtonClickCallback}>
+          {!this.state.loggedIn ? "Log in" : "Log out"}
+        </Button>
+      </div>
+    );
+  }
 }
 
 export default SignIn;
