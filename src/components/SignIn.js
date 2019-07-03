@@ -16,10 +16,8 @@ class SignIn extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        console.log("Logged in as " + user.displayName);
         this.setState({ loggedIn: true });
       } else {
-        console.log("Not currently logged in");
         this.setState({ loggedIn: false });
       }
     });
@@ -29,8 +27,6 @@ class SignIn extends Component {
     if (!this.state.loggedIn) {
       var provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider).then(result => {
-        // var token = result.credential.accessToken;
-        // var user = result.user;
         this.setState({
           loggedIn: true
         });
@@ -53,7 +49,7 @@ class SignIn extends Component {
     return (
       <div>
         <Button onClick={this.authButtonClickCallback}>
-          {!this.state.loggedIn ? "Log in" : "Log out"}
+          {this.state.loggedIn ? "Log out" : "Log in"}
         </Button>
       </div>
     );
