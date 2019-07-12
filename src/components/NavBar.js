@@ -6,7 +6,6 @@ import SignOut from './SignOut';
 import { withFirebase } from './firebase';
 
 class NavBar extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -15,6 +14,10 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.firebase) {
+      return null
+    }
+
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
         this.setState( { loggedIn: true });
@@ -28,7 +31,7 @@ class NavBar extends Component {
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         <Navbar.Brand href="#home">Notes For Now</Navbar.Brand>
-        <Nav className="mr-auto" />
+        <Nav className="mr-auto"/>
         { this.state.loggedIn ? <SignOut/> : <SignIn/> }
       </Navbar>
     );

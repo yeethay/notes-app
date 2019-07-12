@@ -4,10 +4,6 @@ import firebase from "firebase/app";
 import { withFirebase } from './firebase';
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   onClick = () => {
     this.props.firebase.signInPopup(new firebase.auth.GoogleAuthProvider());
   };
