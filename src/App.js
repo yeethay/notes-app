@@ -1,12 +1,16 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "./App.css";
+import NavBar from "./components/NavBar";
 import TextEditor from "./components/editor/TextEditor";
 
 function App() {
   return (
-    <div className="rich-text-editor">
-      <TextEditor />
-    </div>
+    <Fragment>
+      <NavBar />
+      <div className="rich-text-editor">
+        <TextEditor />
+      </div>
+    </Fragment>
   );
 }
 
