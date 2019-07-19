@@ -1,28 +1,28 @@
 import React, { Component } from "react";
-import Navbar from "react-bootstrap/Navbar";
+import Navbar, { Brand } from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import SignIn from "./SignIn";
-import SignOut from './SignOut';
-import { withFirebase } from './firebase';
+import SignOut from "./SignOut";
+import { withFirebase } from "./firebase";
 
 class NavBar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      loggedIn : false
-    }
+      loggedIn: undefined
+    };
   }
 
   componentDidMount() {
     if (!this.props.firebase) {
-      return null
+      return null;
     }
 
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState( { loggedIn: true });
+        this.setState({ loggedIn: true });
       } else {
-        this.setState( { loggedIn: false });
+        this.setState({ loggedIn: false });
       }
     });
   }
@@ -30,9 +30,10 @@ class NavBar extends Component {
   render() {
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand href="#home">Notes For Now</Navbar.Brand>
-        <Nav className="mr-auto"/>
-        { this.state.loggedIn ? <SignOut/> : <SignIn/> }
+        <Brand href="#home">Notes For Now</Brand>
+        <Nav className="mr-auto" />
+        {this.state.loggedIn !== undefined &&
+          (this.state.loggedIn === true ? <SignOut /> : <SignIn />)}
       </Navbar>
     );
   }
