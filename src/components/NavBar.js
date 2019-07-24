@@ -1,17 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Navbar, { Brand } from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import SignIn from "./SignIn";
 import SignOut from "./SignOut";
+import store from "../store";
+import * as types from "../actions/types";
+import {updateAuthStateAction} from "../actions";
 import { withFirebase } from "./firebase";
 
 class NavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedIn: undefined
-    };
-  }
 
   componentDidMount() {
     if (!this.props.firebase) {
@@ -20,9 +18,9 @@ class NavBar extends Component {
 
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState({ loggedIn: true });
+        store.dispatch(updateAuthStateAction({type: types.UPDATE_AUTH_STATE, loggedIn: true}));
       } else {
-        this.setState({ loggedIn: false });
+        store.dispatch(updateAuthStateAction({type: types.UPDATE_AUTH_STATE, loggedIn: false}));
       }
     });
   }
@@ -32,11 +30,15 @@ class NavBar extends Component {
       <Navbar bg="dark" variant="dark" expand="lg">
         <Brand href="#home">Notes For Now</Brand>
         <Nav className="mr-auto" />
-        {this.state.loggedIn !== undefined &&
-          (this.state.loggedIn === true ? <SignOut /> : <SignIn />)}
+        {this.props.loggedIn !== undefined &&
+          (this.props.loggedIn === true ? <SignOut /> : <SignIn />)}
       </Navbar>
     );
   }
 }
 
-export default withFirebase(NavBar);
+const mapStateToProps = state => {
+  return { loggedIn: state.loggedIn }
+}
+
+export default connect(mapStateToProps) (withFirebase(NavBar));
