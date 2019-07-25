@@ -1,7 +1,7 @@
 import * as types from "../actions/types";
 
 const initialState = {
-  loggedIn: false,
+  loggedIn: undefined,
 };
 
 function rootReducer(state = initialState, action) {
