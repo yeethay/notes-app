@@ -1,8 +1,10 @@
 import * as types from "../actions/types";
+import initialValue from "../components/editor/initialValue";
 
 const initialState = {
   loggedIn: undefined,
-  notesList: []
+  notesList: [],
+  currentNoteIndex: 0
 };
 
 function rootReducer(state = initialState, action) {
@@ -16,29 +18,45 @@ function rootReducer(state = initialState, action) {
       for (let i = 0; i < newNotesList.length; i++) {
         newNotesList[i].active = false;
       }
+      let newNoteId = state.notesList.length;
       newNotesList.push({
         title: "Untitled note",
         preview: "",
+        value: initialValue,
         active: true,
-        id: state.notesList.length
+        id: newNoteId
       });
 
       return {
         ...state,
-        notesList: newNotesList
+        notesList: newNotesList,
+        currentNoteIndex: newNoteId
       };
     }
 
     case types.SET_NOTE_ACTIVE: {
       let newNotesList = [...state.notesList];
+      let noteIndex;
       for (let i = 0; i < newNotesList.length; i++) {
         if (newNotesList[i].id === action.noteId) {
           newNotesList[i].active = true;
+          noteIndex = i;
         } else {
           newNotesList[i].active = false;
         }
       }
 
+      return { ...state, notesList: newNotesList, currentNoteIndex: noteIndex };
+    }
+
+    case types.SET_ACTIVE_NOTE_VALUE: {
+      let newNotesList = [...state.notesList];
+      for (let i = 0; i < newNotesList.length; i++) {
+        if (newNotesList[i].active) {
+          newNotesList[i].value = action.value;
+          break;
+        }
+      }
       return { ...state, notesList: newNotesList };
     }
 

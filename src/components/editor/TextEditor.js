@@ -1,18 +1,20 @@
 import React, { Component, Fragment } from "react";
 import { Editor } from "slate-react";
+import store from "../../store";
+import { connect } from "react-redux";
+import { setActiveNoteValueAction } from "../../actions";
 
 import * as blocks from "./blocks";
 import * as marks from "./marks";
 import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
-import initialValue from "./initialValue";
 
 import "./TextEditor.css";
 
 const DEFAULT_NODE = "paragraph";
 
-export default class TextEditor extends Component {
+class TextEditor extends Component {
   constructor(props) {
     super(props);
 
@@ -62,17 +64,13 @@ export default class TextEditor extends Component {
     };
   }
 
-  state = {
-    value: initialValue
-  };
-
   ref = editor => {
     this.editor = editor;
   };
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    this.setState({ value });
+    store.dispatch(setActiveNoteValueAction(value));
   };
 
   hasBlock = type => {
@@ -176,7 +174,7 @@ export default class TextEditor extends Component {
         <Editor
           ref={this.ref}
           plugins={this.pluginList}
-          value={this.state.value}
+          value={this.props.notesList[this.props.currentNoteIndex].value}
           onChange={this.onChange}
           renderBlock={this.renderBlock}
           renderMark={this.renderMark}
@@ -186,3 +184,12 @@ export default class TextEditor extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    notesList: state.notesList,
+    currentNoteIndex: state.currentNoteIndex
+  };
+};
+
+export default connect(mapStateToProps)(TextEditor);
