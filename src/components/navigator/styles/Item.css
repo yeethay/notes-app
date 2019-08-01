@@ -1,6 +1,8 @@
 .navigator-item {
   padding: 10px;
   cursor: pointer;
+  background-color: rgb(250, 250, 250);
+  border-radius: 10px;
 }
 
 .navigator-item h4 {
@@ -9,6 +11,7 @@
 
 .navigator-item p {
   font-size: 15px;
+  overflow: hidden;
 }
 
 .navigator-item.active {
