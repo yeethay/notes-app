@@ -1,1 +1,3 @@
 export const UPDATE_AUTH_STATE = "UPDATE_AUTH_STATE";
+export const ADD_NEW_NOTE = "ADD_NEW_NOTE";
+export const SET_NOTE_ACTIVE = "SET_NOTE_ACTIVE";

@@ -1,0 +1,16 @@
+.navigator-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.navigator-item h4 {
+  font-size: 20px;
+}
+
+.navigator-item p {
+  font-size: 15px;
+}
+
+.navigator-item.active {
+  background-color: rgb(240, 240, 240);
+}

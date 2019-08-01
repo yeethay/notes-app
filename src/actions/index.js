@@ -1,5 +1,13 @@
 import * as types from "./types";
 
-export function updateAuthStateAction(payload) {
-  return { type: types.UPDATE_AUTH_STATE, payload };
+export function updateAuthStateAction(authState) {
+  return { type: types.UPDATE_AUTH_STATE, authState };
+}
+
+export function addNewNoteAction() {
+  return { type: types.ADD_NEW_NOTE };
+}
+
+export function setNoteActiveAction(noteId) {
+  return { type: types.SET_NOTE_ACTIVE, noteId };
 }

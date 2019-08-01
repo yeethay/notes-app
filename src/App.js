@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import "./App.css";
 import NavBar from "./components/navbar/NavBar";
 import Navigator from "./components/navigator/Navigator";
