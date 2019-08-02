@@ -69,18 +69,22 @@ class TextEditor extends Component {
     this.editor = editor;
   };
 
+  getActiveNote = () => {
+    return this.props.notesList[this.props.currentNoteIndex];
+  }
+
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
     store.dispatch(setActiveNoteValueAction(value));
   };
 
   hasBlock = type => {
-    const { value } = this.state;
+    const { value } = this.getActiveNote();
     return value.blocks.some(node => node.type === type);
   };
 
   hasMark = type => {
-    const { value } = this.state;
+    const { value } = this.getActiveNote();
     return value.activeMarks.some(mark => mark.type === type);
   };
 
@@ -172,11 +176,11 @@ class TextEditor extends Component {
     return (
       <Fragment>
         <Toolbar buttons={this.toolbarButtons} />
-        <Title text={this.props.notesList[this.props.currentNoteIndex].title} />
+        <Title text={this.getActiveNote().title} />
         <Editor
           ref={this.ref}
           plugins={this.pluginList}
-          value={this.props.notesList[this.props.currentNoteIndex].value}
+          value={this.getActiveNote().value}
           onChange={this.onChange}
           renderBlock={this.renderBlock}
           renderMark={this.renderMark}

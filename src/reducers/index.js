@@ -10,7 +10,7 @@ const initialState = {
 function rootReducer(state = initialState, action) {
   switch (action.type) {
     case types.UPDATE_AUTH_STATE: {
-      return { ...state, loggedIn: action.authState };
+      return { ...state, loggedIn: action.authState.loggedIn };
     }
 
     case types.ADD_NEW_NOTE: {

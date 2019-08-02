@@ -4,7 +4,9 @@ import store from "../../store";
 import "./styles/Title.css";
 
 const Title = (props) => {
-  return <textarea maxLength={50} value={props.text} onChange={onChange} onKeyDown={onKeyDown} />;
+  return (
+    <textarea maxLength={50} value={props.text} onChange={onChange} onKeyDown={onKeyDown} />
+  );
 }
 
 const onChange = (event) => {
