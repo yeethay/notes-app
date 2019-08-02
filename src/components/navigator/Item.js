@@ -16,7 +16,7 @@ export default class Item extends Component {
 
     return (
       <div className={classes} onClick={() => this.onClick(this.props.id)}>
-        <h4>{this.props.title}</h4>
+        <h4>{this.props.title}&nbsp;</h4>
         <p>{this.props.preview}&nbsp;</p>
       </div>
     );
