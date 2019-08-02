@@ -51,7 +51,6 @@ function rootReducer(state = initialState, action) {
 
     case types.SET_ACTIVE_NOTE_VALUE: {
       let newNotesList = [...state.notesList];
-      console.log(action.value.toJSON());
       for (let i = 0; i < newNotesList.length; i++) {
         if (newNotesList[i].active) {
           newNotesList[i].value = action.value;
@@ -60,6 +59,12 @@ function rootReducer(state = initialState, action) {
           break;
         }
       }
+      return { ...state, notesList: newNotesList };
+    }
+
+    case types.SET_NOTE_TITLE: {
+      let newNotesList = [...state.notesList];
+      newNotesList[state.currentNoteIndex].title = action.title;
       return { ...state, notesList: newNotesList };
     }
 

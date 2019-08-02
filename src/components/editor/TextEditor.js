@@ -9,6 +9,7 @@ import * as marks from "./marks";
 import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
+import Title from "./Title";
 
 import "./TextEditor.css";
 
@@ -171,6 +172,7 @@ class TextEditor extends Component {
     return (
       <Fragment>
         <Toolbar buttons={this.toolbarButtons} />
+        <Title text={this.props.notesList[this.props.currentNoteIndex].title} />
         <Editor
           ref={this.ref}
           plugins={this.pluginList}
