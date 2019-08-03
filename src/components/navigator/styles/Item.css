@@ -1,0 +1,27 @@
+.navigator-item {
+  padding: 10px;
+  cursor: pointer;
+  background-color: rgb(250, 250, 250);
+  border-radius: 10px;
+}
+
+.navigator-item h4,
+.navigator-item p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 100%;
+  white-space: nowrap;
+}
+
+.navigator-item h4 {
+  font-size: 20px;
+}
+
+
+.navigator-item p {
+  font-size: 15px;
+}
+
+.navigator-item.active {
+  background-color: rgb(240, 240, 240);
+}
