@@ -13,16 +13,9 @@ class Firebase {
    signInPopup = async (provider) => {
     this.auth.signInWithPopup(provider)
   }
-      // this.props.firebase.db.collection("users").add(dbuser);
 
   signOut = () => {
     this.auth.signOut();
-  }
-
-  isExistingUser = async (email) => {
-    let results = await this.db.collection("users").where("email", "==", email).get();
-    console.log(results.size)
-    return results.size !== 0;
   }
 
   addUser = async (user) => {
@@ -30,7 +23,7 @@ class Firebase {
         name: user.displayName,
         email: user.email
       };
-      await this.db.collection("users").add(dbuser);
+      await this.db.collection("users").doc(user.email).set(dbuser);
   }
 }
 

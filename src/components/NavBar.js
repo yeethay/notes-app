@@ -19,11 +19,7 @@ class NavBar extends Component {
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
         store.dispatch(updateAuthStateAction({type: types.UPDATE_AUTH_STATE, loggedIn: true}));
-        console.log(this.props.firebase.isExistingUser(user.email))
-        // if (!this.props.firebase.isExistingUser(user.email)) {
-        //   console.log("Hi Tai");
-        //   this.props.firebase.addUser(user);
-        // }
+        this.props.firebase.addUser(user);
       } else {
         store.dispatch(updateAuthStateAction({type: types.UPDATE_AUTH_STATE, loggedIn: false}));
       }
