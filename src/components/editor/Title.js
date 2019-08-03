@@ -5,7 +5,13 @@ import "./styles/Title.css";
 
 const Title = (props) => {
   return (
-    <textarea maxLength={50} value={props.text} onChange={onChange} onKeyDown={onKeyDown} />
+    <textarea
+      maxLength={50}
+      value={props.text}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      placeholder="Untitled note"
+    />
   );
 }
 

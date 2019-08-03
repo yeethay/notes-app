@@ -20,7 +20,7 @@ function rootReducer(state = initialState, action) {
       }
       let newNoteId = state.notesList.length;
       newNotesList.push({
-        title: "Untitled note",
+        title: "",
         preview: "",
         value: initialValue,
         active: true,

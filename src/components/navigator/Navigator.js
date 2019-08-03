@@ -17,7 +17,7 @@ class Navigator extends Component {
     for (let note of notesList) {
       list.push(
         <Item
-          title={note.title}
+          title={note.title || "Untitled note"}
           preview={note.preview}
           active={note.active}
           id={note.id}
