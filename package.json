@@ -5,6 +5,7 @@
   "homepage": "https://fouronesixnine.github.io/notes-app/",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
     "firebase": "^6.1.0",
     "immutable": "^3.8.2",
     "react": "^16.8.6",
@@ -51,6 +52,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.8.0",
     "gh-pages": "^2.0.1",
-    "jest-transform-css": "^2.0.0"
+    "jest-transform-css": "^2.0.0",
+    "redux-logger": "^3.0.6"
   }
 }
