@@ -28,4 +28,22 @@ describe("actions", () => {
     };
     expect(actions.setNoteActiveAction(noteId)).toEqual(expectedAction);
   });
+
+  it("should create an action to set a note's value", () => {
+    let value = {};
+    const expectedAction = {
+      type: types.SET_ACTIVE_NOTE_VALUE,
+      value
+    };
+    expect(actions.setActiveNoteValueAction(value)).toEqual(expectedAction);
+  });
+
+  it("should create an action to set a note's title", () => {
+    let title = "Title";
+    const expectedAction = {
+      type: types.SET_NOTE_TITLE,
+      title
+    };
+    expect(actions.setNoteTitleAction(title)).toEqual(expectedAction);
+  });
 });
