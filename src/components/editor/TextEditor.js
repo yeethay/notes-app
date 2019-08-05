@@ -1,18 +1,21 @@
 import React, { Component, Fragment } from "react";
 import { Editor } from "slate-react";
+import store from "../../store";
+import { connect } from "react-redux";
+import { setActiveNoteValueAction } from "../../actions";
 
 import * as blocks from "./blocks";
 import * as marks from "./marks";
 import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
-import initialValue from "./initialValue";
+import Title from "./Title";
 
 import "./TextEditor.css";
 
 const DEFAULT_NODE = "paragraph";
 
-export default class TextEditor extends Component {
+class TextEditor extends Component {
   constructor(props) {
     super(props);
 
@@ -62,26 +65,26 @@ export default class TextEditor extends Component {
     };
   }
 
-  state = {
-    value: initialValue
-  };
-
   ref = editor => {
     this.editor = editor;
   };
 
+  getActiveNote = () => {
+    return this.props.notesList[this.props.currentNoteIndex];
+  }
+
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    this.setState({ value });
+    store.dispatch(setActiveNoteValueAction(value));
   };
 
   hasBlock = type => {
-    const { value } = this.state;
+    const { value } = this.getActiveNote();
     return value.blocks.some(node => node.type === type);
   };
 
   hasMark = type => {
-    const { value } = this.state;
+    const { value } = this.getActiveNote();
     return value.activeMarks.some(mark => mark.type === type);
   };
 
@@ -173,10 +176,11 @@ export default class TextEditor extends Component {
     return (
       <Fragment>
         <Toolbar buttons={this.toolbarButtons} />
+        <Title text={this.getActiveNote().title} />
         <Editor
           ref={this.ref}
           plugins={this.pluginList}
-          value={this.state.value}
+          value={this.getActiveNote().value}
           onChange={this.onChange}
           renderBlock={this.renderBlock}
           renderMark={this.renderMark}
@@ -186,3 +190,12 @@ export default class TextEditor extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    notesList: state.notesList,
+    currentNoteIndex: state.currentNoteIndex
+  };
+};
+
+export default connect(mapStateToProps)(TextEditor);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import { withFirebase } from './firebase';
+import { withFirebase } from "../firebase";
 
 class SignOut extends Component {
   onClick = () => {
@@ -10,9 +10,7 @@ class SignOut extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.onClick}>
-          Sign Out
-        </Button>
+        <Button onClick={this.onClick}>Sign Out</Button>
       </div>
     );
   }

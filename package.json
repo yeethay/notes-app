@@ -5,6 +5,7 @@
   "homepage": "https://fouronesixnine.github.io/notes-app/",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
     "firebase": "^6.1.0",
     "immutable": "^3.8.2",
     "react": "^16.8.6",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "redux-logger": "^3.0.6"
   }
 }
