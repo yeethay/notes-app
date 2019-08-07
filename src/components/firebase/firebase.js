@@ -21,7 +21,6 @@ class Firebase {
   addUser = async (user) => {
       let dbuser = {
         name: user.displayName,
-        email: user.email
       };
       await this.db.collection("users").doc(user.email).set(dbuser);
   }

@@ -3,6 +3,7 @@ import { Editor } from "slate-react";
 import store from "../../store";
 import { connect } from "react-redux";
 import { setActiveNoteValueAction } from "../../actions";
+import { withFirebase } from "../firebase";
 
 import * as blocks from "./blocks";
 import * as marks from "./marks";
@@ -10,6 +11,7 @@ import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
 import Title from "./Title";
+import initialValue from "./initialValue";
 
 import "./TextEditor.css";
 
@@ -75,7 +77,27 @@ class TextEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
+    var existingValue = "";
+    let docRef = this.props.firebase.db.collection("notes").doc("test");
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+         existingValue = doc.data();
+      } else {
+        existingValue = initialValue;
+      }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+
+    if (value.document !== existingValue.document) {
+      const content = JSON.stringify(value.toJSON());
+      console.log(content);
+      this.props.firebase.db.collection("notes").doc("test").set(JSON.parse(content));
+    }
+
     store.dispatch(setActiveNoteValueAction(value));
+
   };
 
   hasBlock = type => {
@@ -198,4 +220,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(TextEditor);
+export default connect(mapStateToProps)(withFirebase(TextEditor));
