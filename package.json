@@ -51,6 +51,8 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.8.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "gh-pages": "^2.0.1",
     "jest-transform-css": "^2.0.0",
     "redux-logger": "^3.0.6"
