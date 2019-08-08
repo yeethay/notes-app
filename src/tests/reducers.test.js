@@ -1,4 +1,4 @@
-import rootReducer from ".";
+import rootReducer from "../reducers";
 import * as types from "../actions/types";
 import * as actions from "../actions";
 import initialValue from "../components/editor/initialValue";
