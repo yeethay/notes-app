@@ -9,11 +9,7 @@ export default Value.fromJSON({
         nodes: [
           {
             object: "text",
-            leaves: [
-              {
-                text: ""
-              }
-            ]
+            text: ""
           }
         ]
       }
