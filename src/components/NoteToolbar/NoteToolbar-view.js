@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Icon from "react-icons-kit";
+import "./NoteToolbar.css";
 
 class NoteToolbar extends Component {
   getButtonsList() {
