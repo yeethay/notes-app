@@ -19,7 +19,7 @@ function setup() {
   return { props, wrapper };
 }
 
-describe("toolbar component", () => {
+describe("NoteToolbar component", () => {
   it("should render", () => {
     const { props, wrapper } = setup();
     expect(wrapper.find(".format-toolbar")).toBeDefined();

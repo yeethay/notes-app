@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavigatorItem from "../NavigatorItem";
-import NewNoteBtn from "../NewNoteButton";
+import NewNoteButton from "../NewNoteButton";
 import { addNewNoteAction } from "../../actions";
 
 class Navigator extends Component {
@@ -29,7 +29,7 @@ class Navigator extends Component {
   render() {
     return (
       <div>
-        <NewNoteBtn />
+        <NewNoteButton />
         {this.getListOfItems(this.props.notesList)}
       </div>
     );

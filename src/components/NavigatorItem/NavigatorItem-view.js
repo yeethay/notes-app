@@ -13,10 +13,11 @@ export default class NavigatorItem extends Component {
       active: this.props.active
     });
 
+    const nbsp = "\u00A0";
     return (
       <div className={classes} onClick={() => this.onClick(this.props.id)}>
-        <h4>{this.props.title}&nbsp;</h4>
-        <p>{this.props.preview}&nbsp;</p>
+        <h4>{this.props.title || nbsp}</h4>
+        <p>{this.props.preview || nbsp}</p>
       </div>
     );
   }

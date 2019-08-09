@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Button } from "react-bootstrap";
 import { addNewNoteAction } from "../../actions";
 import "./NewNoteButton.css";
@@ -12,4 +11,4 @@ const onClick = props => {
   props.dispatch(addNewNoteAction());
 };
 
-export default connect()(NewNoteButton);
+export default NewNoteButton;
