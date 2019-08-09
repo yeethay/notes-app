@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import store from "../../store";
-import Item from "./Item";
-import NewNoteBtn from "./NewNoteBtn";
+import NavigatorItem from "../NavigatorItem";
+import NewNoteBtn from "../NewNoteButton";
 import { addNewNoteAction } from "../../actions";
 
 class Navigator extends Component {
   componentWillMount() {
     if (this.props.notesList.length === 0) {
-      store.dispatch(addNewNoteAction());
+      this.props.dispatch(addNewNoteAction());
     }
   }
 
@@ -16,7 +14,7 @@ class Navigator extends Component {
     let list = [];
     for (let note of notesList) {
       list.push(
-        <Item
+        <NavigatorItem
           title={note.title || "Untitled note"}
           preview={note.preview}
           active={note.active}
@@ -38,9 +36,4 @@ class Navigator extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList
-  };
-};
-export default connect(mapStateToProps)(Navigator);
+export default Navigator;

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import { withFirebase } from "../firebase";
 
 class SignOut extends Component {
   onClick = () => {
@@ -16,4 +15,4 @@ class SignOut extends Component {
   }
 }
 
-export default withFirebase(SignOut);
+export default SignOut;

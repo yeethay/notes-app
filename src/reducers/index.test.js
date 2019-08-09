@@ -1,8 +1,6 @@
-import rootReducer from "../reducers";
-import * as types from "../actions/types";
+import rootReducer from ".";
 import * as actions from "../actions";
-import initialValue from "../components/editor/initialValue";
-import { Value, Document } from "slate";
+import initialValue from "../utils/slate/initialValue";
 
 describe("root reducer", () => {
   it("should return the initial state", () => {

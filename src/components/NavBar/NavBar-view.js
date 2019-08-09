@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import Navbar, { Brand } from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import SignIn from "./SignIn";
-import SignOut from "./SignOut";
-import store from "../../store";
+import SignIn from "../SignIn";
+import SignOut from "../SignOut";
 import { updateAuthStateAction } from "../../actions";
-import { withFirebase } from "../firebase";
 
 class NavBar extends Component {
   componentWillMount() {
@@ -16,13 +13,13 @@ class NavBar extends Component {
 
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
-        store.dispatch(
+        this.props.dispatch(
           updateAuthStateAction({
             loggedIn: true
           })
         );
       } else {
-        store.dispatch(
+        this.props.dispatch(
           updateAuthStateAction({
             loggedIn: false
           })
@@ -43,8 +40,4 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { loggedIn: state.loggedIn };
-};
-
-export default connect(mapStateToProps)(withFirebase(NavBar));
+export default NavBar;

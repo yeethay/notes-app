@@ -1,5 +1,5 @@
-import * as actions from "../actions";
-import * as types from "../actions/types";
+import * as actions from ".";
+import * as types from "./types";
 
 describe("actions", () => {
   it("should create an action to update auth state", () => {

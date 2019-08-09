@@ -1,5 +1,5 @@
 import * as types from "../actions/types";
-import initialValue from "../components/editor/initialValue";
+import initialValue from "../utils/slate/initialValue";
 
 const initialState = {
   loggedIn: undefined,

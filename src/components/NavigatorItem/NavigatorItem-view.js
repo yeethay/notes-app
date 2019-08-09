@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import store from "../../store";
 import classNames from "classnames";
 import { setNoteActiveAction } from "../../actions";
-import "./styles/Item.css";
+import "./NavigatorItem.css";
 
-export default class Item extends Component {
+export default class NavigatorItem extends Component {
   onClick(noteId) {
-    store.dispatch(setNoteActiveAction(noteId));
+    this.props.dispatch(setNoteActiveAction(noteId));
   }
 
   render() {

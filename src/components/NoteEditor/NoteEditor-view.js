@@ -1,21 +1,19 @@
 import React, { Component, Fragment } from "react";
 import { Editor } from "slate-react";
-import store from "../../store";
-import { connect } from "react-redux";
 import { setActiveNoteValueAction } from "../../actions";
 
-import * as blocks from "./blocks";
-import * as marks from "./marks";
-import * as icons from "./toolbar/icons";
-import * as plugins from "./plugins";
-import Toolbar from "./toolbar/Toolbar";
-import Title from "./Title";
+import * as blocks from "./Blocks";
+import * as marks from "./Marks";
+import * as icons from "../../utils/icons";
+import * as plugins from "../../utils/slate/plugins";
+import NoteToolbar from "../NoteToolbar";
+import NoteTitle from "../NoteTitle";
 
-import "./TextEditor.css";
+import "./NoteEditor.css";
 
 const DEFAULT_NODE = "paragraph";
 
-class TextEditor extends Component {
+class NoteEditor extends Component {
   constructor(props) {
     super(props);
 
@@ -71,11 +69,11 @@ class TextEditor extends Component {
 
   getActiveNote = () => {
     return this.props.notesList[this.props.currentNoteIndex];
-  }
+  };
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    store.dispatch(setActiveNoteValueAction(value));
+    this.props.dispatch(setActiveNoteValueAction(value));
   };
 
   hasBlock = type => {
@@ -175,8 +173,8 @@ class TextEditor extends Component {
   render() {
     return (
       <Fragment>
-        <Toolbar buttons={this.toolbarButtons} />
-        <Title text={this.getActiveNote().title} />
+        <NoteToolbar buttons={this.toolbarButtons} />
+        <NoteTitle text={this.getActiveNote().title} />
         <Editor
           ref={this.ref}
           plugins={this.pluginList}
@@ -191,11 +189,4 @@ class TextEditor extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList,
-    currentNoteIndex: state.currentNoteIndex
-  };
-};
-
-export default connect(mapStateToProps)(TextEditor);
+export default NoteEditor;

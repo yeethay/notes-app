@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Row, Col } from "react-bootstrap";
 import "./App.css";
-import NavBar from "./components/navbar/NavBar";
-import Navigator from "./components/navigator/Navigator";
-import TextEditor from "./components/editor/TextEditor";
+import NavBar from "../NavBar";
+import Navigator from "../Navigator";
+import NoteEditor from "../NoteEditor";
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           </Col>
           <Col sm={9} md={9} lg={9}>
             <div className="text-editor">
-              <TextEditor />
+              <NoteEditor />
             </div>
           </Col>
         </Row>

@@ -1,29 +1,28 @@
 import React from "react";
 import { setNoteTitleAction } from "../../actions";
-import store from "../../store";
-import "./styles/Title.css";
+import "./NoteTitle.css";
 
-const Title = (props) => {
+const NoteTitle = props => {
   return (
     <textarea
       maxLength={50}
       value={props.text}
-      onChange={onChange}
+      onChange={e => onChange(e, props)}
       onKeyDown={onKeyDown}
       placeholder="Untitled note"
     />
   );
-}
+};
 
-const onChange = (event) => {
+const onChange = (event, props) => {
   let newValue = event.target.value;
-  store.dispatch(setNoteTitleAction(newValue));
-}
+  props.dispatch(setNoteTitleAction(newValue));
+};
 
-const onKeyDown = (event) => {
+const onKeyDown = event => {
   if (event.keyCode === 13) {
     event.preventDefault();
   }
-}
+};
 
-export default Title;
+export default NoteTitle;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Icon from "react-icons-kit";
 
-class Toolbar extends Component {
+class NoteToolbar extends Component {
   getButtonsList() {
     let buttons = [];
 
@@ -25,4 +25,4 @@ class Toolbar extends Component {
   }
 }
 
-export default Toolbar;
+export default NoteToolbar;
