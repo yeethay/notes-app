@@ -78,10 +78,12 @@ class TextEditor extends Component {
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
     var existingValue = "";
-    let docRef = this.props.firebase.db.collection("notes").doc("test");
+    let user = this.props.firebase.auth.currentUser;
+    let docRef = this.props.firebase.db.collection("notes").doc(user.email);
+
     docRef.get().then(function(doc) {
+      console.log(doc);
       if (doc.exists) {
-        console.log("Document data:", doc.data());
          existingValue = doc.data();
       } else {
         existingValue = initialValue;
@@ -93,7 +95,7 @@ class TextEditor extends Component {
     if (value.document !== existingValue.document) {
       const content = JSON.stringify(value.toJSON());
       console.log(content);
-      this.props.firebase.db.collection("notes").doc("test").set(JSON.parse(content));
+      this.props.firebase.db.collection("notes").doc(user.email).set(JSON.parse(content));
     }
 
     store.dispatch(setActiveNoteValueAction(value));
