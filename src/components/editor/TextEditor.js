@@ -165,7 +165,6 @@ class TextEditor extends Component {
   };
 
   render() {
-    console.log(this.hasBlock("blockquote"));
     return (
       <Fragment>
         <Toolbar>
