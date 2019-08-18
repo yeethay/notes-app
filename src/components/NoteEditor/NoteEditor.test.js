@@ -4,7 +4,6 @@ import Adapter from "enzyme-adapter-react-16";
 import NoteEditor from "./NoteEditor-view";
 import NoteTitle from "../NoteTitle";
 import NoteToolbar from "../NoteToolbar";
-import Editor from "slate-react";
 import initialValue from "../../utils/slate/initialValue";
 
 Enzyme.configure({ adapter: new Adapter() });
