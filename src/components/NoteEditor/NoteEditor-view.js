@@ -2,8 +2,6 @@ import React, { Component, Fragment } from "react";
 import { Editor } from "slate-react";
 import { setActiveNoteValueAction } from "../../actions";
 
-import * as blocks from "./Blocks";
-import * as marks from "./Marks";
 import * as icons from "../../utils/icons";
 import * as plugins from "../../utils/slate/plugins";
 import NoteToolbar from "../NoteToolbar";
@@ -100,17 +98,17 @@ class NoteEditor extends Component {
   renderBlock = (props, editor, next) => {
     switch (props.node.type) {
       case "heading-one":
-        return <blocks.HeadingOne {...props} />;
+        return <h1 {...props}>{props.children}</h1>;
       case "heading-two":
-        return <blocks.HeadingTwo {...props} />;
+        return <h2 {...props.attributes}>{props.children}</h2>;
       case "bulleted-list":
-        return <blocks.BulletedList {...props} />;
+        return <ul {...props.attributes}>{props.children}</ul>;
       case "numbered-list":
-        return <blocks.NumberedList {...props} />;
+        return <ol {...props.attributes}>{props.children}</ol>;
       case "list-item":
-        return <blocks.ListItem {...props} />;
+        return <li {...props.attributes}>{props.children}</li>;
       case "block-quote":
-        return <blocks.BlockQuote {...props} />;
+        return <blockquote {...props.attributes}>{props.children}</blockquote>;
       default:
         return next();
     }
@@ -119,13 +117,17 @@ class NoteEditor extends Component {
   renderMark = (props, editor, next) => {
     switch (props.mark.type) {
       case "bold":
-        return <marks.Bold {...props} />;
+        return <strong {...props.attributes}>{props.children}</strong>;
       case "italic":
-        return <marks.Italic {...props} />;
+        return (
+          <em property="italic" {...props.attributes}>
+            {props.children}
+          </em>
+        );
       case "code":
-        return <marks.Code {...props} />;
+        return <code {...props.attributes}>{props.children}</code>;
       case "underline":
-        return <marks.Underline {...props} />;
+        return <u {...props.attributes}>{props.children}</u>;
       default: {
         return next();
       }
