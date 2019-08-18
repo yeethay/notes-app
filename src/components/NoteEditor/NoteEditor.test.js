@@ -5,14 +5,11 @@ import NoteEditor from "./NoteEditor-view";
 import NoteTitle from "../NoteTitle";
 import NoteToolbar from "../NoteToolbar";
 import Editor from "slate-react";
+import initialValue from "../../utils/slate/initialValue";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-function setup() {
-  const props = {
-    notesList: [{ title: "", preview: "", active: true, id: 0 }],
-    currentNoteIndex: 0
-  };
+function setup(props) {
   const wrapper = shallow(<NoteEditor {...props} />);
 
   return { wrapper };
@@ -20,20 +17,26 @@ function setup() {
 
 describe("NoteEditor component", () => {
   it("should render the toolbar, title", () => {
-    const { wrapper } = setup();
+    const props = {
+      notesList: [
+        { title: "", preview: "", value: initialValue, active: true, id: 0 }
+      ],
+      currentNoteIndex: 0
+    };
+    const { wrapper } = setup(props);
     expect(wrapper.exists(NoteToolbar)).toBe(true);
     expect(wrapper.exists(NoteTitle)).toBe(true);
   });
 
   it("should update the title when the active note changes", () => {
-    const { wrapper } = setup();
-    wrapper.setProps({
+    const props = {
       notesList: [
-        { title: "one", preview: "", active: true, id: 0 },
-        { title: "two", preview: "", active: false, id: 1 }
+        { title: "one", preview: "", value: initialValue, active: true, id: 0 },
+        { title: "two", preview: "", value: initialValue, active: false, id: 1 }
       ],
       currentNoteIndex: 0
-    });
+    };
+    const { wrapper } = setup(props);
     expect(wrapper.find(NoteTitle).props("text").text).toEqual("one");
     wrapper.setProps({ currentNoteIndex: 1 });
     expect(wrapper.find(NoteTitle).props("text").text).toEqual("two");

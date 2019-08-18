@@ -6,14 +6,7 @@ import NoteToolbar from "./NoteToolbar-view";
 Enzyme.configure({ adapter: new Adapter() });
 
 function setup() {
-  const props = {
-    buttons: {
-      one: {
-        onPointerDown: jest.fn(),
-        icon: {}
-      }
-    }
-  };
+  const props = {};
   const wrapper = shallow(<NoteToolbar {...props} />);
 
   return { props, wrapper };
@@ -21,10 +14,7 @@ function setup() {
 
 describe("NoteToolbar component", () => {
   it("should render", () => {
-    const { props, wrapper } = setup();
+    const { wrapper } = setup();
     expect(wrapper.find(".format-toolbar")).toBeDefined();
-    expect(wrapper.find(".tooltip-icon-button")).toHaveLength(
-      Object.keys(props.buttons).length
-    );
   });
 });
