@@ -5,7 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import SignIn from "./SignIn";
 import SignOut from "./SignOut";
 import store from "../../store";
-import { updateAuthStateAction } from "../../actions";
+import { updateAuthStateAction, setSavedNotes } from "../../actions";
 import { withFirebase } from "../firebase";
 
 class NavBar extends Component {
@@ -22,6 +22,17 @@ class NavBar extends Component {
           })
         );
         this.props.firebase.addUser(user);
+        let docRef = this.props.firebase.db.collection("notes").doc(user.email);
+        // docRef.get().then(function(doc) {
+          // if (doc.exists) {
+              // console.log(doc.data());
+              // store.dispatch(setSavedNotes({notesList: doc.data().notesList}));
+          // } else {
+              // store.dispatch(setSavedNotes({notesList: null}));
+          // }
+        // }).catch(function(error) {
+          // console.log("Error getting document:", error);
+        // });
       } else {
         store.dispatch(
           updateAuthStateAction({

@@ -3,3 +3,4 @@ export const ADD_NEW_NOTE = "ADD_NEW_NOTE";
 export const SET_NOTE_ACTIVE = "SET_NOTE_ACTIVE";
 export const SET_ACTIVE_NOTE_VALUE = "SET_ACTIVE_NOTE_VALUE";
 export const SET_NOTE_TITLE = "SET_NOTE_TITLE";
+export const SET_SAVED_NOTES = "SET_SAVED_NOTES";

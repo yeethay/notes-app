@@ -11,7 +11,6 @@ import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
 import Title from "./Title";
-import initialValue from "./initialValue";
 
 import "./TextEditor.css";
 
@@ -77,29 +76,14 @@ class TextEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    var existingValue = "";
     let user = this.props.firebase.auth.currentUser;
     let docRef = this.props.firebase.db.collection("notes").doc(user.email);
 
-    docRef.get().then(function(doc) {
-      console.log(doc);
-      if (doc.exists) {
-         existingValue = doc.data();
-      } else {
-        existingValue = initialValue;
-      }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
-
-    if (value.document !== existingValue.document) {
-      const content = JSON.stringify(value.toJSON());
-      console.log(content);
-      this.props.firebase.db.collection("notes").doc(user.email).set(JSON.parse(content));
+    if (value.document !== this.getActiveNote().value.document) {
+      store.dispatch(setActiveNoteValueAction(value));
+      let notesList = this.props.notesList;
+      docRef.update(JSON.parse(JSON.stringify({notesList})));
     }
-
-    store.dispatch(setActiveNoteValueAction(value));
-
   };
 
   hasBlock = type => {

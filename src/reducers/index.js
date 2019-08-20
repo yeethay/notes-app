@@ -1,4 +1,4 @@
-import * as types from "../actions/types";
+import * as actionTypes from "../actions/types";
 import initialValue from "../components/editor/initialValue";
 
 const initialState = {
@@ -9,11 +9,11 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case types.UPDATE_AUTH_STATE: {
+    case actionTypes.UPDATE_AUTH_STATE: {
       return { ...state, loggedIn: action.authState.loggedIn };
     }
 
-    case types.ADD_NEW_NOTE: {
+    case actionTypes.ADD_NEW_NOTE: {
       let newNotesList = [...state.notesList];
       for (let i = 0; i < newNotesList.length; i++) {
         newNotesList[i].active = false;
@@ -34,7 +34,7 @@ function rootReducer(state = initialState, action) {
       };
     }
 
-    case types.SET_NOTE_ACTIVE: {
+    case actionTypes.SET_NOTE_ACTIVE: {
       let newNotesList = [...state.notesList];
       let noteIndex;
       for (let i = 0; i < newNotesList.length; i++) {
@@ -49,7 +49,7 @@ function rootReducer(state = initialState, action) {
       return { ...state, notesList: newNotesList, currentNoteIndex: noteIndex };
     }
 
-    case types.SET_ACTIVE_NOTE_VALUE: {
+    case actionTypes.SET_ACTIVE_NOTE_VALUE: {
       let newNotesList = [...state.notesList];
       for (let i = 0; i < newNotesList.length; i++) {
         if (newNotesList[i].active) {
@@ -62,10 +62,14 @@ function rootReducer(state = initialState, action) {
       return { ...state, notesList: newNotesList };
     }
 
-    case types.SET_NOTE_TITLE: {
+    case actionTypes.SET_NOTE_TITLE: {
       let newNotesList = [...state.notesList];
       newNotesList[state.currentNoteIndex].title = action.title;
       return { ...state, notesList: newNotesList };
+    }
+
+    case actionTypes.SET_SAVED_NOTES: {
+      return {...state, notesList: action.notesList};
     }
 
     default:
