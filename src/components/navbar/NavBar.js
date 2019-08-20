@@ -22,17 +22,17 @@ class NavBar extends Component {
           })
         );
         this.props.firebase.addUser(user);
-        let docRef = this.props.firebase.db.collection("notes").doc(user.email);
+
+        /* let docRef = this.props.firebase.db.collection("notes").doc(user.email); */
         // docRef.get().then(function(doc) {
           // if (doc.exists) {
-              // console.log(doc.data());
-              // store.dispatch(setSavedNotes({notesList: doc.data().notesList}));
+              // store.dispatch(setSavedNotes(doc.data().notesList));
           // } else {
-              // store.dispatch(setSavedNotes({notesList: null}));
+              // store.dispatch(setSavedNotes(null));
           // }
         // }).catch(function(error) {
           // console.log("Error getting document:", error);
-        // });
+        /* }); */
       } else {
         store.dispatch(
           updateAuthStateAction({

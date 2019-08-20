@@ -69,6 +69,7 @@ function rootReducer(state = initialState, action) {
     }
 
     case actionTypes.SET_SAVED_NOTES: {
+      console.log(action.notesList);
       return {...state, notesList: action.notesList};
     }
 
