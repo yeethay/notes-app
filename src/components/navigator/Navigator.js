@@ -22,11 +22,9 @@ class Navigator extends Component {
           active={note.active}
           id={note.id}
           key={note.id}
-          value={note.value.toJSON()}
         />
       );
     }
-    console.log(list);
     return list;
   }
 

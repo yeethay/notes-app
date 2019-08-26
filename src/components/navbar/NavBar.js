@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Navbar, { Brand } from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import Navbar, { Brand } from "react-bootstrap/Navbar";
+import React, { Component } from "react";
 import SignIn from "./SignIn";
 import SignOut from "./SignOut";
 import store from "../../store";
+import { connect } from "react-redux";
 import { updateAuthStateAction, setSavedNotes } from "../../actions";
+import { Value } from 'slate'
 import { withFirebase } from "../firebase";
 
 class NavBar extends Component {
@@ -22,17 +23,17 @@ class NavBar extends Component {
           })
         );
         this.props.firebase.addUser(user);
-
-        /* let docRef = this.props.firebase.db.collection("notes").doc(user.email); */
-        // docRef.get().then(function(doc) {
-          // if (doc.exists) {
-              // store.dispatch(setSavedNotes(doc.data().notesList));
-          // } else {
-              // store.dispatch(setSavedNotes(null));
-          // }
-        // }).catch(function(error) {
-          // console.log("Error getting document:", error);
-        /* }); */
+        let docRef = this.props.firebase.db.collection("notes").doc(user.email);
+        docRef.get().then(function(doc) {
+          if (doc.exists) {
+              store.dispatch(setSavedNotes(doc.data().notesList
+                .map(note => ({...note, value: Value.fromJSON(note.value)}))));
+          } else {
+              store.dispatch(setSavedNotes(null));
+          }
+        }).catch(function(error) {
+          console.log("Error getting document:", error);
+        });
       } else {
         store.dispatch(
           updateAuthStateAction({

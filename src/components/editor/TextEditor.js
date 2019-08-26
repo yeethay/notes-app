@@ -77,8 +77,10 @@ class TextEditor extends Component {
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
     let user = this.props.firebase.auth.currentUser;
-    let docRef = this.props.firebase.db.collection("notes").doc(user.email);
+    if (!user)
+      return;
 
+    let docRef = this.props.firebase.db.collection("notes").doc(user.email);
     if (value.document !== this.getActiveNote().value.document) {
       store.dispatch(setActiveNoteValueAction(value));
       let notesList = this.props.notesList;
