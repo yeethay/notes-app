@@ -10,6 +10,7 @@ import * as marks from "./marks";
 import * as icons from "./toolbar/icons";
 import * as plugins from "./plugins";
 import Toolbar from "./toolbar/Toolbar";
+import ToolbarButton from "./toolbar/ToolbarButton";
 import Title from "./Title";
 
 import "./TextEditor.css";
@@ -25,45 +26,6 @@ class TextEditor extends Component {
       plugins.MarkHotKey({ key: "i", type: "italic" }),
       plugins.MarkHotKey({ key: "u", type: "underline" })
     ];
-
-    this.toolbarButtons = {
-      bold: {
-        onPointerDown: e => this.onMarkClick(e, "bold"),
-        icon: icons.ic_format_bold
-      },
-      italic: {
-        onPointerDown: e => this.onMarkClick(e, "italic"),
-        icon: icons.ic_format_italic
-      },
-      underline: {
-        onPointerDown: e => this.onMarkClick(e, "underline"),
-        icon: icons.ic_format_underlined
-      },
-      code: {
-        onPointerDown: e => this.onMarkClick(e, "code"),
-        icon: icons.ic_code
-      },
-      blockquote: {
-        onPointerDown: e => this.onBlockClick(e, "block-quote"),
-        icon: icons.ic_format_quote
-      },
-      bulletedList: {
-        onPointerDown: e => this.onBlockClick(e, "bulleted-list"),
-        icon: icons.ic_format_list_bulleted
-      },
-      numberedList: {
-        onPointerDown: e => this.onBlockClick(e, "numbered-list"),
-        icon: icons.ic_format_list_numbered
-      },
-      headingOne: {
-        onPointerDown: e => this.onBlockClick(e, "heading-one"),
-        icon: icons.ic_looks_one
-      },
-      headingTwo: {
-        onPointerDown: e => this.onBlockClick(e, "heading-two"),
-        icon: icons.ic_looks_two
-      }
-    };
   }
 
   ref = editor => {
@@ -72,7 +34,7 @@ class TextEditor extends Component {
 
   getActiveNote = () => {
     return this.props.notesList[this.props.currentNoteIndex];
-  }
+  };
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
@@ -180,10 +142,56 @@ class TextEditor extends Component {
     }
   };
 
+  renderMarkButton(type, icon) {
+    return (
+      <ToolbarButton
+        active={this.hasMark(type)}
+        onPointerDown={e => this.onMarkClick(e, type)}
+        icon={icon}
+      />
+    );
+  }
+
+  renderBlockButton = (type, icon) => {
+    let isActive = this.hasBlock(type);
+
+    if (["numbered-list", "bulleted-list"].includes(type)) {
+      let { document, blocks } = this.getActiveNote().value;
+      if (blocks.size > 0) {
+        const parent = document.getParent(blocks.first().key);
+        isActive = this.hasBlock("list-item") && parent && parent.type === type;
+      }
+    }
+
+    return (
+      <ToolbarButton
+        active={isActive}
+        onPointerDown={event => this.onBlockClick(event, type)}
+        icon={icon}
+      />
+    );
+  };
+
   render() {
     return (
       <Fragment>
-        <Toolbar buttons={this.toolbarButtons} />
+        <Toolbar>
+          {this.renderMarkButton("bold", icons.ic_format_bold)}
+          {this.renderMarkButton("italic", icons.ic_format_italic)}
+          {this.renderMarkButton("underline", icons.ic_format_underlined)}
+          {this.renderMarkButton("code", icons.ic_code)}
+          {this.renderBlockButton("block-quote", icons.ic_format_quote)}
+          {this.renderBlockButton(
+            "bulleted-list",
+            icons.ic_format_list_bulleted
+          )}
+          {this.renderBlockButton(
+            "numbered-list",
+            icons.ic_format_list_numbered
+          )}
+          {this.renderBlockButton("heading-one", icons.ic_looks_one)}
+          {this.renderBlockButton("heading-two", icons.ic_looks_two)}
+        </Toolbar>
         <Title text={this.getActiveNote().title} />
         <Editor
           ref={this.ref}
