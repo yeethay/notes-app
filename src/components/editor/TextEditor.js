@@ -80,11 +80,9 @@ class TextEditor extends Component {
     if (!user)
       return;
 
-    let docRef = this.props.firebase.db.collection("notes").doc(user.email);
     if (value.document !== this.getActiveNote().value.document) {
       store.dispatch(setActiveNoteValueAction(value));
-      let notesList = this.props.notesList;
-      docRef.update(JSON.parse(JSON.stringify({notesList})));
+      this.props.firebase.setUserNotes(user, this.props.notesList);
     }
   };
 

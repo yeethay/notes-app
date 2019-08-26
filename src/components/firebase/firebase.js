@@ -1,7 +1,10 @@
-import config from './config';
-import app from 'firebase/app';
-import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/firestore';
+import app from 'firebase/app';
+import config from './config';
+import store from "../../store";
+import { Value } from 'slate'
+import { updateAuthStateAction, setSavedNotes } from "../../actions";
 
 class Firebase {
   constructor() {
@@ -23,6 +26,29 @@ class Firebase {
         name: user.displayName,
       };
       await this.db.collection("users").doc(user.email).set(dbuser);
+  }
+
+  setLoggedInState = (isLoggedIn) => {
+    store.dispatch(updateAuthStateAction({
+      loggedIn: isLoggedIn
+    }));
+  }
+
+  setUserNotes = (user, notesList) => {
+    let docRef = this.db.collection("notes").doc(user.email);
+    docRef.set(JSON.parse(JSON.stringify({notesList})));
+  }
+
+  getUserNotes = (user) => {
+    let docRef = this.db.collection("notes").doc(user.email);
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+        store.dispatch(setSavedNotes(doc.data().notesList
+          .map(note => ({...note, value: Value.fromJSON(note.value)}))));
+      }
+    }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
   }
 }
 
