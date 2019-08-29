@@ -29,5 +29,6 @@ blockquote {
 div[data-slate-editor] {
   flex-grow: 1;
   max-height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+  height: 0px;
 }
