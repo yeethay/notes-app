@@ -23,3 +23,7 @@ export function setNoteTitleAction(title) {
 export function setSavedNotes(notesList) {
   return { type: actionTypes.SET_SAVED_NOTES, notesList };
 }
+
+export function storeEditorAction(editor) {
+  return { type: actionTypes.STORE_EDITOR, editor };
+}
