@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 export function updateAuthStateAction(authState) {
   return { type: types.UPDATE_AUTH_STATE, authState };

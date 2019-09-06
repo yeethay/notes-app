@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import store from "../../store";
-import classNames from "classnames";
-import { setNoteActiveAction } from "../../actions";
-import "./styles/Item.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import store from '../../store';
+import classNames from 'classnames';
+import { setNoteActiveAction } from '../../actions';
+import './styles/Item.css';
 
-export default class Item extends Component {
+class Item extends Component {
   onClick(noteId) {
     store.dispatch(setNoteActiveAction(noteId));
   }
 
   render() {
-    let classes = classNames("navigator-item", {
-      active: this.props.active
+    let classes = classNames('navigator-item', {
+      active: this.props.active,
     });
 
     return (
@@ -22,3 +23,12 @@ export default class Item extends Component {
     );
   }
 }
+
+Item.propTypes = {
+  active: PropTypes.bool,
+  id: PropTypes.number,
+  title: PropTypes.string,
+  preview: PropTypes.string,
+};
+
+export default Item;

@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const NumberedList = props => {
   return <ol {...props.attributes}>{props.children}</ol>;
+};
+
+NumberedList.propTypes = {
+  attributes: PropTypes.node,
+  children: PropTypes.node,
 };
 
 export default NumberedList;

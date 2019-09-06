@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Navbar, { Brand } from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import SignIn from "./SignIn";
-import SignOut from "./SignOut";
-import store from "../../store";
-import { updateAuthStateAction } from "../../actions";
-import { withFirebase } from "../firebase";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Navbar, { Brand } from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import SignIn from './SignIn';
+import SignOut from './SignOut';
+import store from '../../store';
+import { updateAuthStateAction } from '../../actions';
+import { withFirebase } from '../firebase';
 
 class NavBar extends Component {
-  componentWillMount() {
+  componentDidMount() {
     if (!this.props.firebase) {
       return null;
     }
@@ -18,13 +19,13 @@ class NavBar extends Component {
       if (user) {
         store.dispatch(
           updateAuthStateAction({
-            loggedIn: true
+            loggedIn: true,
           })
         );
       } else {
         store.dispatch(
           updateAuthStateAction({
-            loggedIn: false
+            loggedIn: false,
           })
         );
       }
@@ -42,6 +43,11 @@ class NavBar extends Component {
     );
   }
 }
+
+NavBar.propTypes = {
+  loggedIn: PropTypes.bool,
+  firebase: PropTypes.node,
+};
 
 const mapStateToProps = state => {
   return { loggedIn: state.loggedIn };

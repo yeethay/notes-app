@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import store from "../../store";
-import Item from "./Item";
-import NewNoteBtn from "./NewNoteBtn";
-import { addNewNoteAction } from "../../actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import store from '../../store';
+import Item from './Item';
+import NewNoteBtn from './NewNoteBtn';
+import { addNewNoteAction } from '../../actions';
 
 class Navigator extends Component {
   componentWillMount() {
@@ -17,7 +17,7 @@ class Navigator extends Component {
     for (let note of notesList) {
       list.push(
         <Item
-          title={note.title || "Untitled note"}
+          title={note.title || 'Untitled note'}
           preview={note.preview}
           active={note.active}
           id={note.id}
@@ -40,7 +40,7 @@ class Navigator extends Component {
 
 const mapStateToProps = state => {
   return {
-    notesList: state.notesList
+    notesList: state.notesList,
   };
 };
 export default connect(mapStateToProps)(Navigator);
