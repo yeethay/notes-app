@@ -12,18 +12,18 @@ class Navigator extends Component {
     }
   }
 
-  getListOfItems(notesList) {
+  getListOfItems(notesList, titlesList) {
     let list = [];
-    for (let note of notesList) {
+    for (let i = 0; i < notesList.length; i++) {
       list.push(
         <Item
-          title={note.title || "Untitled note"}
-          preview={note.preview}
-          active={note.active}
-          id={note.id}
-          key={note.id}
+          title={titlesList[i].title || "Untitled note"}
+          preview={notesList[i].preview}
+          active={notesList[i].active}
+          id={notesList[i].id}
+          key={notesList[i].id}
         />
-      );
+      )
     }
     return list;
   }
@@ -32,15 +32,14 @@ class Navigator extends Component {
     return (
       <div>
         <NewNoteBtn />
-        {this.getListOfItems(this.props.notesList)}
+        {this.getListOfItems(this.props.notesList, this.props.titlesList)}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList
-  };
-};
+const mapStateToProps = ({ notesList, titlesList }) => ({
+  notesList,
+  titlesList
+});
 export default connect(mapStateToProps)(Navigator);

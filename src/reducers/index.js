@@ -4,7 +4,9 @@ import initialValue from "../components/editor/initialValue";
 const initialState = {
   loggedIn: undefined,
   notesList: [],
-  currentNoteIndex: 0
+  currentNoteIndex: 0,
+  titlesList: [],
+  editor: undefined
 };
 
 function rootReducer(state = initialState, action) {
@@ -20,15 +22,24 @@ function rootReducer(state = initialState, action) {
       }
       let newNoteId = state.notesList.length;
       newNotesList.push({
-        title: "",
-        preview: "",
         value: initialValue,
+        preview: "",
         active: true,
         id: newNoteId
       });
 
+      let newTitlesList = [...state.titlesList];
+      for (let i = 0; i < newTitlesList.length; i++) {
+        newTitlesList[i].active = false;
+      }
+      newTitlesList.push({
+        title: "",
+        active: true,
+        id: newNoteId
+      });
       return {
         ...state,
+        titlesList: newTitlesList,
         notesList: newNotesList,
         currentNoteIndex: newNoteId
       };
@@ -46,7 +57,16 @@ function rootReducer(state = initialState, action) {
         }
       }
 
-      return { ...state, notesList: newNotesList, currentNoteIndex: noteIndex };
+      let newTitlesList = [...state.titlesList];
+      for (let i = 0; i < newTitlesList.length; i++) {
+        if (newTitlesList[i].id === action.noteId) {
+          newTitlesList[i].active = true;
+        } else {
+          newTitlesList[i].active = false;
+        }
+      }
+
+      return { ...state, titlesList: newTitlesList, notesList: newNotesList, currentNoteIndex: noteIndex };
     }
 
     case actionTypes.SET_ACTIVE_NOTE_VALUE: {
@@ -63,13 +83,30 @@ function rootReducer(state = initialState, action) {
     }
 
     case actionTypes.SET_NOTE_TITLE: {
-      let newNotesList = [...state.notesList];
-      newNotesList[state.currentNoteIndex].title = action.title;
-      return { ...state, notesList: newNotesList };
+      let newTitlesList = [...state.titlesList];
+      newTitlesList[state.currentNoteIndex].title = action.title;
+      return { ...state, titlesList: newTitlesList };
     }
 
     case actionTypes.SET_SAVED_NOTES: {
-      return {...state, notesList: action.notesList};
+      let newTitlesList = [];
+      let newCurrentIndex;
+      for (let i = 0; i < action.notesList.length; i++) {
+        newTitlesList.push({
+          title: "",
+          active: action.notesList[i].active,
+          id: i
+        });
+        if (action.notesList[i].active) {
+          newCurrentIndex = i;
+        }
+      } 
+
+      return {...state, titlesList: newTitlesList, notesList: action.notesList, currentNoteIndex: newCurrentIndex};
+    }
+
+    case actionTypes.STORE_EDITOR: {
+      return {...state, editor: action.editor};
     }
 
     default:

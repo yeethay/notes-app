@@ -1,23 +1,23 @@
 import React from "react";
 import { setNoteTitleAction } from "../../actions";
-import store from "../../store";
+import { connect } from 'react-redux';
 import "./styles/Title.css";
 
 const Title = (props) => {
   return (
     <textarea
       maxLength={50}
-      value={props.text}
-      onChange={onChange}
+      value={props.titlesList[props.currentNoteIndex].title}
+      onChange={(event) => onChange(props, event)}
       onKeyDown={onKeyDown}
       placeholder="Untitled note"
     />
   );
 }
 
-const onChange = (event) => {
+const onChange = (props, event) => {
   let newValue = event.target.value;
-  store.dispatch(setNoteTitleAction(newValue));
+  props.dispatch(setNoteTitleAction(newValue));
 }
 
 const onKeyDown = (event) => {
@@ -26,4 +26,9 @@ const onKeyDown = (event) => {
   }
 }
 
-export default Title;
+const mapStateToProps = ({ titlesList, currentNoteIndex }) => ({
+  titlesList,
+  currentNoteIndex
+});
+
+export default connect(mapStateToProps)(Title);
