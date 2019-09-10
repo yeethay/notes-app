@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import { withFirebase } from "../firebase";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import { withFirebase } from '../firebase';
 
 class SignOut extends Component {
   onClick = () => {
@@ -15,5 +16,9 @@ class SignOut extends Component {
     );
   }
 }
+
+SignOut.propTypes = {
+  firebase: PropTypes.node,
+};
 
 export default withFirebase(SignOut);

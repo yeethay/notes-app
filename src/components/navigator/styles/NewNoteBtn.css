@@ -1,8 +1,7 @@
 .new-note-btn {
-  border-radius: 100%;
   margin-bottom: 10px;
 }
 
 .new-note-btn:after {
-  content: "+";
+  content: "New Note";
 }

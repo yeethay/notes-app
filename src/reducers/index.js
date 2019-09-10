@@ -1,5 +1,5 @@
-import * as actionTypes from "../actions/types";
-import initialValue from "../components/editor/initialValue";
+import * as types from '../actions/types';
+import initialValue from '../components/editor/initialValue';
 
 const initialState = {
   loggedIn: undefined,
@@ -23,9 +23,9 @@ function rootReducer(state = initialState, action) {
       let newNoteId = state.notesList.length;
       newNotesList.push({
         value: initialValue,
-        preview: "",
+        preview: '',
         active: true,
-        id: newNoteId
+        id: newNoteId,
       });
 
       let newTitlesList = [...state.titlesList];
@@ -33,7 +33,7 @@ function rootReducer(state = initialState, action) {
         newTitlesList[i].active = false;
       }
       newTitlesList.push({
-        title: "",
+        title: '',
         active: true,
         id: newNoteId
       });
@@ -41,7 +41,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         titlesList: newTitlesList,
         notesList: newNotesList,
-        currentNoteIndex: newNoteId
+        currentNoteIndex: newNoteId,
       };
     }
 
@@ -93,14 +93,14 @@ function rootReducer(state = initialState, action) {
       let newCurrentIndex;
       for (let i = 0; i < action.notesList.length; i++) {
         newTitlesList.push({
-          title: "",
+          title: '',
           active: action.notesList[i].active,
           id: i
         });
         if (action.notesList[i].active) {
           newCurrentIndex = i;
         }
-      } 
+      }
 
       return {...state, titlesList: newTitlesList, notesList: action.notesList, currentNoteIndex: newCurrentIndex};
     }

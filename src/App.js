@@ -1,11 +1,22 @@
-import React, { Component, Fragment } from "react";
-import { Row, Col } from "react-bootstrap";
-import "./App.css";
-import NavBar from "./components/navbar/NavBar";
-import Navigator from "./components/navigator/Navigator";
-import TextEditor from "./components/editor/TextEditor";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Row, Col } from 'react-bootstrap';
+import './App.css';
+import NavBar from './components/navbar/NavBar';
+import Navigator from './components/navigator/Navigator';
+import TextEditor from './components/editor/TextEditor';
+import { connect } from 'react-redux';
+import { addNewNoteAction } from './actions';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    if (props.notesList.length === 0) {
+      props.dispatch(addNewNoteAction());
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -29,4 +40,12 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  notesList: PropTypes.array,
+};
+
+const mapStateToProps = ({ notesList }) => ({
+  notesList,
+});
+
+export default connect(mapStateToProps)(App);

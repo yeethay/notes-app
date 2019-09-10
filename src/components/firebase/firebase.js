@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'firebase/auth';
 import 'firebase/firestore';
 import app from 'firebase/app';
@@ -5,6 +6,11 @@ import config from './config';
 import store from "../../store";
 import { Value } from 'slate'
 import { updateAuthStateAction, setSavedNotes } from "../../actions";
+=======
+import config from './config';
+import app from 'firebase/app';
+import 'firebase/auth';
+>>>>>>> master
 
 class Firebase {
   constructor() {

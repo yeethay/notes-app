@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import React, { Component } from "react";
 import * as icons from "./icons";
 import ToolbarButton from './ToolbarButton';
 import { connect } from 'react-redux';
+=======
+import React, { Component } from 'react';
+>>>>>>> master
 
 const DEFAULT_NODE = "paragraph";
 class Toolbar extends Component {
