@@ -1,3 +1,3 @@
-import MarkHotKey from "./MarkHotKey";
+import MarkHotKey from './MarkHotKey';
 
 export { MarkHotKey };

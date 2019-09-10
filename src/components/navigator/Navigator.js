@@ -1,23 +1,16 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import store from "../../store";
-import Item from "./Item";
-import NewNoteBtn from "./NewNoteBtn";
-import { addNewNoteAction } from "../../actions";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Item from './Item';
+import NewNoteBtn from './NewNoteBtn';
 
 class Navigator extends Component {
-  componentWillMount() {
-    if (this.props.notesList.length === 0) {
-      store.dispatch(addNewNoteAction());
-    }
-  }
-
   getListOfItems(notesList) {
     let list = [];
     for (let note of notesList) {
       list.push(
         <Item
-          title={note.title || "Untitled note"}
+          title={note.title || 'Untitled note'}
           preview={note.preview}
           active={note.active}
           id={note.id}
@@ -40,9 +33,13 @@ class Navigator extends Component {
   }
 }
 
+Navigator.propTypes = {
+  notesList: PropTypes.array,
+};
+
 const mapStateToProps = state => {
   return {
-    notesList: state.notesList
+    notesList: state.notesList,
   };
 };
 export default connect(mapStateToProps)(Navigator);

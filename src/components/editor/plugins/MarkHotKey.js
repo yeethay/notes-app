@@ -9,7 +9,7 @@ function MarkHotKey(options) {
       event.preventDefault();
       // Toggle the mark `type`.
       editor.toggleMark(type);
-    }
+    },
   };
 }
 

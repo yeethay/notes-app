@@ -1,8 +1,8 @@
-import React from "react";
-import { Button } from "react-bootstrap";
-import store from "../../store";
-import { addNewNoteAction } from "../../actions";
-import "./styles/NewNoteBtn.css";
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import store from '../../store';
+import { addNewNoteAction } from '../../actions';
+import './styles/NewNoteBtn.css';
 
 const NewNoteBtn = () => {
   return <Button className="new-note-btn" onClick={onClick} />;
