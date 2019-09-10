@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import store from '../../store';
 import Item from './Item';
@@ -30,10 +30,12 @@ class Navigator extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <NewNoteBtn />
-        {this.getListOfItems(this.props.notesList)}
-      </div>
+        <div className="notes-list">
+          {this.getListOfItems(this.props.notesList)}
+        </div>
+      </Fragment>
     );
   }
 }
