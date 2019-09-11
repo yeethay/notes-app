@@ -1,4 +1,4 @@
-import * as types from '../actions/types';
+import * as actionTypes from '../actions/types';
 import initialValue from '../components/editor/initialValue';
 
 const initialState = {

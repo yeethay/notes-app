@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React from "react";
-import { setNoteTitleAction } from "../../actions";
-import { connect } from 'react-redux';
-import "./styles/Title.css";
-=======
 import React from 'react';
-import PropTypes from 'prop-types';
 import { setNoteTitleAction } from '../../actions';
-import store from '../../store';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import './styles/Title.css';
->>>>>>> master
 
 const Title = props => {
   return (
@@ -23,17 +16,10 @@ const Title = props => {
   );
 };
 
-<<<<<<< HEAD
 const onChange = (props, event) => {
   let newValue = event.target.value;
   props.dispatch(setNoteTitleAction(newValue));
-}
-=======
-const onChange = event => {
-  let newValue = event.target.value;
-  store.dispatch(setNoteTitleAction(newValue));
 };
->>>>>>> master
 
 const onKeyDown = event => {
   if (event.keyCode === 13) {

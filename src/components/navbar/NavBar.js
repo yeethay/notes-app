@@ -1,23 +1,11 @@
-<<<<<<< HEAD
-import Nav from "react-bootstrap/Nav";
-import Navbar, { Brand } from "react-bootstrap/Navbar";
-import React, { Component } from "react";
-import SignIn from "./SignIn";
-import SignOut from "./SignOut";
-import { connect } from "react-redux";
-import { withFirebase } from "../firebase";
-=======
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Navbar, { Brand } from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Navbar, { Brand } from 'react-bootstrap/Navbar';
+import React, { Component } from 'react';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
-import store from '../../store';
-import { updateAuthStateAction } from '../../actions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withFirebase } from '../firebase';
->>>>>>> master
 
 class NavBar extends Component {
   componentDidMount() {
@@ -27,25 +15,11 @@ class NavBar extends Component {
 
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
-<<<<<<< HEAD
         this.props.firebase.setLoggedInState(true);
         this.props.firebase.addUser(user);
         this.props.firebase.getUserNotes(user);
       } else {
         this.props.firebase.setLoggedInState(false);
-=======
-        store.dispatch(
-          updateAuthStateAction({
-            loggedIn: true,
-          })
-        );
-      } else {
-        store.dispatch(
-          updateAuthStateAction({
-            loggedIn: false,
-          })
-        );
->>>>>>> master
       }
     });
   }

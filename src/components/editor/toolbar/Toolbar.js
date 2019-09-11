@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import React, { Component } from "react";
-import * as icons from "./icons";
+import React, { Component } from 'react';
+import * as icons from './icons';
 import ToolbarButton from './ToolbarButton';
 import { connect } from 'react-redux';
-=======
-import React, { Component } from 'react';
->>>>>>> master
 
-const DEFAULT_NODE = "paragraph";
+const DEFAULT_NODE = 'paragraph';
 class Toolbar extends Component {
   hasMark = type => {
     const { value } = this.props.notesList[this.props.currentNoteIndex];
@@ -32,21 +28,21 @@ class Toolbar extends Component {
     const { document } = value;
 
     // Handle everything but list buttons.
-    if (type !== "bulleted-list" && type !== "numbered-list") {
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = this.hasBlock(type);
-      const isList = this.hasBlock("list-item");
+      const isList = this.hasBlock('list-item');
 
       if (isList) {
         editor
           .setBlocks(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else {
         editor.setBlocks(isActive ? DEFAULT_NODE : type);
       }
     } else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock("list-item");
+      const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
         return !!document.getClosest(block.key, parent => parent.type === type);
       });
@@ -54,16 +50,16 @@ class Toolbar extends Component {
       if (isList && isType) {
         editor
           .setBlocks(DEFAULT_NODE)
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else if (isList) {
         editor
           .unwrapBlock(
-            type === "bulleted-list" ? "numbered-list" : "bulleted-list"
+            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
           )
           .wrapBlock(type);
       } else {
-        editor.setBlocks("list-item").wrapBlock(type);
+        editor.setBlocks('list-item').wrapBlock(type);
       }
     }
   };
@@ -81,11 +77,11 @@ class Toolbar extends Component {
   renderBlockButton = (type, icon) => {
     let isActive = this.hasBlock(type);
 
-    if (["numbered-list", "bulleted-list"].includes(type)) {
+    if (['numbered-list', 'bulleted-list'].includes(type)) {
       let { document, blocks } = this.props.notesList[this.props.currentNoteIndex].value;
       if (blocks.size > 0) {
         const parent = document.getParent(blocks.first().key);
-        isActive = this.hasBlock("list-item") && parent && parent.type === type;
+        isActive = this.hasBlock('list-item') && parent && parent.type === type;
       }
     }
 
@@ -101,15 +97,15 @@ class Toolbar extends Component {
   render() {
     return (
       <div className="format-toolbar">
-        {this.renderMarkButton("bold", icons.ic_format_bold)}
-        {this.renderMarkButton("italic", icons.ic_format_italic)}
-        {this.renderMarkButton("underline", icons.ic_format_underlined)}
-        {this.renderMarkButton("code", icons.ic_code)}
-        {this.renderBlockButton("block-quote", icons.ic_format_quote)}
-        {this.renderBlockButton("bulleted-list", icons.ic_format_list_bulleted)}
-        {this.renderBlockButton("numbered-list", icons.ic_format_list_numbered)}
-        {this.renderBlockButton("heading-one", icons.ic_looks_one)}
-        {this.renderBlockButton("heading-two", icons.ic_looks_two)}
+        {this.renderMarkButton('bold', icons.ic_format_bold)}
+        {this.renderMarkButton('italic', icons.ic_format_italic)}
+        {this.renderMarkButton('underline', icons.ic_format_underlined)}
+        {this.renderMarkButton('code', icons.ic_code)}
+        {this.renderBlockButton('block-quote', icons.ic_format_quote)}
+        {this.renderBlockButton('bulleted-list', icons.ic_format_list_bulleted)}
+        {this.renderBlockButton('numbered-list', icons.ic_format_list_numbered)}
+        {this.renderBlockButton('heading-one', icons.ic_looks_one)}
+        {this.renderBlockButton('heading-two', icons.ic_looks_two)}
       </div>
     );
   }
@@ -120,4 +116,5 @@ const mapStateToProps = ({ notesList, currentNoteIndex, editor }) => ({
   currentNoteIndex,
   editor
 });
+
 export default connect(mapStateToProps)(Toolbar);
