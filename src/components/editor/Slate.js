@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import { connect } from 'react-redux';
 import { withFirebase } from '../firebase';
 import { setActiveNoteValueAction, storeEditorAction } from '../../actions';
-import * as plugins from "./plugins";
-import * as blocks from "./blocks";
-import * as marks from "./marks";
+import * as plugins from './plugins';
+import * as blocks from './blocks';
+import * as marks from './marks';
 
 class Slate extends Component {
   constructor(props) {
     super(props);
 
     this.pluginList = [
-      plugins.MarkHotKey({ key: "b", type: "bold" }),
-      plugins.MarkHotKey({ key: "i", type: "italic" }),
-      plugins.MarkHotKey({ key: "u", type: "underline" })
+      plugins.MarkHotKey({ key: 'b', type: 'bold' }),
+      plugins.MarkHotKey({ key: 'i', type: 'italic' }),
+      plugins.MarkHotKey({ key: 'u', type: 'underline' })
     ];
 
     this.ref = editor => {
@@ -24,26 +24,27 @@ class Slate extends Component {
 
   onChange = ({ value }) => {
     let user = this.props.firebase.auth.currentUser;
+    this.props.dispatch(setActiveNoteValueAction(value));
+
     if (!user)
       return;
 
-    this.props.dispatch(setActiveNoteValueAction(value));
-    this.props.firebase.setUserNotes(user, this.props.notesList);
+    this.props.firebase.setUserNotesToDB(user, this.props.notesList);
   };
 
   renderBlock = (props, editor, next) => {
     switch (props.node.type) {
-      case "heading-one":
+      case 'heading-one':
         return <blocks.HeadingOne {...props} />;
-      case "heading-two":
+      case 'heading-two':
         return <blocks.HeadingTwo {...props} />;
-      case "bulleted-list":
+      case 'bulleted-list':
         return <blocks.BulletedList {...props} />;
-      case "numbered-list":
+      case 'numbered-list':
         return <blocks.NumberedList {...props} />;
-      case "list-item":
+      case 'list-item':
         return <blocks.ListItem {...props} />;
-      case "block-quote":
+      case 'block-quote':
         return <blocks.BlockQuote {...props} />;
       default:
         return next();
@@ -52,13 +53,13 @@ class Slate extends Component {
 
   renderMark = (props, editor, next) => {
     switch (props.mark.type) {
-      case "bold":
+      case 'bold':
         return <marks.Bold {...props} />;
-      case "italic":
+      case 'italic':
         return <marks.Italic {...props} />;
-      case "code":
+      case 'code':
         return <marks.Code {...props} />;
-      case "underline":
+      case 'underline':
         return <marks.Underline {...props} />;
       default: {
         return next();

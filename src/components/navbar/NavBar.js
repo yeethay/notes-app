@@ -17,7 +17,7 @@ class NavBar extends Component {
       if (user) {
         this.props.firebase.setLoggedInState(true);
         this.props.firebase.addUser(user);
-        this.props.firebase.getUserNotes(user);
+        this.props.firebase.getUserNotesFromDB(user);
       } else {
         this.props.firebase.setLoggedInState(false);
       }

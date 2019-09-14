@@ -1,5 +1,6 @@
 import React from 'react';
 import { setNoteTitleAction } from '../../actions';
+import { withFirebase } from '../firebase';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './styles/Title.css';
@@ -19,6 +20,12 @@ const Title = props => {
 const onChange = (props, event) => {
   let newValue = event.target.value;
   props.dispatch(setNoteTitleAction(newValue));
+
+  let user = props.firebase.auth.currentUser;
+  if (!user)
+    return;
+
+  props.firebase.setTitlesToDB(user, props.titlesList);
 };
 
 const onKeyDown = event => {
@@ -36,4 +43,4 @@ const mapStateToProps = ({ titlesList, currentNoteIndex }) => ({
   currentNoteIndex
 });
 
-export default connect(mapStateToProps)(Title);
+export default connect(mapStateToProps)(withFirebase(Title));

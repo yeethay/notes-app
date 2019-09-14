@@ -4,7 +4,7 @@ import app from 'firebase/app';
 import config from './config';
 import store from '../../store';
 import { Value } from 'slate';
-import { updateAuthStateAction, setSavedNotes } from '../../actions';
+import { updateAuthStateAction, setSavedTitles, setSavedNotes } from '../../actions';
 
 class Firebase {
   constructor() {
@@ -34,15 +34,21 @@ class Firebase {
     }));
   }
 
-  setUserNotes = (user, notesList) => {
+  setUserNotesToDB = (user, notesList) => {
     let docRef = this.db.collection('notes').doc(user.email);
-    docRef.set(JSON.parse(JSON.stringify({notesList})));
+    docRef.set(JSON.parse(JSON.stringify({notesList})), {merge: true});
   }
 
-  getUserNotes = (user) => {
+  setTitlesToDB = (user, titlesList) => {
+    let docRef = this.db.collection('notes').doc(user.email);
+    docRef.set(JSON.parse(JSON.stringify({titlesList})), { merge: true});
+  }
+
+  getUserNotesFromDB = (user) => {
     let docRef = this.db.collection('notes').doc(user.email);
     docRef.get().then(function(doc) {
       if (doc.exists) {
+        store.dispatch(setSavedTitles(doc.data().titlesList));
         store.dispatch(setSavedNotes(doc.data().notesList
           .map(note => ({...note, value: Value.fromJSON(note.value)}))));
       }

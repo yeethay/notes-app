@@ -88,21 +88,30 @@ function rootReducer(state = initialState, action) {
       return { ...state, titlesList: newTitlesList };
     }
 
+    case actionTypes.SET_SAVED_TITLES: {
+      let newCurrentIndex;
+      for (let i = 0; i < action.titlesList.length; i++) {
+        if (action.titlesList[i].active) {
+          newCurrentIndex = i;
+        }
+      }
+
+      return {...state,
+        titlesList: action.titlesList,
+        currentNoteIndex: newCurrentIndex};
+    }
+
     case actionTypes.SET_SAVED_NOTES: {
-      let newTitlesList = [];
       let newCurrentIndex;
       for (let i = 0; i < action.notesList.length; i++) {
-        newTitlesList.push({
-          title: '',
-          active: action.notesList[i].active,
-          id: i
-        });
         if (action.notesList[i].active) {
           newCurrentIndex = i;
         }
       }
 
-      return {...state, titlesList: newTitlesList, notesList: action.notesList, currentNoteIndex: newCurrentIndex};
+      return {...state,
+        notesList: action.notesList,
+        currentNoteIndex: newCurrentIndex};
     }
 
     case actionTypes.STORE_EDITOR: {

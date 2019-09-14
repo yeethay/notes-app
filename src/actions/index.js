@@ -20,6 +20,10 @@ export function setNoteTitleAction(title) {
   return { type: actionTypes.SET_NOTE_TITLE, title };
 }
 
+export function setSavedTitles(titlesList) {
+  return { type: actionTypes.SET_SAVED_TITLES, titlesList };
+}
+
 export function setSavedNotes(notesList) {
   return { type: actionTypes.SET_SAVED_NOTES, notesList };
 }
