@@ -25,7 +25,7 @@ const onChange = (props, event) => {
   if (!user)
     return;
 
-  props.firebase.setTitlesToDB(user, props.titlesList);
+  props.firebase.saveTitlesToDB(user, props.titlesList);
 };
 
 const onKeyDown = event => {

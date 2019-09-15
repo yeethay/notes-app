@@ -29,7 +29,7 @@ class Slate extends Component {
     if (!user)
       return;
 
-    this.props.firebase.setUserNotesToDB(user, this.props.notesList);
+    this.props.firebase.saveUserNotesToDB(user, this.props.notesList);
   };
 
   renderBlock = (props, editor, next) => {

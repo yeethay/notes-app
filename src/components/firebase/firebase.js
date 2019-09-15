@@ -34,12 +34,12 @@ class Firebase {
     }));
   }
 
-  setUserNotesToDB = (user, notesList) => {
+  saveUserNotesToDB = (user, notesList) => {
     let docRef = this.db.collection('notes').doc(user.email);
     docRef.set(JSON.parse(JSON.stringify({notesList})), {merge: true});
   }
 
-  setTitlesToDB = (user, titlesList) => {
+  saveTitlesToDB = (user, titlesList) => {
     let docRef = this.db.collection('notes').doc(user.email);
     docRef.set(JSON.parse(JSON.stringify({titlesList})), { merge: true});
   }
