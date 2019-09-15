@@ -89,16 +89,7 @@ function rootReducer(state = initialState, action) {
     }
 
     case actionTypes.SET_SAVED_TITLES: {
-      let newCurrentIndex;
-      for (let i = 0; i < action.titlesList.length; i++) {
-        if (action.titlesList[i].active) {
-          newCurrentIndex = i;
-        }
-      }
-
-      return {...state,
-        titlesList: action.titlesList,
-        currentNoteIndex: newCurrentIndex};
+      return {...state, titlesList: action.titlesList};
     }
 
     case actionTypes.SET_SAVED_NOTES: {
