@@ -16,8 +16,12 @@ class NavBar extends Component {
     this.props.firebase.auth.onAuthStateChanged(user => {
       if (user) {
         this.props.firebase.setLoggedInState(true);
+        // TODO: Add checks to do based on what the user already has
         this.props.firebase.addUser(user);
         this.props.firebase.getUserNotesFromDB(user);
+        console.log('ORAAAAAAAAA');
+        this.props.firebase.saveTitlesToDB(user, this.props.titlesList);
+        this.props.firebase.saveUserNotesToDB(user, this.props.notesList);
       } else {
         this.props.firebase.setLoggedInState(false);
       }
@@ -39,10 +43,16 @@ class NavBar extends Component {
 NavBar.propTypes = {
   loggedIn: PropTypes.bool,
   firebase: PropTypes.node,
+  titlesList: PropTypes.array,
+  notesList: PropTypes.array
 };
 
 const mapStateToProps = state => {
-  return { loggedIn: state.loggedIn };
+  return {
+    loggedIn: state.loggedIn,
+    titlesList: state.titlesList,
+    notesList: state.notesList
+  };
 };
 
 export default connect(mapStateToProps)(withFirebase(NavBar));

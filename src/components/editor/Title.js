@@ -6,16 +6,6 @@ import PropTypes from 'prop-types';
 import './styles/Title.css';
 
 class Title extends Component {
-  componentDidMount() {
-    let user = this.props.firebase.auth.currentUser;
-    if (!user)
-      return;
-
-    console.log('HELLO');
-
-    this.props.firebase.saveTitlesToDB(user, this.props.titlesList);
-  };
-
   onChange = event => {
     let newValue = event.target.value;
     this.props.dispatch(setNoteTitleAction(newValue));

@@ -41,7 +41,7 @@ class Firebase {
 
   saveTitlesToDB = (user, titlesList) => {
     let docRef = this.db.collection('notes').doc(user.email);
-    docRef.set(JSON.parse(JSON.stringify({titlesList})), { merge: true});
+    docRef.set(JSON.parse(JSON.stringify({titlesList})), {merge: true});
   }
 
   getUserNotesFromDB = (user) => {
