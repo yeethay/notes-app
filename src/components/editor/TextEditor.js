@@ -41,7 +41,7 @@ class TextEditor extends Component {
   };
 
   getActiveNote = () => {
-    return this.props.notesList[this.props.currentNoteIndex];
+    return this.props.notesList.find(note => note.active);
   };
 
   // On change, update the app's React state with the new editor value.
@@ -212,15 +212,13 @@ class TextEditor extends Component {
   }
 }
 
-const mapStateToProps = ({ notesList, currentNoteIndex, user }) => ({
+const mapStateToProps = ({ notesList, user }) => ({
   notesList,
-  currentNoteIndex,
   user,
 });
 
 TextEditor.propTypes = {
   notesList: PropTypes.array,
-  currentNoteIndex: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(withFirebase(TextEditor));

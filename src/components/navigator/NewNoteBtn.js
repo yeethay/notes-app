@@ -11,7 +11,7 @@ const NewNoteBtn = props => {
     if (user) {
       firebase.saveUserNotesToDB(user, notesList);
     }
-  }, []);
+  }, [props.notesList]);
 
   return <Button className="new-note-btn" onClick={() => onClick(props)} />;
 };

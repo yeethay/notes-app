@@ -4,7 +4,6 @@ import initialValue from '../components/editor/initialValue';
 const initialState = {
   user: null,
   notesList: [],
-  currentNoteIndex: 0,
 };
 
 function rootReducer(state = initialState, action) {
@@ -30,17 +29,14 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notesList: newNotesList,
-        currentNoteIndex: newNoteId,
       };
     }
 
     case types.SET_NOTE_ACTIVE: {
       let newNotesList = [...state.notesList];
-      let noteIndex;
       for (let i = 0; i < newNotesList.length; i++) {
         if (newNotesList[i].id === action.noteId) {
           newNotesList[i].active = true;
-          noteIndex = i;
         } else {
           newNotesList[i].active = false;
         }
@@ -49,7 +45,6 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notesList: newNotesList,
-        currentNoteIndex: noteIndex,
       };
     }
 
@@ -68,23 +63,13 @@ function rootReducer(state = initialState, action) {
 
     case types.SET_NOTE_TITLE: {
       let newNotesList = [...state.notesList];
-      newNotesList[state.currentNoteIndex].title = action.title;
+      let currentNote = newNotesList.find(note => note.active);
+      newNotesList[currentNote.id].title = action.title;
       return { ...state, notesList: newNotesList };
     }
 
     case types.STORE_NOTES_LIST: {
-      let newCurrentIndex;
-      for (let i = 0; i < action.notesList.length; i++) {
-        if (action.notesList[i].active) {
-          newCurrentIndex = i;
-        }
-      }
-
-      return {
-        ...state,
-        notesList: action.notesList,
-        currentNoteIndex: newCurrentIndex,
-      };
+      return { ...state, notesList: action.notesList };
     }
 
     default:
