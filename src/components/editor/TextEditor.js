@@ -219,6 +219,8 @@ const mapStateToProps = ({ notesList, user }) => ({
 
 TextEditor.propTypes = {
   notesList: PropTypes.array,
+  user: PropTypes.object,
+  firebase: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(withFirebase(TextEditor));

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import { addNewNoteAction } from '../../actions';
@@ -6,12 +6,12 @@ import { withFirebase } from '../firebase';
 import './styles/NewNoteBtn.css';
 
 const NewNoteBtn = props => {
+  const [user, notesList, firebase] = useState();
   useEffect(() => {
-    let { user, notesList, firebase } = props;
     if (user) {
       firebase.saveUserNotesToDB(user, notesList);
     }
-  }, [props.notesList]);
+  });
 
   return <Button className="new-note-btn" onClick={() => onClick(props)} />;
 };
