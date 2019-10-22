@@ -26,7 +26,7 @@ class Navigator extends Component {
       <Fragment>
         <NewNoteBtn />
         <div className="notes-list">
-          {this.getListOfItems(this.props.notesList)}
+          {this.props.user && this.getListOfItems(this.props.notesList)}
         </div>
       </Fragment>
     );
@@ -35,11 +35,9 @@ class Navigator extends Component {
 
 Navigator.propTypes = {
   notesList: PropTypes.array,
+  user: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList,
-  };
-};
+const mapStateToProps = ({ notesList, user }) => ({ notesList, user });
+
 export default connect(mapStateToProps)(Navigator);

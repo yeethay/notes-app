@@ -2,15 +2,15 @@ import * as types from '../actions/types';
 import initialValue from '../components/editor/initialValue';
 
 const initialState = {
-  loggedIn: undefined,
+  user: null,
   notesList: [],
   currentNoteIndex: 0,
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case types.UPDATE_AUTH_STATE: {
-      return { ...state, loggedIn: action.authState.loggedIn };
+    case types.UPDATE_USER: {
+      return { ...state, user: action.user };
     }
 
     case types.ADD_NEW_NOTE: {
@@ -70,6 +70,21 @@ function rootReducer(state = initialState, action) {
       let newNotesList = [...state.notesList];
       newNotesList[state.currentNoteIndex].title = action.title;
       return { ...state, notesList: newNotesList };
+    }
+
+    case types.STORE_NOTES_LIST: {
+      let newCurrentIndex;
+      for (let i = 0; i < action.notesList.length; i++) {
+        if (action.notesList[i].active) {
+          newCurrentIndex = i;
+        }
+      }
+
+      return {
+        ...state,
+        notesList: action.notesList,
+        currentNoteIndex: newCurrentIndex,
+      };
     }
 
     default:

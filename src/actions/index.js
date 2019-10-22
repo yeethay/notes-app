@@ -1,7 +1,11 @@
 import * as types from './types';
 
-export function updateAuthStateAction(authState) {
-  return { type: types.UPDATE_AUTH_STATE, authState };
+export function updateUserAction(user) {
+  return { type: types.UPDATE_USER, user };
+}
+
+export function updateUserNotesAction(notesList) {
+  return { type: types.STORE_NOTES_LIST, notesList };
 }
 
 export function addNewNoteAction() {

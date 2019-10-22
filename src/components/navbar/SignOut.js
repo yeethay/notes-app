@@ -18,7 +18,7 @@ class SignOut extends Component {
 }
 
 SignOut.propTypes = {
-  firebase: PropTypes.node,
+  firebase: PropTypes.object,
 };
 
 export default withFirebase(SignOut);

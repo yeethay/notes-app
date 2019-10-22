@@ -6,17 +6,8 @@ import NavBar from './components/navbar/NavBar';
 import Navigator from './components/navigator/Navigator';
 import TextEditor from './components/editor/TextEditor';
 import { connect } from 'react-redux';
-import { addNewNoteAction } from './actions';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    if (props.notesList.length === 0) {
-      props.dispatch(addNewNoteAction());
-    }
-  }
-
   render() {
     return (
       <Fragment>
@@ -42,6 +33,7 @@ class App extends Component {
 
 App.propTypes = {
   notesList: PropTypes.array,
+  dispatch: PropTypes.func,
 };
 
 const mapStateToProps = ({ notesList }) => ({

@@ -17,7 +17,7 @@ const ToolbarButton = props => {
 ToolbarButton.propTypes = {
   active: PropTypes.bool,
   onPointerDown: PropTypes.func,
-  icon: PropTypes.node,
+  icon: PropTypes.object,
 };
 
 export default ToolbarButton;
