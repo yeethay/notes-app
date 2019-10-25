@@ -26,7 +26,7 @@ class Item extends Component {
 
 Item.propTypes = {
   active: PropTypes.bool,
-  id: PropTypes.number,
+  id: PropTypes.string,
   title: PropTypes.string,
   preview: PropTypes.string,
 };

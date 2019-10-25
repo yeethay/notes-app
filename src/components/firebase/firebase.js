@@ -22,14 +22,10 @@ class Firebase {
 
         let notesList = await this.getUserNotesFromDB(user);
         if (notesList) {
-          store.dispatch(
-            updateUserNotesAction(
-              notesList.map(note => ({
-                ...note,
-                value: Value.fromJSON(note.value),
-              }))
-            )
+          Object.keys(notesList).map(
+            key => (notesList[key].value = Value.fromJSON(notesList[key].value))
           );
+          store.dispatch(updateUserNotesAction(notesList));
         }
       }
     });

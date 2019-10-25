@@ -32,7 +32,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  notesList: PropTypes.array,
+  notesList: PropTypes.object,
   dispatch: PropTypes.func,
 };
 

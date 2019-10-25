@@ -1,9 +1,10 @@
 import * as types from '../actions/types';
 import initialValue from '../components/editor/initialValue';
+import uuid from 'uuid/v4';
 
 const initialState = {
   user: null,
-  notesList: [],
+  notesList: {},
 };
 
 function rootReducer(state = initialState, action) {
@@ -13,18 +14,16 @@ function rootReducer(state = initialState, action) {
     }
 
     case types.ADD_NEW_NOTE: {
-      let newNotesList = [...state.notesList];
-      for (let i = 0; i < newNotesList.length; i++) {
-        newNotesList[i].active = false;
-      }
-      let newNoteId = state.notesList.length;
-      newNotesList.push({
+      let newNotesList = { ...state.notesList };
+
+      Object.keys(newNotesList).map(key => (newNotesList[key].active = false));
+
+      newNotesList[uuid()] = {
         title: '',
         preview: '',
         value: initialValue,
         active: true,
-        id: newNoteId,
-      });
+      };
 
       return {
         ...state,
@@ -33,14 +32,13 @@ function rootReducer(state = initialState, action) {
     }
 
     case types.SET_NOTE_ACTIVE: {
-      let newNotesList = [...state.notesList];
-      for (let i = 0; i < newNotesList.length; i++) {
-        if (newNotesList[i].id === action.noteId) {
-          newNotesList[i].active = true;
-        } else {
-          newNotesList[i].active = false;
-        }
-      }
+      let newNotesList = { ...state.notesList };
+
+      Object.keys(newNotesList).map(key => (newNotesList[key].active = false));
+      let activeKey = Object.keys(newNotesList).find(
+        key => key === action.noteId
+      );
+      newNotesList[activeKey].active = true;
 
       return {
         ...state,
@@ -49,22 +47,26 @@ function rootReducer(state = initialState, action) {
     }
 
     case types.SET_ACTIVE_NOTE_VALUE: {
-      let newNotesList = [...state.notesList];
-      for (let i = 0; i < newNotesList.length; i++) {
-        if (newNotesList[i].active) {
-          newNotesList[i].value = action.value;
-          let text = action.value.toJSON().document.nodes[0].nodes[0].text;
-          newNotesList[i].preview = text;
-          break;
-        }
-      }
+      let newNotesList = { ...state.notesList };
+
+      let activeKey = Object.keys(newNotesList).find(
+        key => newNotesList[key].active
+      );
+      newNotesList[activeKey].value = action.value;
+      let text = action.value.toJSON().document.nodes[0].nodes[0].text;
+      newNotesList[activeKey].preview = text;
+
       return { ...state, notesList: newNotesList };
     }
 
     case types.SET_NOTE_TITLE: {
-      let newNotesList = [...state.notesList];
-      let currentNote = newNotesList.find(note => note.active);
-      newNotesList[currentNote.id].title = action.title;
+      let newNotesList = { ...state.notesList };
+
+      let activeKey = Object.keys(newNotesList).find(
+        key => newNotesList[key].active
+      );
+      newNotesList[activeKey].title = action.title;
+
       return { ...state, notesList: newNotesList };
     }
 
@@ -73,7 +75,7 @@ function rootReducer(state = initialState, action) {
     }
 
     case types.REMOVE_ALL_NOTES: {
-      return { ...state, notesList: [] };
+      return { ...state, notesList: {} };
     }
 
     default:

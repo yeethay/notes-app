@@ -31,7 +31,7 @@ class TextEditor extends Component {
 
   componentDidUpdate() {
     let { user, notesList, firebase } = this.props;
-    if (user && notesList.length > 0) {
+    if (user && Object.keys(notesList).length > 0) {
       firebase.saveUserNotesToDB(user, notesList);
     }
   }
@@ -41,7 +41,8 @@ class TextEditor extends Component {
   };
 
   getActiveNote = () => {
-    return this.props.notesList.find(note => note.active);
+    let { notesList } = this.props;
+    return Object.values(notesList).find(note => note.active);
   };
 
   // On change, update the app's React state with the new editor value.
@@ -174,7 +175,7 @@ class TextEditor extends Component {
   };
 
   render() {
-    if (this.props.notesList.length < 1) {
+    if (Object.keys(this.props.notesList).length < 1) {
       return null;
     } else {
       return (
@@ -218,7 +219,7 @@ const mapStateToProps = ({ notesList, user }) => ({
 });
 
 TextEditor.propTypes = {
-  notesList: PropTypes.array,
+  notesList: PropTypes.object,
   user: PropTypes.object,
   firebase: PropTypes.object,
   dispatch: PropTypes.func,
