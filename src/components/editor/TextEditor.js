@@ -31,7 +31,7 @@ class TextEditor extends Component {
 
   componentDidUpdate() {
     let { user, notesList, firebase } = this.props;
-    if (notesList.length > 0) {
+    if (user && notesList.length > 0) {
       firebase.saveUserNotesToDB(user, notesList);
     }
   }
@@ -221,6 +221,7 @@ TextEditor.propTypes = {
   notesList: PropTypes.array,
   user: PropTypes.object,
   firebase: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(withFirebase(TextEditor));

@@ -23,3 +23,7 @@ export function setActiveNoteValueAction(value) {
 export function setNoteTitleAction(title) {
   return { type: types.SET_NOTE_TITLE, title };
 }
+
+export function removeAllNotesAction() {
+  return { type: types.REMOVE_ALL_NOTES };
+}

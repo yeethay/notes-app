@@ -26,7 +26,7 @@ class Navigator extends Component {
       <Fragment>
         <NewNoteBtn />
         <div className="notes-list">
-          {this.props.user && this.getListOfItems(this.props.notesList)}
+          {this.getListOfItems(this.props.notesList)}
         </div>
       </Fragment>
     );

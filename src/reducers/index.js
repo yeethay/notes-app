@@ -72,6 +72,10 @@ function rootReducer(state = initialState, action) {
       return { ...state, notesList: action.notesList };
     }
 
+    case types.REMOVE_ALL_NOTES: {
+      return { ...state, notesList: [] };
+    }
+
     default:
       return state;
   }
