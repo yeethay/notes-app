@@ -47,7 +47,10 @@ class TextEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    store.dispatch(setActiveNoteValueAction(value));
+    let activeNoteId = Object.keys(this.props.notesList).find(
+      key => this.props.notesList[key].active === true
+    );
+    store.dispatch(setActiveNoteValueAction({ activeNoteId, value }));
   };
 
   hasBlock = type => {
