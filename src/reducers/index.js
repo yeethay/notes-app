@@ -1,75 +1,93 @@
 import * as types from '../actions/types';
 import initialValue from '../components/editor/initialValue';
+import uuid from 'uuid/v4';
 
 const initialState = {
-  loggedIn: undefined,
-  notesList: [],
-  currentNoteIndex: 0,
+  user: null,
+  notesList: {},
 };
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case types.UPDATE_AUTH_STATE: {
-      return { ...state, loggedIn: action.authState.loggedIn };
+    case types.UPDATE_USER: {
+      return { ...state, user: action.user };
     }
 
     case types.ADD_NEW_NOTE: {
-      let newNotesList = [...state.notesList];
-      for (let i = 0; i < newNotesList.length; i++) {
-        newNotesList[i].active = false;
-      }
-      let newNoteId = state.notesList.length;
-      newNotesList.push({
-        title: '',
-        preview: '',
-        value: initialValue,
-        active: true,
-        id: newNoteId,
-      });
-
       return {
         ...state,
-        notesList: newNotesList,
-        currentNoteIndex: newNoteId,
+        notesList: {
+          ...Object.keys(state.notesList).reduce((result, key) => {
+            result[key] = state.notesList[key];
+            result[key].active = false;
+            return result;
+          }, {}),
+          [uuid()]: {
+            title: '',
+            preview: '',
+            value: initialValue,
+            active: true,
+          },
+        },
       };
     }
 
     case types.SET_NOTE_ACTIVE: {
-      let newNotesList = [...state.notesList];
-      let noteIndex;
-      for (let i = 0; i < newNotesList.length; i++) {
-        if (newNotesList[i].id === action.noteId) {
-          newNotesList[i].active = true;
-          noteIndex = i;
-        } else {
-          newNotesList[i].active = false;
-        }
-      }
-
       return {
         ...state,
-        notesList: newNotesList,
-        currentNoteIndex: noteIndex,
+        notesList: {
+          ...Object.keys(state.notesList).reduce((result, key) => {
+            result[key] = state.notesList[key];
+            result[key].active = false;
+            return result;
+          }, {}),
+          [action.noteId]: {
+            ...state.notesList[action.noteId],
+            active: true,
+          },
+        },
       };
     }
 
     case types.SET_ACTIVE_NOTE_VALUE: {
-      let newNotesList = [...state.notesList];
-      for (let i = 0; i < newNotesList.length; i++) {
-        if (newNotesList[i].active) {
-          newNotesList[i].value = action.value;
-          let text = action.value.toJSON().document.nodes[0].nodes[0].text;
-          newNotesList[i].preview = text;
-          break;
-        }
-      }
-      return { ...state, notesList: newNotesList };
+      return {
+        ...state,
+        notesList: {
+          ...state.notesList,
+          [action.activeNoteId]: {
+            ...state.notesList[action.activeNoteId],
+            value: action.value,
+            preview: action.value.toJSON().document.nodes[0].nodes[0].text,
+          },
+        },
+      };
     }
 
     case types.SET_NOTE_TITLE: {
-      let newNotesList = [...state.notesList];
-      newNotesList[state.currentNoteIndex].title = action.title;
-      return { ...state, notesList: newNotesList };
+      return {
+        ...state,
+        notesList: {
+          ...state.notesList,
+          [action.activeNoteId]: {
+            ...state.notesList[action.activeNoteId],
+            title: action.title,
+          },
+        },
+      };
+    }
+
+    case types.STORE_NOTES_LIST: {
+      return {
+        ...state,
+        notesList: action.notesList,
+      };
+    }
+
+    case types.REMOVE_ALL_NOTES: {
+      return {
+        ...state,
+        notesList: {},
+      };
     }
 
     default:

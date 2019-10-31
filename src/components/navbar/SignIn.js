@@ -19,7 +19,7 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  firebase: PropTypes.node,
+  firebase: PropTypes.object,
 };
 
 export default withFirebase(SignIn);

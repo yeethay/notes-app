@@ -6,7 +6,7 @@ const NumberedList = props => {
 };
 
 NumberedList.propTypes = {
-  attributes: PropTypes.node,
+  attributes: PropTypes.object,
   children: PropTypes.node,
 };
 

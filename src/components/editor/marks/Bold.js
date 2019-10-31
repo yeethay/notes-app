@@ -6,7 +6,7 @@ const BoldMark = props => (
 );
 
 BoldMark.propTypes = {
-  attributes: PropTypes.node,
+  attributes: PropTypes.object,
   children: PropTypes.node,
 };
 

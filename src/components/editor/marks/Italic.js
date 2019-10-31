@@ -8,7 +8,7 @@ const ItalicMark = props => (
 );
 
 ItalicMark.propTypes = {
-  attributes: PropTypes.node,
+  attributes: PropTypes.object,
   children: PropTypes.node,
 };
 

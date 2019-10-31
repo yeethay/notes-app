@@ -7,17 +7,17 @@ import NewNoteBtn from './NewNoteBtn';
 class Navigator extends Component {
   getListOfItems(notesList) {
     let list = [];
-    for (let note of notesList) {
+    Object.keys(notesList).map(key =>
       list.push(
         <Item
-          title={note.title || 'Untitled note'}
-          preview={note.preview}
-          active={note.active}
-          id={note.id}
-          key={note.id}
+          title={notesList[key].title || 'Untitled note'}
+          preview={notesList[key].preview}
+          active={notesList[key].active}
+          id={key}
+          key={key}
         />
-      );
-    }
+      )
+    );
     return list;
   }
 
@@ -34,12 +34,10 @@ class Navigator extends Component {
 }
 
 Navigator.propTypes = {
-  notesList: PropTypes.array,
+  notesList: PropTypes.object,
+  user: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList,
-  };
-};
+const mapStateToProps = ({ notesList, user }) => ({ notesList, user });
+
 export default connect(mapStateToProps)(Navigator);

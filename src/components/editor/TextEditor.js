@@ -4,6 +4,7 @@ import { Editor } from 'slate-react';
 import store from '../../store';
 import { connect } from 'react-redux';
 import { setActiveNoteValueAction } from '../../actions';
+import { withFirebase } from '../firebase';
 
 import * as blocks from './blocks';
 import * as marks from './marks';
@@ -28,17 +29,28 @@ class TextEditor extends Component {
     ];
   }
 
+  componentDidUpdate() {
+    let { user, notesList, firebase } = this.props;
+    if (user && Object.keys(notesList).length > 0) {
+      firebase.saveUserNotesToDB(user, notesList);
+    }
+  }
+
   ref = editor => {
     this.editor = editor;
   };
 
   getActiveNote = () => {
-    return this.props.notesList[this.props.currentNoteIndex];
+    let { notesList } = this.props;
+    return Object.values(notesList).find(note => note.active);
   };
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    store.dispatch(setActiveNoteValueAction(value));
+    let activeNoteId = Object.keys(this.props.notesList).find(
+      key => this.props.notesList[key].active === true
+    );
+    store.dispatch(setActiveNoteValueAction({ activeNoteId, value }));
   };
 
   hasBlock = type => {
@@ -166,50 +178,54 @@ class TextEditor extends Component {
   };
 
   render() {
-    return (
-      <Fragment>
-        <Toolbar>
-          {this.renderMarkButton('bold', icons.ic_format_bold)}
-          {this.renderMarkButton('italic', icons.ic_format_italic)}
-          {this.renderMarkButton('underline', icons.ic_format_underlined)}
-          {this.renderMarkButton('code', icons.ic_code)}
-          {this.renderBlockButton('block-quote', icons.ic_format_quote)}
-          {this.renderBlockButton(
-            'bulleted-list',
-            icons.ic_format_list_bulleted
-          )}
-          {this.renderBlockButton(
-            'numbered-list',
-            icons.ic_format_list_numbered
-          )}
-          {this.renderBlockButton('heading-one', icons.ic_looks_one)}
-          {this.renderBlockButton('heading-two', icons.ic_looks_two)}
-        </Toolbar>
-        <Title text={this.getActiveNote().title} />
-        <Editor
-          ref={this.ref}
-          plugins={this.pluginList}
-          value={this.getActiveNote().value}
-          onChange={this.onChange}
-          renderBlock={this.renderBlock}
-          renderMark={this.renderMark}
-          autoFocus={true}
-        />
-      </Fragment>
-    );
+    if (Object.keys(this.props.notesList).length < 1) {
+      return null;
+    } else {
+      return (
+        <Fragment>
+          <Toolbar>
+            {this.renderMarkButton('bold', icons.ic_format_bold)}
+            {this.renderMarkButton('italic', icons.ic_format_italic)}
+            {this.renderMarkButton('underline', icons.ic_format_underlined)}
+            {this.renderMarkButton('code', icons.ic_code)}
+            {this.renderBlockButton('block-quote', icons.ic_format_quote)}
+            {this.renderBlockButton(
+              'bulleted-list',
+              icons.ic_format_list_bulleted
+            )}
+            {this.renderBlockButton(
+              'numbered-list',
+              icons.ic_format_list_numbered
+            )}
+            {this.renderBlockButton('heading-one', icons.ic_looks_one)}
+            {this.renderBlockButton('heading-two', icons.ic_looks_two)}
+          </Toolbar>
+          <Title text={this.getActiveNote().title} />
+          <Editor
+            ref={this.ref}
+            plugins={this.pluginList}
+            value={this.getActiveNote().value}
+            onChange={this.onChange}
+            renderBlock={this.renderBlock}
+            renderMark={this.renderMark}
+            autoFocus={true}
+          />
+        </Fragment>
+      );
+    }
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    notesList: state.notesList,
-    currentNoteIndex: state.currentNoteIndex,
-  };
-};
+const mapStateToProps = ({ notesList, user }) => ({
+  notesList,
+  user,
+});
 
 TextEditor.propTypes = {
-  notesList: PropTypes.array,
-  currentNoteIndex: PropTypes.number,
+  notesList: PropTypes.object,
+  user: PropTypes.object,
+  firebase: PropTypes.object,
+  dispatch: PropTypes.func,
 };
 
-export default connect(mapStateToProps)(TextEditor);
+export default connect(mapStateToProps)(withFirebase(TextEditor));
