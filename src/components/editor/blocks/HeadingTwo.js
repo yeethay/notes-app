@@ -6,7 +6,7 @@ const HeadingTwo = props => {
 };
 
 HeadingTwo.propTypes = {
-  attributes: PropTypes.node,
+  attributes: PropTypes.object,
   children: PropTypes.node,
 };
 

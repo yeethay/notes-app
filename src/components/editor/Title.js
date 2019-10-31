@@ -17,13 +17,13 @@ const Title = props => {
 };
 
 const onChange = (props, event) => {
-  let newValue = event.target.value;
+  let title = event.target.value;
 
   let activeNoteId = Object.keys(props.notesList).find(
     key => props.notesList[key].active === true
   );
 
-  props.dispatch(setNoteTitleAction({ activeNoteId, newValue }));
+  props.dispatch(setNoteTitleAction({ activeNoteId, title }));
 };
 
 const onKeyDown = event => {

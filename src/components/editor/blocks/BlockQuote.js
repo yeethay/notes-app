@@ -6,7 +6,7 @@ const BlockQuote = props => {
 };
 
 BlockQuote.propTypes = {
-  attributes: PropTypes.node,
+  attributes: PropTypes.object,
   children: PropTypes.node,
 };
 
