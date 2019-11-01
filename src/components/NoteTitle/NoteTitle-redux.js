@@ -1,4 +1,6 @@
-import NoteTitle from "./NoteTitle-view";
-import { connect } from "react-redux";
+import NoteTitle from './NoteTitle-view';
+import { connect } from 'react-redux';
 
-export default connect()(NoteTitle);
+const mapStateToProps = notesList => notesList;
+
+export default connect(mapStateToProps)(NoteTitle);

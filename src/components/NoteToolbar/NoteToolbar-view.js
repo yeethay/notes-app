@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import "./NoteToolbar.css";
+import './NoteToolbar.css';
 
 class NoteToolbar extends Component {
   render() {

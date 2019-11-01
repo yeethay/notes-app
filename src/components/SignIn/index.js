@@ -1,3 +1,3 @@
-import SignIn from "./SignIn-firebase";
+import SignIn from './SignIn-firebase';
 
 export default SignIn;

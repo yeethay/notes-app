@@ -1,9 +1,6 @@
-import NoteEditor from "./NoteEditor-view";
-import { connect } from "react-redux";
+import NoteEditor from './NoteEditor-firebase';
+import { connect } from 'react-redux';
 
-const mapStateToProps = ({ notesList, currentNoteIndex }) => ({
-  notesList,
-  currentNoteIndex
-});
+const mapStateToProps = ({ notesList, user }) => ({ notesList, user });
 
 export default connect(mapStateToProps)(NoteEditor);

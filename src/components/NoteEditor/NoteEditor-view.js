@@ -1,26 +1,36 @@
-import React, { Component, Fragment } from "react";
-import { Editor } from "slate-react";
-import { setActiveNoteValueAction } from "../../actions";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Editor } from 'slate-react';
+import { connect } from 'react-redux';
+import { setActiveNoteValueAction } from '../../actions';
+import { withFirebase } from '../../utils/firebase';
 
-import * as icons from "../../utils/icons";
-import * as plugins from "../../utils/slate/plugins";
-import NoteToolbar from "../NoteToolbar";
-import ToolbarButton from "../ToolbarButton";
-import NoteTitle from "../NoteTitle";
+import * as icons from '../../utils/icons';
+import * as plugins from '../../utils/slate/plugins';
+import NoteToolbar from '../NoteToolbar';
+import ToolbarButton from '../ToolbarButton';
+import NoteTitle from '../NoteTitle';
 
-import "./NoteEditor.css";
+import './NoteEditor.css';
 
-const DEFAULT_NODE = "paragraph";
+const DEFAULT_NODE = 'paragraph';
 
 class NoteEditor extends Component {
   constructor(props) {
     super(props);
 
     this.pluginList = [
-      plugins.MarkHotKey({ key: "b", type: "bold" }),
-      plugins.MarkHotKey({ key: "i", type: "italic" }),
-      plugins.MarkHotKey({ key: "u", type: "underline" })
+      plugins.MarkHotKey({ key: 'b', type: 'bold' }),
+      plugins.MarkHotKey({ key: 'i', type: 'italic' }),
+      plugins.MarkHotKey({ key: 'u', type: 'underline' }),
     ];
+  }
+
+  componentDidUpdate() {
+    let { user, notesList, firebase } = this.props;
+    if (user && Object.keys(notesList).length > 0) {
+      firebase.saveUserNotesToDB(user, notesList);
+    }
   }
 
   ref = editor => {
@@ -28,12 +38,16 @@ class NoteEditor extends Component {
   };
 
   getActiveNote = () => {
-    return this.props.notesList[this.props.currentNoteIndex];
+    let { notesList } = this.props;
+    return Object.values(notesList).find(note => note.active);
   };
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    this.props.dispatch(setActiveNoteValueAction(value));
+    let activeNoteId = Object.keys(this.props.notesList).find(
+      key => this.props.notesList[key].active === true
+    );
+    this.props.dispatch(setActiveNoteValueAction({ activeNoteId, value }));
   };
 
   hasBlock = type => {
@@ -54,21 +68,21 @@ class NoteEditor extends Component {
     const { document } = value;
 
     // Handle everything but list buttons.
-    if (type !== "bulleted-list" && type !== "numbered-list") {
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
       const isActive = this.hasBlock(type);
-      const isList = this.hasBlock("list-item");
+      const isList = this.hasBlock('list-item');
 
       if (isList) {
         editor
           .setBlocks(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else {
         editor.setBlocks(isActive ? DEFAULT_NODE : type);
       }
     } else {
       // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock("list-item");
+      const isList = this.hasBlock('list-item');
       const isType = value.blocks.some(block => {
         return !!document.getClosest(block.key, parent => parent.type === type);
       });
@@ -76,16 +90,16 @@ class NoteEditor extends Component {
       if (isList && isType) {
         editor
           .setBlocks(DEFAULT_NODE)
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else if (isList) {
         editor
           .unwrapBlock(
-            type === "bulleted-list" ? "numbered-list" : "bulleted-list"
+            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
           )
           .wrapBlock(type);
       } else {
-        editor.setBlocks("list-item").wrapBlock(type);
+        editor.setBlocks('list-item').wrapBlock(type);
       }
     }
   };
@@ -97,17 +111,17 @@ class NoteEditor extends Component {
 
   renderBlock = (props, editor, next) => {
     switch (props.node.type) {
-      case "heading-one":
+      case 'heading-one':
         return <h1 {...props}>{props.children}</h1>;
-      case "heading-two":
+      case 'heading-two':
         return <h2 {...props.attributes}>{props.children}</h2>;
-      case "bulleted-list":
+      case 'bulleted-list':
         return <ul {...props.attributes}>{props.children}</ul>;
-      case "numbered-list":
+      case 'numbered-list':
         return <ol {...props.attributes}>{props.children}</ol>;
-      case "list-item":
+      case 'list-item':
         return <li {...props.attributes}>{props.children}</li>;
-      case "block-quote":
+      case 'block-quote':
         return <blockquote {...props.attributes}>{props.children}</blockquote>;
       default:
         return next();
@@ -116,17 +130,17 @@ class NoteEditor extends Component {
 
   renderMark = (props, editor, next) => {
     switch (props.mark.type) {
-      case "bold":
+      case 'bold':
         return <strong {...props.attributes}>{props.children}</strong>;
-      case "italic":
+      case 'italic':
         return (
           <em property="italic" {...props.attributes}>
             {props.children}
           </em>
         );
-      case "code":
+      case 'code':
         return <code {...props.attributes}>{props.children}</code>;
-      case "underline":
+      case 'underline':
         return <u {...props.attributes}>{props.children}</u>;
       default: {
         return next();
@@ -147,11 +161,11 @@ class NoteEditor extends Component {
   renderBlockButton = (type, icon) => {
     let isActive = this.hasBlock(type);
 
-    if (["numbered-list", "bulleted-list"].includes(type)) {
+    if (['numbered-list', 'bulleted-list'].includes(type)) {
       let { document, blocks } = this.getActiveNote().value;
       if (blocks.size > 0) {
         const parent = document.getParent(blocks.first().key);
-        isActive = this.hasBlock("list-item") && parent && parent.type === type;
+        isActive = this.hasBlock('list-item') && parent && parent.type === type;
       }
     }
 
@@ -165,38 +179,49 @@ class NoteEditor extends Component {
   };
 
   render() {
-    return (
-      <Fragment>
-        <NoteToolbar>
-          {this.renderMarkButton("bold", icons.ic_format_bold)}
-          {this.renderMarkButton("italic", icons.ic_format_italic)}
-          {this.renderMarkButton("underline", icons.ic_format_underlined)}
-          {this.renderMarkButton("code", icons.ic_code)}
-          {this.renderBlockButton("block-quote", icons.ic_format_quote)}
-          {this.renderBlockButton(
-            "bulleted-list",
-            icons.ic_format_list_bulleted
-          )}
-          {this.renderBlockButton(
-            "numbered-list",
-            icons.ic_format_list_numbered
-          )}
-          {this.renderBlockButton("heading-one", icons.ic_looks_one)}
-          {this.renderBlockButton("heading-two", icons.ic_looks_two)}
-        </NoteToolbar>
-        <NoteTitle text={this.getActiveNote().title} />
-        <Editor
-          ref={this.ref}
-          plugins={this.pluginList}
-          value={this.getActiveNote().value}
-          onChange={this.onChange}
-          renderBlock={this.renderBlock}
-          renderMark={this.renderMark}
-          autoFocus={true}
-        />
-      </Fragment>
-    );
+    if (Object.keys(this.props.notesList).length < 1) {
+      return null;
+    } else {
+      return (
+        <Fragment>
+          <NoteToolbar>
+            {this.renderMarkButton('bold', icons.ic_format_bold)}
+            {this.renderMarkButton('italic', icons.ic_format_italic)}
+            {this.renderMarkButton('underline', icons.ic_format_underlined)}
+            {this.renderMarkButton('code', icons.ic_code)}
+            {this.renderBlockButton('block-quote', icons.ic_format_quote)}
+            {this.renderBlockButton(
+              'bulleted-list',
+              icons.ic_format_list_bulleted
+            )}
+            {this.renderBlockButton(
+              'numbered-list',
+              icons.ic_format_list_numbered
+            )}
+            {this.renderBlockButton('heading-one', icons.ic_looks_one)}
+            {this.renderBlockButton('heading-two', icons.ic_looks_two)}
+          </NoteToolbar>
+          <NoteTitle text={this.getActiveNote().title} />
+          <Editor
+            ref={this.ref}
+            plugins={this.pluginList}
+            value={this.getActiveNote().value}
+            onChange={this.onChange}
+            renderBlock={this.renderBlock}
+            renderMark={this.renderMark}
+            autoFocus={true}
+          />
+        </Fragment>
+      );
+    }
   }
 }
+
+NoteEditor.propTypes = {
+  notesList: PropTypes.object,
+  user: PropTypes.object,
+  firebase: PropTypes.object,
+  dispatch: PropTypes.func,
+};
 
 export default NoteEditor;

@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import firebase from "firebase/app";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import firebase from 'firebase/app';
 
 class SignIn extends Component {
   onClick = () => {
@@ -15,5 +16,9 @@ class SignIn extends Component {
     );
   }
 }
+
+SignIn.propTypes = {
+  firebase: PropTypes.object,
+};
 
 export default SignIn;

@@ -1,3 +1,3 @@
-import SignOut from "./SignOut-firebase";
+import SignOut from './SignOut-redux';
 
 export default SignOut;

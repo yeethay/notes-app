@@ -1,18 +1,18 @@
-import { Value } from "slate";
+import { Value } from 'slate';
 
 export default Value.fromJSON({
   document: {
     nodes: [
       {
-        object: "block",
-        type: "paragraph",
+        object: 'block',
+        type: 'paragraph',
         nodes: [
           {
-            object: "text",
-            text: ""
-          }
-        ]
-      }
-    ]
-  }
+            object: 'text',
+            text: '',
+          },
+        ],
+      },
+    ],
+  },
 });

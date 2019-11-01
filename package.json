@@ -53,6 +53,8 @@
     "babel-jest": "^24.8.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.0.1",
     "jest-transform-css": "^2.0.0",
     "redux-logger": "^3.0.6"

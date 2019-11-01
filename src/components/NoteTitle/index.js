@@ -1,3 +1,3 @@
-import NoteTitle from "./NoteTitle-redux";
+import NoteTitle from './NoteTitle-redux';
 
 export default NoteTitle;

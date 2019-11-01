@@ -1,7 +1,7 @@
-import React from "react";
-import Enzyme, { shallow } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import NoteToolbar from "./NoteToolbar-view";
+import React from 'react';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import NoteToolbar from './NoteToolbar-view';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -12,9 +12,9 @@ function setup() {
   return { props, wrapper };
 }
 
-describe("NoteToolbar component", () => {
-  it("should render", () => {
+describe('NoteToolbar component', () => {
+  it('should render', () => {
     const { wrapper } = setup();
-    expect(wrapper.find(".format-toolbar")).toBeDefined();
+    expect(wrapper.find('.format-toolbar')).toBeDefined();
   });
 });

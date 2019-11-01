@@ -1,117 +1,87 @@
-import rootReducer from ".";
-import * as actions from "../actions";
-import initialValue from "../utils/slate/initialValue";
+import rootReducer, { initialState } from '.';
+import * as actions from '../actions';
+import initialValue from '../utils/slate/initialValue';
+import uuid from 'uuid/v4';
 
-describe("root reducer", () => {
-  it("should return the initial state", () => {
-    let initialState = {
-      loggedIn: undefined,
-      notesList: [],
-      currentNoteIndex: 0
-    };
+describe('root reducer', () => {
+  it('should return the initial state', () => {
     expect(rootReducer(undefined, {})).toEqual(initialState);
   });
 
-  it("should update auth state", () => {
-    let initialState = {
-      loggedIn: undefined,
-      notesList: [],
-      currentNoteIndex: 0
-    };
+  it('should update user', () => {
     expect(
-      rootReducer(
-        initialState,
-        actions.updateAuthStateAction({ loggedIn: true })
-      )
-    ).toEqual({ ...initialState, loggedIn: true });
+      rootReducer(initialState, actions.updateUserAction({ name: 'henry' }))
+    ).toEqual({ ...initialState, user: { name: 'henry' } });
 
     expect(
-      rootReducer(
-        initialState,
-        actions.updateAuthStateAction({ loggedIn: false })
-      )
-    ).toEqual({ ...initialState, loggedIn: false });
+      rootReducer(initialState, actions.updateUserAction(undefined))
+    ).toEqual({ ...initialState, user: undefined });
   });
 
-  it("should add a new note when none exist", () => {
-    let initialState = {
-      loggedIn: undefined,
-      notesList: [],
-      currentNoteIndex: 0
-    };
+  it('should add a new note', () => {
     let newState = rootReducer(initialState, actions.addNewNoteAction());
 
-    expect(newState.notesList.length).toEqual(1);
-    expect(newState.notesList[0]).toEqual({
-      title: "",
-      preview: "",
+    expect(Object.keys(newState.notesList).length).toEqual(1);
+    let activeKey = Object.keys(newState.notesList).find(
+      key => newState.notesList[key].active
+    );
+    expect(newState.notesList[activeKey]).toEqual({
+      title: '',
+      preview: '',
       value: initialValue,
       active: true,
-      id: 0
     });
   });
 
-  it("should add a new note when there is already an existing one", () => {
+  it('should set a note active', () => {
     let initialState = {
-      notesList: [
-        {
-          title: "",
-          preview: "",
-          value: initialValue,
+      notesList: {
+        first: {
           active: true,
-          id: 0
-        }
-      ]
-    };
-    let newState = rootReducer(initialState, actions.addNewNoteAction());
-
-    expect(newState.notesList.length).toEqual(2);
-    expect(newState.notesList).toEqual([
-      {
-        title: "",
-        preview: "",
-        value: initialValue,
-        active: false,
-        id: 0
+        },
+        second: {
+          active: false,
+        },
       },
-      {
-        title: "",
-        preview: "",
-        value: initialValue,
-        active: true,
-        id: 1
-      }
-    ]);
+    };
+    let expectedState = {
+      notesList: {
+        first: {
+          active: false,
+        },
+        second: {
+          active: true,
+        },
+      },
+    };
+    expect(
+      rootReducer(initialState, actions.setNoteActiveAction('second'))
+    ).toEqual(expectedState);
   });
 
-  it("should set a note active", () => {
+  it('should change the title of a note', () => {
+    let activeNoteId = uuid();
     let initialState = {
-      notesList: [{ active: true, id: 0 }, { active: false, id: 1 }],
-      currentNoteIndex: 0
+      notesList: {
+        [activeNoteId]: {
+          title: 'Before',
+        },
+      },
     };
 
     let expectedState = {
-      notesList: [{ active: false, id: 0 }, { active: true, id: 1 }],
-      currentNoteIndex: 1
-    };
-    expect(rootReducer(initialState, actions.setNoteActiveAction(1))).toEqual(
-      expectedState
-    );
-  });
-
-  it("should change the title of a note", () => {
-    let initialState = {
-      notesList: [{ title: "Before", id: 0 }],
-      currentNoteIndex: 0
-    };
-
-    let expectedState = {
-      notesList: [{ title: "After", id: 0 }],
-      currentNoteIndex: 0
+      notesList: {
+        [activeNoteId]: {
+          title: 'After',
+        },
+      },
     };
 
     expect(
-      rootReducer(initialState, actions.setNoteTitleAction("After"))
+      rootReducer(
+        initialState,
+        actions.setNoteTitleAction({ activeNoteId, title: 'After' })
+      )
     ).toEqual(expectedState);
   });
 });

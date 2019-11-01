@@ -1,3 +1,3 @@
-import NavBar from "./NavBar-redux";
+import NavBar from './NavBar-redux';
 
 export default NavBar;

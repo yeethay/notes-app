@@ -1,49 +1,56 @@
-import * as actions from ".";
-import * as types from "./types";
+import * as actions from '.';
+import * as types from './types';
+import uuid from 'uuid/v4';
 
-describe("actions", () => {
-  it("should create an action to update auth state", () => {
-    const authState = {
-      loggedIn: true
-    };
+describe('actions', () => {
+  it('should create an action to update user', () => {
+    const user = {};
     const expectedAction = {
-      type: types.UPDATE_AUTH_STATE,
-      authState
+      type: types.UPDATE_USER,
+      user,
     };
-    expect(actions.updateAuthStateAction(authState)).toEqual(expectedAction);
+    expect(actions.updateUserAction(user)).toEqual(expectedAction);
   });
 
-  it("should create an action to add a new note", () => {
+  it('should create an action to add a new note', () => {
     const expectedAction = {
-      type: types.ADD_NEW_NOTE
+      type: types.ADD_NEW_NOTE,
     };
     expect(actions.addNewNoteAction()).toEqual(expectedAction);
   });
 
-  it("should create an action to set a note active", () => {
+  it('should create an action to set a note active', () => {
     let noteId = 0;
     const expectedAction = {
       type: types.SET_NOTE_ACTIVE,
-      noteId
+      noteId,
     };
     expect(actions.setNoteActiveAction(noteId)).toEqual(expectedAction);
   });
 
-  it("should create an action to set a note's value", () => {
+  it('should create an action to set a note value', () => {
     let value = {};
+    let activeNoteId = uuid();
     const expectedAction = {
       type: types.SET_ACTIVE_NOTE_VALUE,
-      value
+      value,
+      activeNoteId,
     };
-    expect(actions.setActiveNoteValueAction(value)).toEqual(expectedAction);
+    expect(actions.setActiveNoteValueAction({ activeNoteId, value })).toEqual(
+      expectedAction
+    );
   });
 
-  it("should create an action to set a note's title", () => {
-    let title = "Title";
+  it('should create an action to set a note title', () => {
+    let title = 'Title';
+    let activeNoteId = uuid();
     const expectedAction = {
       type: types.SET_NOTE_TITLE,
-      title
+      activeNoteId,
+      title,
     };
-    expect(actions.setNoteTitleAction(title)).toEqual(expectedAction);
+    expect(actions.setNoteTitleAction({ activeNoteId, title })).toEqual(
+      expectedAction
+    );
   });
 });

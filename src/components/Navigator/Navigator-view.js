@@ -1,39 +1,41 @@
-import React, { Component } from "react";
-import NavigatorItem from "../NavigatorItem";
-import NewNoteButton from "../NewNoteButton";
-import { addNewNoteAction } from "../../actions";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import NavigatorItem from '../NavigatorItem';
+import NewNoteButton from '../NewNoteButton';
 
 class Navigator extends Component {
-  componentWillMount() {
-    if (this.props.notesList.length === 0) {
-      this.props.dispatch(addNewNoteAction());
-    }
-  }
-
   getListOfItems(notesList) {
     let list = [];
-    for (let note of notesList) {
+    Object.keys(notesList).map(key =>
       list.push(
         <NavigatorItem
-          title={note.title || "Untitled note"}
-          preview={note.preview}
-          active={note.active}
-          id={note.id}
-          key={note.id}
+          title={notesList[key].title || 'Untitled note'}
+          preview={notesList[key].preview}
+          active={notesList[key].active}
+          id={key}
+          key={key}
         />
-      );
-    }
+      )
+    );
     return list;
   }
 
   render() {
     return (
-      <div>
+      <Fragment>
         <NewNoteButton />
-        {this.getListOfItems(this.props.notesList)}
-      </div>
+        <div className="notes-list">
+          {this.getListOfItems(this.props.notesList)}
+        </div>
+      </Fragment>
     );
   }
 }
+
+Navigator.propTypes = {
+  notesList: PropTypes.object,
+  user: PropTypes.object,
+};
 
 export default Navigator;

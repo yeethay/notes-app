@@ -1,3 +1,3 @@
-import NoteEditor from "./NoteEditor-redux";
+import NoteEditor from './NoteEditor-redux';
 
 export default NoteEditor;

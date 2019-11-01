@@ -1,8 +1,8 @@
-import React from "react";
-import Enzyme, { shallow } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import NewNoteButton from "./NewNoteButton-view";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import NewNoteButton from './NewNoteButton-view';
+import Button from 'react-bootstrap/Button';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -12,9 +12,9 @@ function setup() {
   return { wrapper };
 }
 
-describe("NewNoteButton component", () => {
-  it("should render the new note button", () => {
+describe('NewNoteButton component', () => {
+  it('should render the new note button', () => {
     const { wrapper } = setup();
-    expect(wrapper.find(Button).hasClass("new-note-btn")).toBe(true);
+    expect(wrapper.find(Button).hasClass('new-note-btn')).toBe(true);
   });
 });
