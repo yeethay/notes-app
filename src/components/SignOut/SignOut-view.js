@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import { withFirebase } from '../../utils/firebase';
 import { removeAllNotesAction } from '../../actions';
 
 class SignOut extends Component {

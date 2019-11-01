@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { connect } from 'react-redux';
 import { setActiveNoteValueAction } from '../../actions';
-import { withFirebase } from '../../utils/firebase';
 
 import * as icons from '../../utils/icons';
 import * as plugins from '../../utils/slate/plugins';

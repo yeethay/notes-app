@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import NavigatorItem from '../NavigatorItem';
 import NewNoteButton from '../NewNoteButton';
 
