@@ -53,4 +53,26 @@ describe('actions', () => {
       expectedAction
     );
   });
+
+  it('should create an action to update user notes', () => {
+    const notesList = {
+      [uuid()]: {
+        title: '',
+        preview: '',
+        active: true,
+      },
+    };
+    const expectedAction = {
+      type: types.STORE_NOTES_LIST,
+      notesList,
+    };
+    expect(actions.updateUserNotesAction(notesList)).toEqual(expectedAction);
+  });
+
+  it('should create an action to remove all notes', () => {
+    const expectedAction = {
+      type: types.REMOVE_ALL_NOTES,
+    };
+    expect(actions.removeAllNotesAction()).toEqual(expectedAction);
+  });
 });

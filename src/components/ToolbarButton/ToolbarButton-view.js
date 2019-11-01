@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from 'react-icons-kit';
 import classNames from 'classnames';
+import './ToolbarButton.css';
 
 const ToolbarButton = props => {
   let classes = classNames('tooltip-icon-button', {

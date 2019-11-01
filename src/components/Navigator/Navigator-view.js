@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import NavigatorItem from '../NavigatorItem';
 import NewNoteButton from '../NewNoteButton';
+import './Navigator.css';
 
 class Navigator extends Component {
   getListOfItems(notesList) {

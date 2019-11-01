@@ -1,3 +1,3 @@
-import ToolbarButton from './ToolbarButton';
+import ToolbarButton from './ToolbarButton-view';
 
 export default ToolbarButton;

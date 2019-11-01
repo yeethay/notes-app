@@ -59,6 +59,35 @@ describe('root reducer', () => {
     ).toEqual(expectedState);
   });
 
+  it('should set the active note value', () => {
+    let activeNoteId = uuid();
+    let initialState = {
+      notesList: {
+        [activeNoteId]: {
+          value: undefined,
+          preview: 'to be removed',
+          active: true,
+        },
+      },
+    };
+    let expectedState = {
+      notesList: {
+        [activeNoteId]: {
+          value: initialValue,
+          preview: '',
+          active: true,
+        },
+      },
+    };
+
+    expect(
+      rootReducer(
+        initialState,
+        actions.setActiveNoteValueAction({ activeNoteId, value: initialValue })
+      )
+    ).toEqual(expectedState);
+  });
+
   it('should change the title of a note', () => {
     let activeNoteId = uuid();
     let initialState = {
@@ -83,5 +112,47 @@ describe('root reducer', () => {
         actions.setNoteTitleAction({ activeNoteId, title: 'After' })
       )
     ).toEqual(expectedState);
+  });
+
+  it('should update the notes list', () => {
+    let expectedState = {
+      notesList: {
+        note: 'fake note',
+      },
+      user: null,
+    };
+
+    expect(
+      rootReducer(
+        initialState,
+        actions.updateUserNotesAction({ note: 'fake note' })
+      )
+    ).toEqual(expectedState);
+  });
+
+  it('should update the notes list', () => {
+    let initialState = {
+      notesList: {
+        [uuid()]: {
+          title: '',
+          preview: '',
+          active: false,
+          value: initialValue,
+        },
+        [uuid()]: {
+          title: '',
+          preview: '',
+          active: true,
+          value: initialValue,
+        },
+      },
+    };
+    let expectedState = {
+      notesList: {},
+    };
+
+    expect(rootReducer(initialState, actions.removeAllNotesAction())).toEqual(
+      expectedState
+    );
   });
 });

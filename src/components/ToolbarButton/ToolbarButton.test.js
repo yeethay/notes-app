@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import ToolbarButton from '../ToolbarButton';
+import ToolbarButton from '.';
 import { ic_format_bold } from '../../utils/icons';
 import Icon from 'react-icons-kit';
 

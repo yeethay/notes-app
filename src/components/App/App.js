@@ -16,7 +16,7 @@ const App = () => (
           </div>
         </Col>
         <Col sm={9} md={9} lg={9}>
-          <div className="text-editor">
+          <div className="note-editor">
             <NoteEditor />
           </div>
         </Col>
