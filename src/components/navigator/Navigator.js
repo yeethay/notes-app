@@ -7,17 +7,21 @@ import NewNoteBtn from './NewNoteBtn';
 class Navigator extends Component {
   getListOfItems(notesList) {
     let list = [];
-    Object.keys(notesList).map(key =>
-      list.push(
-        <Item
-          title={notesList[key].title || 'Untitled note'}
-          preview={notesList[key].preview}
-          active={notesList[key].active}
-          id={key}
-          key={key}
-        />
+    Object.keys(notesList)
+      .sort((a, b) =>
+        notesList[a].lastModified < notesList[b].lastModified ? 1 : -1
       )
-    );
+      .map(key =>
+        list.push(
+          <Item
+            title={notesList[key].title || 'Untitled note'}
+            preview={notesList[key].preview}
+            active={notesList[key].active}
+            id={key}
+            key={key}
+          />
+        )
+      );
     return list;
   }
 
