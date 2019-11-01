@@ -45,7 +45,6 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-export-default-from": "^7.5.2",
@@ -54,8 +53,6 @@
     "babel-jest": "^24.8.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-=======
->>>>>>> master
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.0.1",
