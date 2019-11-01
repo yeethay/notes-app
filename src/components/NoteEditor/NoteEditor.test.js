@@ -38,27 +38,6 @@ describe('NoteEditor component', () => {
   });
 
   it('should update the title when the active note changes', () => {
-    // const props = {
-    //   // notesList: [
-    //   //   { title: 'one', preview: '', value: initialValue, active: true, id: 0 },
-    //   //   {
-    //   //     title: 'two',
-    //   //     preview: '',
-    //   //     value: initialValue,
-    //   //     active: false,
-    //   //     id: 1,
-    //   //   },
-    //   // ],
-    //   notesList: {
-    //     [uuid()]: defaultNote({ title: 'one', active: true }),
-    //     [uuid()]: defaultNote({ title: 'two', active: false }),
-    //   },
-    //   currentNoteIndex: 0,
-    // };
-    // const { wrapper } = setup(props);
-    // expect(wrapper.find(NoteTitle).props('text').text).toEqual('one');
-    // wrapper.setProps({ currentNoteIndex: 1 });
-    // expect(wrapper.find(NoteTitle).props("text").text).toEqual("two");
     const props = {
       notesList: {
         first: defaultNote({ title: 'one', active: true }),
