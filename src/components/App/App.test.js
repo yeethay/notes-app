@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
+<<<<<<< HEAD:src/components/App/App.test.js
 import store from '../../store';
+=======
+import store from './store';
+>>>>>>> master:src/App.test.js
 
 beforeEach(() => {
   window.getSelection = () => {

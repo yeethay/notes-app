@@ -1,8 +1,15 @@
 import * as types from '../actions/types';
+<<<<<<< HEAD
 import initialValue from '../utils/slate/initialValue';
 import uuid from 'uuid/v4';
 
 export const initialState = {
+=======
+import initialValue from '../components/editor/initialValue';
+import uuid from 'uuid/v4';
+
+const initialState = {
+>>>>>>> master
   user: null,
   notesList: {},
 };
