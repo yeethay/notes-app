@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withFirebase } from '../firebase';
 import PropTypes from 'prop-types';
 import store from '../../store';
 import classNames from 'classnames';
@@ -8,6 +10,8 @@ import './styles/Item.css';
 class Item extends Component {
   onClick(noteId) {
     store.dispatch(setNoteActiveAction(noteId));
+    let { user, notesList } = this.props;
+    this.props.firebase.updateNotesListActiveFlags({ user, notesList });
   }
 
   render() {
@@ -31,4 +35,6 @@ Item.propTypes = {
   preview: PropTypes.string,
 };
 
-export default Item;
+const mapStateToProps = ({ user, notesList }) => ({ user, notesList });
+
+export default connect(mapStateToProps)(withFirebase(Item));

@@ -32,7 +32,8 @@ class TextEditor extends Component {
   componentDidUpdate() {
     let { user, notesList, firebase } = this.props;
     if (user && Object.keys(notesList).length > 0) {
-      firebase.saveUserNotesToDB(user, notesList);
+      let noteId = Object.keys(notesList).find(key => notesList[key].active);
+      firebase.saveUserNoteToDB({ user, noteId, notesList });
     }
   }
 

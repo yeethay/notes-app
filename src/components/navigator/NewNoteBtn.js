@@ -9,7 +9,7 @@ const NewNoteBtn = props => {
   const [user, notesList, firebase] = useState();
   useEffect(() => {
     if (user) {
-      firebase.saveUserNotesToDB(user, notesList);
+      firebase.updateNotesListActiveFlags({ user, notesList });
     }
   });
 
