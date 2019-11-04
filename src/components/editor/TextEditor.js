@@ -13,6 +13,7 @@ import * as plugins from './plugins';
 import Toolbar from './toolbar/Toolbar';
 import ToolbarButton from './toolbar/ToolbarButton';
 import Title from './Title';
+import LastModified from './LastModified';
 
 import './TextEditor.css';
 
@@ -47,6 +48,10 @@ class TextEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
+    let changed = this.getActiveNote().value.document !== value.document;
+    if (!changed) {
+      return;
+    }
     let activeNoteId = Object.keys(this.props.notesList).find(
       key => this.props.notesList[key].active === true
     );
@@ -183,6 +188,7 @@ class TextEditor extends Component {
     } else {
       return (
         <Fragment>
+          <Title text={this.getActiveNote().title} />
           <Toolbar>
             {this.renderMarkButton('bold', icons.ic_format_bold)}
             {this.renderMarkButton('italic', icons.ic_format_italic)}
@@ -200,7 +206,6 @@ class TextEditor extends Component {
             {this.renderBlockButton('heading-one', icons.ic_looks_one)}
             {this.renderBlockButton('heading-two', icons.ic_looks_two)}
           </Toolbar>
-          <Title text={this.getActiveNote().title} />
           <Editor
             ref={this.ref}
             plugins={this.pluginList}
@@ -210,6 +215,7 @@ class TextEditor extends Component {
             renderMark={this.renderMark}
             autoFocus={true}
           />
+          <LastModified date={this.getActiveNote().lastModified} />
         </Fragment>
       );
     }
