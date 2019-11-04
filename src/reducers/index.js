@@ -27,6 +27,7 @@ function rootReducer(state = initialState, action) {
             preview: '',
             value: initialValue,
             active: true,
+            lastModified: new Date().getTime(),
           },
         },
       };
@@ -58,6 +59,7 @@ function rootReducer(state = initialState, action) {
             ...state.notesList[action.activeNoteId],
             value: action.value,
             preview: action.value.toJSON().document.nodes[0].nodes[0].text,
+            lastModified: new Date().getTime(),
           },
         },
       };
@@ -71,6 +73,7 @@ function rootReducer(state = initialState, action) {
           [action.activeNoteId]: {
             ...state.notesList[action.activeNoteId],
             title: action.title,
+            lastModified: new Date().getTime(),
           },
         },
       };

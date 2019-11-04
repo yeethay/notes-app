@@ -8,6 +8,7 @@ import * as plugins from '../../utils/slate/plugins';
 import NoteToolbar from '../NoteToolbar';
 import ToolbarButton from '../ToolbarButton';
 import NoteTitle from '../NoteTitle';
+import LastModified from '../LastModified';
 
 import './NoteEditor.css';
 
@@ -42,6 +43,10 @@ class NoteEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
+    let changed = this.getActiveNote().value.document !== value.document;
+    if (!changed) {
+      return;
+    }
     let activeNoteId = Object.keys(this.props.notesList).find(
       key => this.props.notesList[key].active === true
     );
@@ -182,6 +187,7 @@ class NoteEditor extends Component {
     } else {
       return (
         <Fragment>
+          <NoteTitle text={this.getActiveNote().title} />
           <NoteToolbar>
             {this.renderMarkButton('bold', icons.ic_format_bold)}
             {this.renderMarkButton('italic', icons.ic_format_italic)}
@@ -199,7 +205,6 @@ class NoteEditor extends Component {
             {this.renderBlockButton('heading-one', icons.ic_looks_one)}
             {this.renderBlockButton('heading-two', icons.ic_looks_two)}
           </NoteToolbar>
-          <NoteTitle text={this.getActiveNote().title} />
           <Editor
             ref={this.ref}
             plugins={this.pluginList}
@@ -209,6 +214,7 @@ class NoteEditor extends Component {
             renderMark={this.renderMark}
             autoFocus={true}
           />
+          <LastModified date={this.getActiveNote().lastModified} />
         </Fragment>
       );
     }
