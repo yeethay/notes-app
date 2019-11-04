@@ -5,6 +5,7 @@ import 'firebase/firestore';
 import store from '../../store';
 import { updateUserAction, updateUserNotesAction } from '../../actions';
 import { Value } from 'slate';
+import CryptoJS from 'crypto-js';
 
 const NOTES_COLLECTION = 'notes';
 const USERS_COLLECTION = 'users';
@@ -22,9 +23,13 @@ class Firebase {
 
         let notesList = await this.getUserNotesFromDB(user);
         if (notesList) {
-          Object.keys(notesList).map(
-            key => (notesList[key].value = Value.fromJSON(notesList[key].value))
-          );
+          let secret = user.uid;
+          let decryptedNotesList = this.decryptNotesList(notesList, secret);
+          notesList = Object.keys(decryptedNotesList).reduce((result, key) => {
+            result[key] = decryptedNotesList[key];
+            result[key].value = Value.fromJSON(decryptedNotesList[key].value);
+            return result;
+          }, {});
           store.dispatch(updateUserNotesAction(notesList));
         }
       }
@@ -50,8 +55,11 @@ class Firebase {
   };
 
   saveUserNotesToDB = (user, notesList) => {
+    let secret = user.uid;
+    let encryptedNotesList = this.encryptNotesList(notesList, secret);
+
     let docRef = this.db.collection(NOTES_COLLECTION).doc(user.email);
-    docRef.set(JSON.parse(JSON.stringify({ notesList })), { merge: true });
+    docRef.set({ notesList: encryptedNotesList }, { merge: true });
   };
 
   getUserNotesFromDB = async user => {
@@ -65,6 +73,25 @@ class Firebase {
       console.error(err);
     }
   };
+
+  encryptNotesList(notesList, secret) {
+    return Object.keys(notesList).reduce((result, key) => {
+      result[key] = CryptoJS.AES.encrypt(
+        JSON.stringify(notesList[key]),
+        secret
+      ).toString();
+      return result;
+    }, {});
+  }
+
+  decryptNotesList(notesList, secret) {
+    return Object.keys(notesList).reduce((result, key) => {
+      result[key] = JSON.parse(
+        CryptoJS.AES.decrypt(notesList[key], secret).toString(CryptoJS.enc.Utf8)
+      );
+      return result;
+    }, {});
+  }
 }
 
 export default Firebase;
