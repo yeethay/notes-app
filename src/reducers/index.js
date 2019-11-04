@@ -59,7 +59,9 @@ function rootReducer(state = initialState, action) {
             ...state.notesList[action.activeNoteId],
             value: action.value,
             preview: action.value.toJSON().document.nodes[0].nodes[0].text,
-            lastModified: new Date().getTime(),
+            lastModified: action.updateLastModified
+              ? new Date().getTime()
+              : state.notesList[action.activeNoteId].lastModified,
           },
         },
       };
