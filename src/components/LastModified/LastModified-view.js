@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './styles/LastModified.css';
+import './LastModified.css';
 
 const LastModified = props => (
   <p className="last-modified">
