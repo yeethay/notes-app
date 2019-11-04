@@ -30,6 +30,7 @@ describe('root reducer', () => {
       preview: '',
       value: initialValue,
       active: true,
+      lastModified: expect.any(Number),
     });
   });
 
@@ -76,6 +77,7 @@ describe('root reducer', () => {
           value: initialValue,
           preview: '',
           active: true,
+          lastModified: expect.any(Number),
         },
       },
     };
@@ -102,6 +104,7 @@ describe('root reducer', () => {
       notesList: {
         [activeNoteId]: {
           title: 'After',
+          lastModified: expect.any(Number),
         },
       },
     };
