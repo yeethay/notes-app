@@ -14,10 +14,12 @@ function setup() {
 describe('LastModified component', () => {
   it('should render the last modified component', () => {
     const { wrapper } = setup();
-    wrapper.setProps({ date: 1572837327099 });
+    let epochTime = 1572837327099;
+    wrapper.setProps({ date: epochTime });
+    let expectedTime = new Date(epochTime).toLocaleString();
     expect(wrapper.find('p').hasClass('last-modified'));
     expect(wrapper.find('p').text()).toEqual(
-      'Last modified on 11/3/2019, 8:15:27 PM'
+      `Last modified on ${expectedTime}`
     );
   });
 });
