@@ -1,0 +1,45 @@
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import NavigatorItem from '../NavigatorItem';
+import NewNoteButton from '../NewNoteButton';
+import './Navigator.css';
+
+class Navigator extends Component {
+  getListOfItems(notesList) {
+    let list = [];
+    Object.keys(notesList)
+      .sort((a, b) =>
+        notesList[a].lastModified < notesList[b].lastModified ? 1 : -1
+      )
+      .map(key =>
+        list.push(
+          <NavigatorItem
+            title={notesList[key].title || 'Untitled note'}
+            preview={notesList[key].preview}
+            active={notesList[key].active}
+            id={key}
+            key={key}
+          />
+        )
+      );
+    return list;
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <NewNoteButton />
+        <div className="notes-list">
+          {this.getListOfItems(this.props.notesList)}
+        </div>
+      </Fragment>
+    );
+  }
+}
+
+Navigator.propTypes = {
+  notesList: PropTypes.object,
+  user: PropTypes.object,
+};
+
+export default Navigator;

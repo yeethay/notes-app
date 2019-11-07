@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import './index.css';
-import App from './App';
+import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
-import Firebase, { FirebaseContext } from './components/firebase';
+import Firebase, { FirebaseContext } from './utils/firebase';
 
 ReactDOM.render(
   <Provider store={store}>

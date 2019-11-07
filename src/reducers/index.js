@@ -1,8 +1,8 @@
 import * as types from '../actions/types';
-import initialValue from '../components/editor/initialValue';
+import initialValue from '../utils/slate/initialValue';
 import uuid from 'uuid/v4';
 
-const initialState = {
+export const initialState = {
   user: null,
   notesList: {},
 };
