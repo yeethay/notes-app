@@ -1,8 +1,8 @@
 import * as types from '../actions/types';
-import initialValue from '../components/editor/initialValue';
+import initialValue from '../utils/slate/initialValue';
 import uuid from 'uuid/v4';
 
-const initialState = {
+export const initialState = {
   user: null,
   notesList: {},
 };
@@ -27,6 +27,7 @@ function rootReducer(state = initialState, action) {
             preview: '',
             value: initialValue,
             active: true,
+            lastModified: new Date().getTime(),
           },
         },
       };
@@ -58,6 +59,9 @@ function rootReducer(state = initialState, action) {
             ...state.notesList[action.activeNoteId],
             value: action.value,
             preview: action.value.toJSON().document.nodes[0].nodes[0].text,
+            lastModified: action.updateLastModified
+              ? new Date().getTime()
+              : state.notesList[action.activeNoteId].lastModified,
           },
         },
       };
@@ -71,6 +75,7 @@ function rootReducer(state = initialState, action) {
           [action.activeNoteId]: {
             ...state.notesList[action.activeNoteId],
             title: action.title,
+            lastModified: new Date().getTime(),
           },
         },
       };

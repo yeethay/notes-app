@@ -22,8 +22,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "CI=true react-scripts test --env=jsdom",
+    "test": "jest",
     "test:coverage": "yarn test --coverage",
+    "test:watch": "yarn test -- --watch",
     "eject": "react-scripts eject",
     "predeploy": "yarn build ",
     "deploy": "gh-pages -d build"
@@ -44,9 +45,18 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-jest": "^24.8.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.0.1",
+    "jest-transform-css": "^2.0.0",
     "redux-logger": "^3.0.6"
   }
 }
