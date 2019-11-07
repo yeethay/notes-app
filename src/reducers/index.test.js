@@ -85,7 +85,11 @@ describe('root reducer', () => {
     expect(
       rootReducer(
         initialState,
-        actions.setActiveNoteValueAction({ activeNoteId, value: initialValue })
+        actions.setActiveNoteValueAction({
+          activeNoteId,
+          value: initialValue,
+          updateLastModified: true,
+        })
       )
     ).toEqual(expectedState);
   });

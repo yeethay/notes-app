@@ -43,14 +43,18 @@ class NoteEditor extends Component {
 
   // On change, update the app's React state with the new editor value.
   onChange = ({ value }) => {
-    let changed = this.getActiveNote().value.document !== value.document;
-    if (!changed) {
-      return;
-    }
     let activeNoteId = Object.keys(this.props.notesList).find(
       key => this.props.notesList[key].active === true
     );
-    this.props.dispatch(setActiveNoteValueAction({ activeNoteId, value }));
+    let changed = this.getActiveNote().value.document !== value.document;
+
+    this.props.dispatch(
+      setActiveNoteValueAction({
+        activeNoteId,
+        value,
+        updateLastModified: changed,
+      })
+    );
   };
 
   hasBlock = type => {
