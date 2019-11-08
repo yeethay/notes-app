@@ -5,10 +5,13 @@ import { setNoteActiveAction } from '../../actions';
 import './NavigatorItem.css';
 
 class NavigatorItem extends Component {
-  onClick(noteId) {
-    this.props.dispatch(setNoteActiveAction(noteId));
+  componentDidUpdate() {
     let { user, notesList } = this.props;
     this.props.firebase.updateNotesListActiveFlags({ user, notesList });
+  }
+
+  onClick(noteId) {
+    this.props.dispatch(setNoteActiveAction(noteId));
   }
 
   render() {

@@ -120,7 +120,7 @@ class NoteEditor extends Component {
   renderBlock = (props, editor, next) => {
     switch (props.node.type) {
       case 'heading-one':
-        return <h1 {...props}>{props.children}</h1>;
+        return <h1 {...props.attributes}>{props.children}</h1>;
       case 'heading-two':
         return <h2 {...props.attributes}>{props.children}</h2>;
       case 'bulleted-list':

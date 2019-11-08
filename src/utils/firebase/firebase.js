@@ -3,7 +3,11 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import store from '../../store';
-import { updateUserAction, updateUserNotesAction } from '../../actions';
+import {
+  updateUserAction,
+  updateUserNotesAction,
+  updateSyncedStatus,
+} from '../../actions';
 import { Value } from 'slate';
 
 const NOTES_COLLECTION = 'notes';
@@ -23,7 +27,8 @@ class Firebase {
       if (user) {
         store.dispatch(updateUserAction(user));
         this.addUser(user);
-        this.updateUserNotesFromDB(user);
+        this.getUserNotesFromDB(user);
+        this.listenForDBChanges(user);
       }
     });
   };
@@ -49,38 +54,50 @@ class Firebase {
   saveUserNoteToDB = ({ user, noteId, notesList }) => {
     let docRef = this.notesRef(user);
     docRef.set(
-      {
-        [noteId]: JSON.parse(JSON.stringify(notesList[noteId])),
-      },
+      { [noteId]: JSON.parse(JSON.stringify(notesList[noteId])) },
       { merge: true }
     );
+    store.dispatch(updateSyncedStatus({ syncedStatus: false }));
   };
 
   updateNotesListActiveFlags = ({ user, notesList }) => {
+    let noteIds = Object.keys(notesList);
+    let activeSubset = noteIds.reduce((result, id) => {
+      result[id] = { active: notesList[id].active };
+      return result;
+    }, {});
     let docRef = this.notesRef(user);
-    Object.keys(notesList).forEach(noteId => {
-      docRef.set(
-        {
-          [noteId]: { active: notesList[noteId].active },
-        },
-        { merge: true }
-      );
+    docRef.set(activeSubset, { merge: true });
+  };
+
+  listenForDBChanges = user => {
+    let docRef = this.notesRef(user);
+    docRef.onSnapshot({ includeMetadataChanges: true }, doc => {
+      let source = doc.metadata.hasPendingWrites ? 'local' : 'server';
+      console.log(source);
+      if (source === 'server') {
+        store.dispatch(updateSyncedStatus({ syncedStatus: true }));
+      }
     });
   };
 
-  updateUserNotesFromDB = user => {
+  getUserNotesFromDB = async user => {
     let docRef = this.notesRef(user);
-    docRef.onSnapshot(doc => {
+    try {
+      let doc = await docRef.get();
       let notesList = doc.data();
-      if (notesList && !doc.metadata.hasPendingWrites) {
-        notesList = Object.keys(notesList).reduce((result, key) => {
-          result[key] = notesList[key];
-          result[key].value = Value.fromJSON(notesList[key].value);
+      if (notesList) {
+        let ids = Object.keys(notesList);
+        notesList = ids.reduce((result, id) => {
+          result[id] = notesList[id];
+          result[id].value = Value.fromJSON(notesList[id].value);
           return result;
         }, {});
         store.dispatch(updateUserNotesAction(notesList));
       }
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   notesRef = user => this.db.collection(NOTES_COLLECTION).doc(user.email);

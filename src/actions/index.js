@@ -36,3 +36,7 @@ export function setNoteTitleAction({ activeNoteId, title }) {
 export function removeAllNotesAction() {
   return { type: types.REMOVE_ALL_NOTES };
 }
+
+export function updateSyncedStatus({ syncedStatus }) {
+  return { type: types.UPDATE_SYNCED_STATUS, syncedStatus };
+}
