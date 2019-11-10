@@ -8,7 +8,7 @@ const LastModified = props => (
     <div className="last-modified">
       Last modified on {convertEpochToDate(props.date)}
       &nbsp;
-      <SyncedStatus />
+      {props.user && <SyncedStatus synced={props.synced} />}
     </div>
   </div>
 );
@@ -19,6 +19,8 @@ const convertEpochToDate = epoch => {
 
 LastModified.propTypes = {
   date: PropTypes.number,
+  user: PropTypes.object,
+  synced: PropTypes.bool,
 };
 
 export default LastModified;

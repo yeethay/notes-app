@@ -1,3 +1,3 @@
-import SyncedStatus from './SyncedStatus-redux';
+import SyncedStatus from './SyncedStatus-view';
 
 export default SyncedStatus;

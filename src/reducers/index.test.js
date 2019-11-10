@@ -127,6 +127,7 @@ describe('root reducer', () => {
         note: 'fake note',
       },
       user: null,
+      synced: false,
     };
 
     expect(

@@ -6,12 +6,14 @@ import store from '../../store';
 import {
   updateUserAction,
   updateUserNotesAction,
-  updateSyncedStatus,
+  firestoreChangeDetectedAction,
 } from '../../actions';
 import { Value } from 'slate';
+import _ from 'lodash';
 
 const NOTES_COLLECTION = 'notes';
 const USERS_COLLECTION = 'users';
+const DEBOUNCE_MILLISECONDS = 2000;
 
 class Firebase {
   constructor() {
@@ -39,6 +41,7 @@ class Firebase {
 
   signOut = () => {
     this.auth.signOut();
+    store.dispatch(updateUserAction(null));
   };
 
   addUser = async user => {
@@ -51,14 +54,13 @@ class Firebase {
       .set(dbuser);
   };
 
-  saveUserNoteToDB = ({ user, noteId, notesList }) => {
+  saveUserNoteToDB = _.debounce(({ user, noteId, notesList }) => {
     let docRef = this.notesRef(user);
     docRef.set(
       { [noteId]: JSON.parse(JSON.stringify(notesList[noteId])) },
       { merge: true }
     );
-    store.dispatch(updateSyncedStatus({ syncedStatus: false }));
-  };
+  }, DEBOUNCE_MILLISECONDS);
 
   updateNotesListActiveFlags = ({ user, notesList }) => {
     let noteIds = Object.keys(notesList);
@@ -74,9 +76,8 @@ class Firebase {
     let docRef = this.notesRef(user);
     docRef.onSnapshot({ includeMetadataChanges: true }, doc => {
       let source = doc.metadata.hasPendingWrites ? 'local' : 'server';
-      console.log(source);
       if (source === 'server') {
-        store.dispatch(updateSyncedStatus({ syncedStatus: true }));
+        store.dispatch(firestoreChangeDetectedAction({ doc }));
       }
     });
   };

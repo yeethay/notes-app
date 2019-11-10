@@ -7,7 +7,7 @@ import { ic_done } from '../../utils/icons';
 const SyncedStatus = props => {
   return (
     <Fragment>
-      {props.syncedStatus === false ? (
+      {props.synced === false ? (
         <Spinner size="sm" animation="grow" role="status" />
       ) : (
         <Icon icon={ic_done} />
@@ -17,7 +17,7 @@ const SyncedStatus = props => {
 };
 
 SyncedStatus.propTypes = {
-  syncedStatus: PropTypes.bool,
+  synced: PropTypes.bool,
 };
 
 export default SyncedStatus;

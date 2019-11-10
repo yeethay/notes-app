@@ -99,7 +99,7 @@ function rootReducer(state = initialState, action) {
     case types.UPDATE_SYNCED_STATUS: {
       return {
         ...state,
-        syncedStatus: action.syncedStatus,
+        synced: action.synced,
       };
     }
 

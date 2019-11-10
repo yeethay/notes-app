@@ -6,8 +6,10 @@ import './NavigatorItem.css';
 
 class NavigatorItem extends Component {
   componentDidUpdate() {
-    let { user, notesList } = this.props;
-    this.props.firebase.updateNotesListActiveFlags({ user, notesList });
+    let { user, notesList, firebase } = this.props;
+    if (user) {
+      firebase.updateNotesListActiveFlags({ user, notesList });
+    }
   }
 
   onClick(noteId) {

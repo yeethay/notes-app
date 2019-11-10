@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { setActiveNoteValueAction } from '../../actions';
+import { setActiveNoteValueAction, updateSyncedStatusAction } from '../../actions';
 
 import * as icons from '../../utils/icons';
 import * as plugins from '../../utils/slate/plugins';
@@ -30,6 +30,7 @@ class NoteEditor extends Component {
     if (user && Object.keys(notesList).length > 0) {
       let noteId = Object.keys(notesList).find(key => notesList[key].active);
       firebase.saveUserNoteToDB({ user, noteId, notesList });
+      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
     }
   }
 

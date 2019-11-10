@@ -1,3 +1,3 @@
-import LastModified from './LastModified-view';
+import LastModified from './LastModified-redux';
 
 export default LastModified;
