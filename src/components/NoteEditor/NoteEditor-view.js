@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { setActiveNoteValueAction } from '../../actions';
+import { setActiveNoteValueAction, updateSyncedStatusAction } from '../../actions';
 
 import * as icons from '../../utils/icons';
 import * as plugins from '../../utils/slate/plugins';
@@ -28,7 +28,9 @@ class NoteEditor extends Component {
   componentDidUpdate() {
     let { user, notesList, firebase } = this.props;
     if (user && Object.keys(notesList).length > 0) {
-      firebase.saveUserNotesToDB(user, notesList);
+      let noteId = Object.keys(notesList).find(key => notesList[key].active);
+      firebase.saveUserNoteToDB({ user, noteId, notesList });
+      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
     }
   }
 
@@ -119,7 +121,7 @@ class NoteEditor extends Component {
   renderBlock = (props, editor, next) => {
     switch (props.node.type) {
       case 'heading-one':
-        return <h1 {...props}>{props.children}</h1>;
+        return <h1 {...props.attributes}>{props.children}</h1>;
       case 'heading-two':
         return <h2 {...props.attributes}>{props.children}</h2>;
       case 'bulleted-list':

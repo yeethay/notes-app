@@ -5,6 +5,13 @@ import { setNoteActiveAction } from '../../actions';
 import './NavigatorItem.css';
 
 class NavigatorItem extends Component {
+  componentDidUpdate() {
+    let { user, notesList, firebase } = this.props;
+    if (user) {
+      firebase.updateNotesListActiveFlags({ user, notesList });
+    }
+  }
+
   onClick(noteId) {
     this.props.dispatch(setNoteActiveAction(noteId));
   }
@@ -30,6 +37,9 @@ NavigatorItem.propTypes = {
   title: PropTypes.string,
   preview: PropTypes.string,
   dispatch: PropTypes.func,
+  user: PropTypes.object,
+  notesList: PropTypes.object,
+  firebase: PropTypes.object,
 };
 
 export default NavigatorItem;

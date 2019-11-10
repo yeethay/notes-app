@@ -1,4 +1,6 @@
-import NavigatorItem from './NavigatorItem-view';
+import NavigatorItem from './NavigatorItem-firebase';
 import { connect } from 'react-redux';
 
-export default connect()(NavigatorItem);
+const mapStateToProps = ({ user, notesList }) => ({ user, notesList });
+
+export default connect(mapStateToProps)(NavigatorItem);

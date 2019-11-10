@@ -5,6 +5,7 @@ import uuid from 'uuid/v4';
 export const initialState = {
   user: null,
   notesList: {},
+  synced: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -92,6 +93,13 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notesList: {},
+      };
+    }
+
+    case types.UPDATE_SYNCED_STATUS: {
+      return {
+        ...state,
+        synced: action.synced,
       };
     }
 
