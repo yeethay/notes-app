@@ -16,8 +16,17 @@ export function setNoteActiveAction(noteId) {
   return { type: types.SET_NOTE_ACTIVE, noteId };
 }
 
-export function setActiveNoteValueAction({ activeNoteId, value }) {
-  return { type: types.SET_ACTIVE_NOTE_VALUE, activeNoteId, value };
+export function setActiveNoteValueAction({
+  activeNoteId,
+  value,
+  updateLastModified,
+}) {
+  return {
+    type: types.SET_ACTIVE_NOTE_VALUE,
+    activeNoteId,
+    value,
+    updateLastModified,
+  };
 }
 
 export function setNoteTitleAction({ activeNoteId, title }) {

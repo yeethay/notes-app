@@ -1,0 +1,13 @@
+.tooltip-icon-button {
+  border: 0;
+  margin: 0 5px 0 0;
+  color: #aaa;
+}
+
+.tooltip-icon-button:hover {
+  cursor: pointer;
+}
+
+.tooltip-icon-button.active {
+  color: #000;
+}
