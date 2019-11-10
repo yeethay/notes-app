@@ -1,8 +1,15 @@
 .navigator-item {
   padding: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
   background-color: rgb(250, 250, 250);
   border-radius: 10px;
+}
+
+.navigator-item:hover,
+.navigator-item.active:hover {
+  background-color: rgba(230, 230, 230);
+  transition: 0.3s;
 }
 
 .navigator-item h4,
