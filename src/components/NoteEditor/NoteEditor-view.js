@@ -33,7 +33,6 @@ class NoteEditor extends Component {
     if (user && Object.keys(notesList).length > 0) {
       let noteId = Object.keys(notesList).find(key => notesList[key].active);
       firebase.saveUserNoteToDB({ user, noteId, notesList });
-      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
     }
   }
 
@@ -52,6 +51,9 @@ class NoteEditor extends Component {
       key => this.props.notesList[key].active === true
     );
     let changed = this.getActiveNote().data.value.document !== value.document;
+    if (changed && this.props.user) {
+      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
+    }
 
     this.props.dispatch(
       setActiveNoteValueAction({
