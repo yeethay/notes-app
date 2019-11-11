@@ -1,29 +1,48 @@
 import * as types from './types';
 
-export function updateUserAction(user) {
-  return { type: types.UPDATE_USER, user };
-}
+export const updateUserAction = user => ({ type: types.UPDATE_USER, user });
 
-export function updateUserNotesAction(notesList) {
-  return { type: types.STORE_NOTES_LIST, notesList };
-}
+export const updateUserNotesAction = notesList => ({
+  type: types.STORE_NOTES_LIST,
+  notesList,
+});
 
-export function addNewNoteAction() {
-  return { type: types.ADD_NEW_NOTE };
-}
+export const addNewNoteAction = () => ({
+  type: types.ADD_NEW_NOTE,
+});
 
-export function setNoteActiveAction(noteId) {
-  return { type: types.SET_NOTE_ACTIVE, noteId };
-}
+export const setNoteActiveAction = noteId => ({
+  type: types.SET_NOTE_ACTIVE,
+  noteId,
+});
 
-export function setActiveNoteValueAction({ activeNoteId, value }) {
-  return { type: types.SET_ACTIVE_NOTE_VALUE, activeNoteId, value };
-}
+export const setActiveNoteValueAction = ({
+  activeNoteId,
+  value,
+  updateLastModified,
+}) => ({
+  type: types.SET_ACTIVE_NOTE_VALUE,
+  activeNoteId,
+  value,
+  updateLastModified,
+});
 
-export function setNoteTitleAction({ activeNoteId, title }) {
-  return { type: types.SET_NOTE_TITLE, activeNoteId, title };
-}
+export const setNoteTitleAction = ({ activeNoteId, title }) => ({
+  type: types.SET_NOTE_TITLE,
+  activeNoteId,
+  title,
+});
 
-export function removeAllNotesAction() {
-  return { type: types.REMOVE_ALL_NOTES };
-}
+export const removeAllNotesAction = () => ({
+  type: types.REMOVE_ALL_NOTES,
+});
+
+export const updateSyncedStatusAction = ({ synced }) => ({
+  type: types.UPDATE_SYNCED_STATUS,
+  synced,
+});
+
+export const firestoreChangeDetectedAction = ({ doc }) => ({
+  type: types.FIRESTORE_CHANGE_DETECTED,
+  doc,
+});

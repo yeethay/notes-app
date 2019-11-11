@@ -1,0 +1,17 @@
+.navigator {
+  color: rgb(17, 17, 17);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(118, 143, 225, 0.1) 0px 16px 24px 0px;
+  padding: 10px;
+  border-radius: 4.5px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-list {
+  overflow-y: scroll;
+  max-height: 100%;
+  height: 0px;
+  flex-grow: 1;
+}

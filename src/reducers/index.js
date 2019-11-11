@@ -1,10 +1,11 @@
 import * as types from '../actions/types';
-import initialValue from '../components/editor/initialValue';
+import initialValue from '../utils/slate/initialValue';
 import uuid from 'uuid/v4';
 
-const initialState = {
+export const initialState = {
   user: null,
   notesList: {},
+  synced: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -59,7 +60,9 @@ function rootReducer(state = initialState, action) {
             ...state.notesList[action.activeNoteId],
             value: action.value,
             preview: action.value.toJSON().document.nodes[0].nodes[0].text,
-            lastModified: new Date().getTime(),
+            lastModified: action.updateLastModified
+              ? new Date().getTime()
+              : state.notesList[action.activeNoteId].lastModified,
           },
         },
       };
@@ -90,6 +93,13 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         notesList: {},
+      };
+    }
+
+    case types.UPDATE_SYNCED_STATUS: {
+      return {
+        ...state,
+        synced: action.synced,
       };
     }
 
