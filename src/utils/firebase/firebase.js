@@ -59,14 +59,14 @@ class Firebase {
     let docRef = this.notesRef(user);
     let secret = user.uid;
     let encrypted = CryptoJS.AES.encrypt(
-      JSON.stringify(notesList[noteId].value),
+      JSON.stringify(notesList[noteId].data),
       secret
     ).toString();
     docRef.set(
       {
         [noteId]: {
           ...notesList[noteId],
-          value: encrypted,
+          data: encrypted,
         },
       },
       { merge: true }
@@ -103,13 +103,12 @@ class Firebase {
         let ids = Object.keys(notesList);
         notesList = ids.reduce((result, id) => {
           result[id] = notesList[id];
-          result[id].value = Value.fromJSON(
-            JSON.parse(
-              CryptoJS.AES.decrypt(notesList[id].value, secret).toString(
-                CryptoJS.enc.Utf8
-              )
+          result[id].data = JSON.parse(
+            CryptoJS.AES.decrypt(notesList[id].data, secret).toString(
+              CryptoJS.enc.Utf8
             )
           );
+          result[id].data.value = Value.fromJSON(result[id].data.value);
           return result;
         }, {});
         store.dispatch(updateUserNotesAction(notesList));

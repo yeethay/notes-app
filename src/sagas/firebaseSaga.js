@@ -16,14 +16,13 @@ function* processFirestoreChangedSaga({ doc, user }) {
   let secret = user.uid;
   remoteNotesList = Object.keys(remoteNotesList).reduce((result, id) => {
     result[id] = remoteNotesList[id];
-    result[id].value = JSON.parse(
-      CryptoJS.AES.decrypt(remoteNotesList[id].value, secret).toString(
+    result[id].data = JSON.parse(
+      CryptoJS.AES.decrypt(remoteNotesList[id].data, secret).toString(
         CryptoJS.enc.Utf8
       )
     );
     return result;
   }, {});
-  console.log(notesList, remoteNotesList);
   let equal = isEqual(notesList, remoteNotesList);
   if (equal) {
     yield put(updateSyncedStatusAction({ synced: true }));
