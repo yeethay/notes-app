@@ -12,8 +12,10 @@ function setup() {
   const props = {
     notesList: {
       [uuid()]: {
-        title: '',
-        preview: '',
+        data: {
+          title: '',
+          preview: '',
+        },
         active: true,
       },
     },

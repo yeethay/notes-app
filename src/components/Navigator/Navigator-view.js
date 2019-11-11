@@ -14,8 +14,8 @@ class Navigator extends Component {
       .map(key =>
         list.push(
           <NavigatorItem
-            title={notesList[key].title || 'Untitled note'}
-            preview={notesList[key].preview}
+            title={notesList[key].data.title || 'Untitled note'}
+            preview={notesList[key].data.preview}
             active={notesList[key].active}
             id={key}
             key={key}

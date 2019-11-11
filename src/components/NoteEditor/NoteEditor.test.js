@@ -17,9 +17,11 @@ function setup(props) {
 
 const defaultNote = ({ title, active }) => {
   return {
-    title,
-    preview: '',
-    value: initialValue,
+    data: {
+      title,
+      preview: '',
+      value: initialValue,
+    },
     active,
   };
 };

@@ -24,9 +24,11 @@ function rootReducer(state = initialState, action) {
             return result;
           }, {}),
           [uuid()]: {
-            title: '',
-            preview: '',
-            value: initialValue,
+            data: {
+              title: '',
+              preview: '',
+              value: initialValue,
+            },
             active: true,
             lastModified: new Date().getTime(),
           },
@@ -58,8 +60,11 @@ function rootReducer(state = initialState, action) {
           ...state.notesList,
           [action.activeNoteId]: {
             ...state.notesList[action.activeNoteId],
-            value: action.value,
-            preview: action.value.toJSON().document.nodes[0].nodes[0].text,
+            data: {
+              ...state.notesList[action.activeNoteId].data,
+              value: action.value,
+              preview: action.value.toJSON().document.nodes[0].nodes[0].text,
+            },
             lastModified: action.updateLastModified
               ? new Date().getTime()
               : state.notesList[action.activeNoteId].lastModified,
@@ -75,7 +80,10 @@ function rootReducer(state = initialState, action) {
           ...state.notesList,
           [action.activeNoteId]: {
             ...state.notesList[action.activeNoteId],
-            title: action.title,
+            data: {
+              ...state.notesList[action.activeNoteId].data,
+              title: action.title,
+            },
             lastModified: new Date().getTime(),
           },
         },

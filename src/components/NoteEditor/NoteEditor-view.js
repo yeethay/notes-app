@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { setActiveNoteValueAction, updateSyncedStatusAction } from '../../actions';
+import {
+  setActiveNoteValueAction,
+  updateSyncedStatusAction,
+} from '../../actions';
 
 import * as icons from '../../utils/icons';
 import * as plugins from '../../utils/slate/plugins';
@@ -30,7 +33,6 @@ class NoteEditor extends Component {
     if (user && Object.keys(notesList).length > 0) {
       let noteId = Object.keys(notesList).find(key => notesList[key].active);
       firebase.saveUserNoteToDB({ user, noteId, notesList });
-      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
     }
   }
 
@@ -48,7 +50,10 @@ class NoteEditor extends Component {
     let activeNoteId = Object.keys(this.props.notesList).find(
       key => this.props.notesList[key].active === true
     );
-    let changed = this.getActiveNote().value.document !== value.document;
+    let changed = this.getActiveNote().data.value.document !== value.document;
+    if (changed && this.props.user) {
+      this.props.dispatch(updateSyncedStatusAction({ synced: false }));
+    }
 
     this.props.dispatch(
       setActiveNoteValueAction({
@@ -60,12 +65,12 @@ class NoteEditor extends Component {
   };
 
   hasBlock = type => {
-    const { value } = this.getActiveNote();
+    const { value } = this.getActiveNote().data;
     return value.blocks.some(node => node.type === type);
   };
 
   hasMark = type => {
-    const { value } = this.getActiveNote();
+    const { value } = this.getActiveNote().data;
     return value.activeMarks.some(mark => mark.type === type);
   };
 
@@ -171,7 +176,7 @@ class NoteEditor extends Component {
     let isActive = this.hasBlock(type);
 
     if (['numbered-list', 'bulleted-list'].includes(type)) {
-      let { document, blocks } = this.getActiveNote().value;
+      let { document, blocks } = this.getActiveNote().data.value;
       if (blocks.size > 0) {
         const parent = document.getParent(blocks.first().key);
         isActive = this.hasBlock('list-item') && parent && parent.type === type;
@@ -193,7 +198,7 @@ class NoteEditor extends Component {
     } else {
       return (
         <Fragment>
-          <NoteTitle text={this.getActiveNote().title} />
+          <NoteTitle text={this.getActiveNote().data.title} />
           <NoteToolbar>
             {this.renderMarkButton('bold', icons.ic_format_bold)}
             {this.renderMarkButton('italic', icons.ic_format_italic)}
@@ -214,7 +219,7 @@ class NoteEditor extends Component {
           <Editor
             ref={this.ref}
             plugins={this.pluginList}
-            value={this.getActiveNote().value}
+            value={this.getActiveNote().data.value}
             onChange={this.onChange}
             renderBlock={this.renderBlock}
             renderMark={this.renderMark}

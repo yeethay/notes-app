@@ -9,7 +9,8 @@ import {
   firestoreChangeDetectedAction,
 } from '../../actions';
 import { Value } from 'slate';
-import _ from 'lodash';
+import CryptoJS from 'crypto-js';
+import { debounce } from 'lodash';
 
 const NOTES_COLLECTION = 'notes';
 const USERS_COLLECTION = 'users';
@@ -54,15 +55,25 @@ class Firebase {
       .set(dbuser);
   };
 
-  saveUserNoteToDB = _.debounce(({ user, noteId, notesList }) => {
+  saveUserNoteToDB = debounce(({ user, noteId, notesList }) => {
     let docRef = this.notesRef(user);
+    let secret = user.uid;
+    let encrypted = CryptoJS.AES.encrypt(
+      JSON.stringify(notesList[noteId].data),
+      secret
+    ).toString();
     docRef.set(
-      { [noteId]: JSON.parse(JSON.stringify(notesList[noteId])) },
+      {
+        [noteId]: {
+          ...notesList[noteId],
+          data: encrypted,
+        },
+      },
       { merge: true }
     );
   }, DEBOUNCE_MILLISECONDS);
 
-  updateNotesListActiveFlags = ({ user, notesList }) => {
+  updateNotesListActiveFlags = debounce(({ user, notesList }) => {
     let noteIds = Object.keys(notesList);
     let activeSubset = noteIds.reduce((result, id) => {
       result[id] = { active: notesList[id].active };
@@ -70,14 +81,14 @@ class Firebase {
     }, {});
     let docRef = this.notesRef(user);
     docRef.set(activeSubset, { merge: true });
-  };
+  }, DEBOUNCE_MILLISECONDS);
 
   listenForDBChanges = user => {
     let docRef = this.notesRef(user);
     docRef.onSnapshot({ includeMetadataChanges: true }, doc => {
       let source = doc.metadata.hasPendingWrites ? 'local' : 'server';
       if (source === 'server') {
-        store.dispatch(firestoreChangeDetectedAction({ doc }));
+        store.dispatch(firestoreChangeDetectedAction({ doc, user }));
       }
     });
   };
@@ -87,11 +98,17 @@ class Firebase {
     try {
       let doc = await docRef.get();
       let notesList = doc.data();
+      let secret = user.uid;
       if (notesList) {
         let ids = Object.keys(notesList);
         notesList = ids.reduce((result, id) => {
           result[id] = notesList[id];
-          result[id].value = Value.fromJSON(notesList[id].value);
+          result[id].data = JSON.parse(
+            CryptoJS.AES.decrypt(notesList[id].data, secret).toString(
+              CryptoJS.enc.Utf8
+            )
+          );
+          result[id].data.value = Value.fromJSON(result[id].data.value);
           return result;
         }, {});
         store.dispatch(updateUserNotesAction(notesList));

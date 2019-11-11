@@ -26,9 +26,11 @@ describe('root reducer', () => {
       key => newState.notesList[key].active
     );
     expect(newState.notesList[activeKey]).toEqual({
-      title: '',
-      preview: '',
-      value: initialValue,
+      data: {
+        title: '',
+        preview: '',
+        value: initialValue,
+      },
       active: true,
       lastModified: expect.any(Number),
     });
@@ -65,8 +67,10 @@ describe('root reducer', () => {
     let initialState = {
       notesList: {
         [activeNoteId]: {
-          value: undefined,
-          preview: 'to be removed',
+          data: {
+            value: undefined,
+            preview: 'to be removed',
+          },
           active: true,
         },
       },
@@ -74,8 +78,10 @@ describe('root reducer', () => {
     let expectedState = {
       notesList: {
         [activeNoteId]: {
-          value: initialValue,
-          preview: '',
+          data: {
+            value: initialValue,
+            preview: '',
+          },
           active: true,
           lastModified: expect.any(Number),
         },
@@ -99,7 +105,9 @@ describe('root reducer', () => {
     let initialState = {
       notesList: {
         [activeNoteId]: {
-          title: 'Before',
+          data: {
+            title: 'Before',
+          },
         },
       },
     };
@@ -107,7 +115,9 @@ describe('root reducer', () => {
     let expectedState = {
       notesList: {
         [activeNoteId]: {
-          title: 'After',
+          data: {
+            title: 'After',
+          },
           lastModified: expect.any(Number),
         },
       },
@@ -142,16 +152,20 @@ describe('root reducer', () => {
     let initialState = {
       notesList: {
         [uuid()]: {
-          title: '',
-          preview: '',
+          data: {
+            title: '',
+            preview: '',
+            value: initialValue,
+          },
           active: false,
-          value: initialValue,
         },
         [uuid()]: {
-          title: '',
-          preview: '',
+          data: {
+            title: '',
+            preview: '',
+            value: initialValue,
+          },
           active: true,
-          value: initialValue,
         },
       },
     };
