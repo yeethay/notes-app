@@ -42,7 +42,8 @@ export const updateSyncedStatusAction = ({ synced }) => ({
   synced,
 });
 
-export const firestoreChangeDetectedAction = ({ doc }) => ({
+export const firestoreChangeDetectedAction = ({ doc, user }) => ({
   type: types.FIRESTORE_CHANGE_DETECTED,
   doc,
+  user,
 });

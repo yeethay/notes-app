@@ -88,7 +88,7 @@ class Firebase {
     docRef.onSnapshot({ includeMetadataChanges: true }, doc => {
       let source = doc.metadata.hasPendingWrites ? 'local' : 'server';
       if (source === 'server') {
-        store.dispatch(firestoreChangeDetectedAction({ doc }));
+        store.dispatch(firestoreChangeDetectedAction({ doc, user }));
       }
     });
   };
