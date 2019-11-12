@@ -47,7 +47,7 @@ describe('NoteEditor component', () => {
       },
     };
     const { wrapper } = setup(props);
-    expect(wrapper.find(NoteTitle).props('text').text).toEqual('one');
+    expect((wrapper.find(NoteTitle).props as any)('text').text).toEqual('one');
 
     wrapper.setProps({
       notesList: {
@@ -55,6 +55,6 @@ describe('NoteEditor component', () => {
         second: defaultNote({ title: 'two', active: true }),
       },
     });
-    expect(wrapper.find(NoteTitle).props('text').text).toEqual('two');
+    expect((wrapper.find(NoteTitle).props as any)('text').text).toEqual('two');
   });
 });
