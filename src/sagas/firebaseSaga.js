@@ -25,6 +25,6 @@ function* processFirestoreChangedSaga({ doc, user }) {
   }, {});
   let equal = isEqual(notesList, remoteNotesList);
   if (equal) {
-    yield put(updateSyncedStatusAction({ synced: true }));
+    yield put(updateSyncedStatusAction(true));
   }
 }
