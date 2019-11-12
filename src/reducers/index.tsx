@@ -57,6 +57,15 @@ function rootReducer(state = initialState, action: types.ActionTypes): IState {
       };
     }
 
+    case types.DELETE_NOTE: {
+      let newNotesList = { ...state.notesList };
+      delete newNotesList[action.noteId];
+      return {
+        ...state,
+        notesList: newNotesList,
+      };
+    }
+
     case types.SET_NOTE_ACTIVE: {
       return {
         ...state,

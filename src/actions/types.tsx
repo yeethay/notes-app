@@ -13,6 +13,12 @@ interface addNewNoteAction {
   type: typeof ADD_NEW_NOTE;
 }
 
+export const DELETE_NOTE = 'DELETE_NOTE';
+interface deleteNoteAction {
+  type: typeof DELETE_NOTE;
+  noteId: string;
+}
+
 export const SET_NOTE_ACTIVE = 'SET_NOTE_ACTIVE';
 interface setNoteActiveAction {
   type: typeof SET_NOTE_ACTIVE;
@@ -65,6 +71,7 @@ export type ActionTypes =
   | setActiveNoteValueAction
   | setNoteTitleAction
   | addNewNoteAction
+  | deleteNoteAction
   | storeNotesListAction
   | removeAllNotesAction
   | updateSyncedStatusAction
