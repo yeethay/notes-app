@@ -9,6 +9,7 @@ import { INotesList } from '../interfaces';
 
 export function* firebaseSaga() {
   yield takeEvery(types.FIRESTORE_CHANGE_DETECTED, processFirestoreChangedSaga);
+  yield takeEvery(types.STORE_NOTES_LIST, updateDocumentTitleSaga);
 }
 
 function* processFirestoreChangedSaga({
@@ -39,4 +40,14 @@ function* processFirestoreChangedSaga({
   if (equal) {
     yield put(updateSyncedStatusAction(true));
   }
+}
+
+function* updateDocumentTitleSaga({
+  notesList,
+}: {
+  type: typeof types.STORE_NOTES_LIST;
+  notesList: INotesList;
+}) {
+  let activeId = Object.keys(notesList).find(id => notesList[id].active);
+  yield (document.title = 'Notes App | ' + notesList[activeId!].data.title);
 }
