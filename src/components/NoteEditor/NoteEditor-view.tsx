@@ -77,7 +77,7 @@ class NoteEditor extends Component<IProps> {
 
     let updateLastModified = changed;
 
-    let preview = 'test';
+    let preview = (value.toJSON().document!.nodes![0] as any).nodes[0].text;
 
     this.props.dispatch(
       setActiveNoteValueAction(activeNoteId, value, updateLastModified, preview)

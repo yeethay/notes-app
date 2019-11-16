@@ -9,7 +9,7 @@ import Firebase, { FirebaseContext } from './utils/firebase';
 
 ReactDOM.render(
   <Provider store={store}>
-    <FirebaseContext.Provider value={new Firebase()}>
+    <FirebaseContext.Provider value={new Firebase() as any}>
       <App />
     </FirebaseContext.Provider>
   </Provider>,
