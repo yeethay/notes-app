@@ -15,7 +15,7 @@ class Navigator extends Component<IProps> {
       .sort((a, b) =>
         notesList[a].lastModified < notesList[b].lastModified ? 1 : -1
       )
-      .map(key =>
+      .forEach(key =>
         list.push(
           <NavigatorItem
             title={notesList[key].data.title || 'Untitled note'}

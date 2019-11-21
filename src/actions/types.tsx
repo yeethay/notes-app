@@ -17,6 +17,8 @@ export const DELETE_NOTE = 'DELETE_NOTE';
 interface deleteNoteAction {
   type: typeof DELETE_NOTE;
   noteId: string;
+  lastModified: number;
+  active: boolean;
 }
 
 export const SET_NOTE_ACTIVE = 'SET_NOTE_ACTIVE';

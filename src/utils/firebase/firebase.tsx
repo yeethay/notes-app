@@ -76,15 +76,20 @@ class Firebase {
       { merge: true }
     );
   }, DEBOUNCE_MILLISECONDS);
-
-  updateNotesListActiveFlags = debounce(({ user, notesList }) => {
-    let noteIds = Object.keys(notesList);
-    let activeSubset = noteIds.reduce((result: { [id: string]: {} }, id) => {
-      result[id] = { active: notesList[id].active };
-      return result;
-    }, {});
+  deleteNote = (user: firebase.User, noteId: string) => {
     let docRef = this.notesRef(user);
-    docRef.set(activeSubset, { merge: true });
+    docRef.update({
+      [noteId]: app.firestore.FieldValue.delete(),
+    });
+  };
+  updateNotesListActiveFlags = debounce(({ user, notesList }) => {
+    // let noteIds = Object.keys(notesList);
+    // let activeSubset = noteIds.reduce((result: { [id: string]: {} }, id) => {
+    //   result[id] = { active: notesList[id].active };
+    //   return result;
+    // }, {});
+    // let docRef = this.notesRef(user);
+    // docRef.set(activeSubset, { merge: true });
   }, DEBOUNCE_MILLISECONDS);
 
   listenForDBChanges = (user: firebase.User) => {
@@ -139,6 +144,7 @@ export type FirebaseFunctions = {
   updateNotesListActiveFlags: Firebase['updateNotesListActiveFlags'];
   listenForDBChanges: Firebase['listenForDBChanges'];
   getUserNotesFromDB: Firebase['getUserNotesFromDB'];
+  deleteNote: Firebase['deleteNote'];
 };
 
 export default Firebase;

@@ -6,6 +6,7 @@ import { updateSyncedStatusAction } from '../actions';
 import CryptoJS from 'crypto-js';
 import 'regenerator-runtime/runtime';
 import { INotesList } from '../interfaces';
+import firebase from 'firebase';
 
 export function* firebaseSaga() {
   yield takeEvery(types.FIRESTORE_CHANGE_DETECTED, processFirestoreChangedSaga);

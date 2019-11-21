@@ -1,4 +1,8 @@
-import DeleteNoteButton from './DeleteNoteButton-view';
+import DeleteNoteButton from './DeleteNoteButton-firebase';
 import { connect } from 'react-redux';
 
-export default connect()(DeleteNoteButton);
+interface IState {
+  user: firebase.User;
+}
+const mapStateToProps = ({ user }: IState) => ({ user });
+export default connect(mapStateToProps)(DeleteNoteButton);

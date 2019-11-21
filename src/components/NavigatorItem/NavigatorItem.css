@@ -22,8 +22,8 @@
 
 .navigator-item h4 {
   font-size: 20px;
+  flex-grow: 2;
 }
-
 
 .navigator-item p {
   font-size: 15px;
@@ -31,4 +31,9 @@
 
 .navigator-item.active {
   background-color: rgb(240, 240, 240);
+}
+
+.navigator-item .toprow {
+  display: flex;
+  width: 100%
 }

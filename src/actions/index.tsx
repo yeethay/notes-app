@@ -20,9 +20,15 @@ export const addNewNoteAction = (): types.ActionTypes => ({
   type: types.ADD_NEW_NOTE,
 });
 
-export const deleteNoteAction = (noteId: string): types.ActionTypes => ({
+export const deleteNoteAction = (
+  noteId: string,
+  lastModified: number,
+  active: boolean
+): types.ActionTypes => ({
   type: types.DELETE_NOTE,
   noteId,
+  lastModified,
+  active,
 });
 
 export const setNoteActiveAction = (noteId: string): types.ActionTypes => ({
