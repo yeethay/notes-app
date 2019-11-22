@@ -15,10 +15,12 @@ describe('actions', () => {
   });
 
   it('should create an action to add a new note', () => {
+    const id = uuid();
     const expectedAction = {
       type: types.ADD_NEW_NOTE,
+      noteId: id,
     };
-    expect(actions.addNewNoteAction()).toEqual(expectedAction);
+    expect(actions.addNewNoteAction(id)).toEqual(expectedAction);
   });
 
   it('should create an action to set a note active', () => {
@@ -44,8 +46,8 @@ describe('actions', () => {
       actions.setActiveNoteValueAction(
         activeNoteId,
         value,
-        updateLastModified,
-        preview
+        updateLastModified as any,
+        preview as any
       )
     ).toEqual(expectedAction);
   });

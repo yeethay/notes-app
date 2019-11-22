@@ -15,7 +15,7 @@ function setup(props) {
   return { wrapper };
 }
 
-const defaultNote = ({ title, active }) => {
+const defaultNote = ({ title, active }: { title: string; active: boolean }) => {
   return {
     data: {
       title,

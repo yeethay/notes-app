@@ -7,7 +7,7 @@ import { ActionTypes } from '../../actions/types';
 import DeleteNoteButton from '../DeleteNoteButton';
 
 interface IProps {
-  user: firebase.User;
+  user: firebase.User | null;
   notesList: INotesList;
   active: boolean;
   dispatch: (arg0: ActionTypes) => void;
@@ -31,7 +31,7 @@ class NavigatorItem extends Component<IProps> {
     return (
       <div className={classes} onClick={() => this.onClick()}>
         <div className="toprow">
-          <h4> {this.props.title || nbsp} </h4>
+          <h4>{this.props.title || nbsp}</h4>
           <DeleteNoteButton
             id={this.props.id}
             lastModified={this.props.notesList[this.props.id].lastModified}
