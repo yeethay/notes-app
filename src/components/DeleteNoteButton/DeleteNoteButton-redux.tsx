@@ -1,4 +1,4 @@
-import DeleteNoteButton from './DeleteNoteButton-firebase';
+import DeleteNoteButton from './DeleteNoteButton-view';
 import { connect } from 'react-redux';
 
 interface IState {

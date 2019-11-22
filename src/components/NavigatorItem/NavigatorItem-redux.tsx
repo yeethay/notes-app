@@ -1,4 +1,4 @@
-import NavigatorItem from './NavigatorItem-firebase';
+import NavigatorItem from './NavigatorItem-view';
 import { connect } from 'react-redux';
 import { INotesList } from '../../interfaces';
 

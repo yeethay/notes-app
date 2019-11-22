@@ -3,11 +3,9 @@ import { deleteNoteAction } from '../../actions';
 import { ActionTypes } from '../../actions/types';
 import Icon from 'react-icons-kit';
 import { ic_delete } from '../../utils/icons';
-import { FirebaseFunctions } from '../../utils/firebase/firebase';
 
 interface IProps {
   dispatch: (arg0: ActionTypes) => void;
-  firebase: FirebaseFunctions;
   id: string;
   lastModified: number;
   active: boolean;
@@ -32,7 +30,6 @@ class DeleteNoteButton extends Component<IProps> {
         this.props.active
       )
     );
-    this.props.firebase.deleteNote(this.props.user, this.props.id);
   };
 }
 

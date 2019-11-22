@@ -1,4 +1,4 @@
-import NavBar from './NavBar-firebase';
+import NavBar from './NavBar-view';
 import { connect } from 'react-redux';
 
 interface IState {

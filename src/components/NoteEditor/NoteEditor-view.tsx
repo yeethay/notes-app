@@ -3,6 +3,7 @@ import { Editor, RenderBlockProps, RenderMarkProps } from 'slate-react';
 import {
   setActiveNoteValueAction,
   updateSyncedStatusAction,
+  firestoreUpdateNoteAction,
 } from '../../actions';
 
 import * as icons from '../../utils/icons';
@@ -17,7 +18,6 @@ import './NoteEditor.css';
 import { Value, Block, Document } from 'slate';
 import { ActionTypes } from '../../actions/types';
 import initialValue from '../../utils/slate/initialValue';
-import { FirebaseFunctions } from '../../utils/firebase/firebase';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -25,7 +25,6 @@ interface IProps {
   user: firebase.User;
   notesList: INotesList;
   dispatch: (arg0: ActionTypes) => void;
-  firebase: FirebaseFunctions;
   synced: boolean;
 }
 
@@ -44,10 +43,12 @@ class NoteEditor extends Component<IProps> {
   }
 
   componentDidUpdate(): void {
-    let { user, notesList, firebase } = this.props;
+    let { user, notesList } = this.props;
     if (user && Object.keys(notesList).length > 0) {
       let noteId = Object.keys(notesList).find(key => notesList[key].active);
-      firebase.saveUserNoteToDB(user, noteId, notesList);
+      if (noteId) {
+        this.props.dispatch(firestoreUpdateNoteAction(user, noteId, notesList));
+      }
     }
   }
 

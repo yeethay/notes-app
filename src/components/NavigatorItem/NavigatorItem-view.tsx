@@ -4,7 +4,6 @@ import { setNoteActiveAction } from '../../actions';
 import './NavigatorItem.css';
 import { INotesList } from '../../interfaces';
 import { ActionTypes } from '../../actions/types';
-import { FirebaseFunctions } from '../../utils/firebase/firebase';
 import DeleteNoteButton from '../DeleteNoteButton';
 
 interface IProps {
@@ -15,15 +14,9 @@ interface IProps {
   id: string;
   title: string;
   preview: string;
-  firebase: FirebaseFunctions;
 }
 class NavigatorItem extends Component<IProps> {
-  componentDidUpdate(): void {
-    let { user, notesList, firebase } = this.props;
-    if (user && firebase) {
-      firebase.updateNotesListActiveFlags({ user, notesList });
-    }
-  }
+  componentDidUpdate(): void {}
 
   onClick(): void {
     this.props.dispatch(setNoteActiveAction(this.props.id));

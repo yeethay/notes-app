@@ -16,8 +16,9 @@ export const updateUserNotesAction = (
   notesList,
 });
 
-export const addNewNoteAction = (): types.ActionTypes => ({
+export const addNewNoteAction = (noteId: string): types.ActionTypes => ({
   type: types.ADD_NEW_NOTE,
+  noteId,
 });
 
 export const deleteNoteAction = (
@@ -76,4 +77,30 @@ export const firestoreChangeDetectedAction = (
   type: types.FIRESTORE_CHANGE_DETECTED,
   doc,
   user,
+});
+
+export const firebaseSignInAction = (): types.ActionTypes => ({
+  type: types.FIREBASE_SIGNIN,
+});
+
+export const firebaseSignOutAction = (): types.ActionTypes => ({
+  type: types.FIREBASE_SIGNOUT,
+});
+
+export const firebaseAuthStateChangedAction = (
+  user: firebase.User | null
+): types.ActionTypes => ({
+  type: types.FIREBASE_AUTH_STATE_CHANGED,
+  user,
+});
+
+export const firestoreUpdateNoteAction = (
+  user: firebase.User,
+  noteId: string,
+  notesList: INotesList
+): types.ActionTypes => ({
+  type: types.FIRESTORE_UPDATE_NOTE_ACTION,
+  user,
+  noteId,
+  notesList,
 });

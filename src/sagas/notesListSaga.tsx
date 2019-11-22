@@ -18,7 +18,6 @@ function* updateActiveNoteSaga({
   active: boolean;
 }) {
   let notesList = yield select(getNotesList);
-  console.log(notesList);
   if (active && Object.keys(notesList).length > 0) {
     let keys = Object.keys(notesList);
     let sortedKeys = keys.sort((a, b) =>
