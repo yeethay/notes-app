@@ -213,7 +213,7 @@ function* processFirestoreChanged({
     },
     {}
   );
-  let equal = isEqual(notesList, decryptedNotesList);
+  let equal = isEqual(JSON.stringify(notesList), JSON.stringify(decryptedNotesList));
   if (equal) {
     yield put(updateSyncedStatusAction(true));
   }
