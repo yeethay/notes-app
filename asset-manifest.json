@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/notes-app/static/css/main.742c3ff8.chunk.css",
+    "main.js": "/notes-app/static/js/main.b5a90dc9.chunk.js",
+    "main.js.map": "/notes-app/static/js/main.b5a90dc9.chunk.js.map",
+    "runtime~main.js": "/notes-app/static/js/runtime~main.2c46edbd.js",
+    "runtime~main.js.map": "/notes-app/static/js/runtime~main.2c46edbd.js.map",
+    "static/js/2.8750f334.chunk.js": "/notes-app/static/js/2.8750f334.chunk.js",
+    "static/js/2.8750f334.chunk.js.map": "/notes-app/static/js/2.8750f334.chunk.js.map",
+    "index.html": "/notes-app/index.html",
+    "precache-manifest.32917b38ab455532e5ca0e2aac3dbd23.js": "/notes-app/precache-manifest.32917b38ab455532e5ca0e2aac3dbd23.js",
+    "service-worker.js": "/notes-app/service-worker.js",
+    "static/css/main.742c3ff8.chunk.css.map": "/notes-app/static/css/main.742c3ff8.chunk.css.map"
+  }
+}
