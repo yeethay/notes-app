@@ -1,4 +1,4 @@
-import { takeEvery, select, put, call, debounce } from 'redux-saga/effects';
+import { takeEvery, select, put, call, debounce, fork } from 'redux-saga/effects';
 import * as types from '../actions/types';
 import { getNotesList, getUser } from './selectors';
 import { isEqual } from 'lodash';
@@ -7,6 +7,7 @@ import {
   updateUserAction,
   firebaseAuthStateChangedAction,
   updateUserNotesAction,
+  firestoreChangeDetectedAction,
 } from '../actions';
 import CryptoJS from 'crypto-js';
 import 'regenerator-runtime/runtime';
@@ -65,6 +66,11 @@ function* authStateChanged({
   yield put(updateUserAction(user));
   if (user) {
     yield call(getNotesListFromFirestore, user);
+    yield fork(rsf.firestore.syncDocument as any, `notes/${user.email}`, {
+      successActionCreator: (snapshot: firebase.firestore.DocumentSnapshot) =>
+        firestoreChangeDetectedAction(snapshot, user),
+      failureActionCreator: (err: any) => console.error(err),
+    });
   }
 }
 
