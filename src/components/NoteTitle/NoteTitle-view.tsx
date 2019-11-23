@@ -10,7 +10,7 @@ interface IProps {
   dispatch: (arg0: ActionTypes) => void;
 }
 
-const NoteTitle = (props: IProps) => {
+const NoteTitle = (props: IProps): JSX.Element => {
   return (
     <textarea
       maxLength={50}
@@ -36,10 +36,11 @@ const onChange = (
     return;
   }
 
+  document.title = title ? 'Notes App | ' + title : 'Notes App';
   props.dispatch(setNoteTitleAction(activeNoteId, title));
 };
 
-const onKeyDown = (event: React.KeyboardEvent) => {
+const onKeyDown = (event: React.KeyboardEvent): void => {
   if (event.keyCode === 13) {
     event.preventDefault();
   }
