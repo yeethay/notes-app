@@ -1,10 +1,6 @@
 import { INotesList } from '../interfaces';
 import { Value } from 'slate';
-import {
-  removeAllNotesAction,
-  firebaseSignOutAction,
-  firestoreUpdateNoteAction,
-} from '.';
+import { removeAllNotesAction, firebaseSignOutAction } from '.';
 
 export const UPDATE_USER = 'UPDATE_USER';
 interface updateUserAction {
@@ -91,15 +87,6 @@ interface firebaseAuthStateChangedAction {
   user: firebase.User | null;
 }
 
-export const FIRESTORE_UPDATE_NOTE_ACTION = 'FIRESTORE_UPDATE_NOTE_ACTION';
-
-interface firestoreUpdateNoteAction {
-  type: typeof FIRESTORE_UPDATE_NOTE_ACTION;
-  user: firebase.User;
-  noteId: string;
-  notesList: INotesList;
-}
-
 export type ActionTypes =
   | updateUserAction
   | setNoteActiveAction
@@ -113,5 +100,4 @@ export type ActionTypes =
   | firestoreChangeDetectedAction
   | firebaseSignInAction
   | firebaseSignOutAction
-  | firebaseAuthStateChangedAction
-  | firestoreUpdateNoteAction;
+  | firebaseAuthStateChangedAction;

@@ -1,4 +1,4 @@
-import { takeEvery, select, put, call } from 'redux-saga/effects';
+import { takeEvery, select, put, call, debounce } from 'redux-saga/effects';
 import * as types from '../actions/types';
 import { getNotesList, getUser } from './selectors';
 import { isEqual } from 'lodash';
@@ -15,7 +15,7 @@ import { INotesList, INote, IEncryptedNote } from '../interfaces';
 import firebase from 'firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
-import config from './config';
+import config from './firebaseConfig';
 import ReduxSagaFirebase from 'redux-saga-firebase';
 import store from '../store';
 import { Value } from 'slate';
@@ -32,12 +32,12 @@ export function* firebaseSaga() {
   yield takeEvery(types.FIREBASE_SIGNIN, signIn);
   yield takeEvery(types.FIREBASE_SIGNOUT, signOut);
   yield takeEvery(types.FIREBASE_AUTH_STATE_CHANGED, authStateChanged);
-  yield takeEvery(types.SET_ACTIVE_NOTE_VALUE, saveNotesListToFirestore);
   yield takeEvery(types.DELETE_NOTE, firestoreDeleteNote);
-  yield takeEvery(types.SET_NOTE_ACTIVE, firestoreSetNoteActive);
   yield takeEvery(types.ADD_NEW_NOTE, firestoreAddNewNote);
-  yield takeEvery(types.SET_NOTE_TITLE, firestoreSetNoteTitle);
   yield takeEvery(types.FIRESTORE_CHANGE_DETECTED, processFirestoreChanged);
+  yield debounce(2000, types.SET_NOTE_ACTIVE, firestoreSetNoteActive);
+  yield debounce(2000, types.SET_ACTIVE_NOTE_VALUE, firestoreSetActiveNoteValue);
+  yield debounce(2000, types.SET_NOTE_TITLE, firestoreSetNoteTitle);
 }
 
 function* signIn() {
@@ -86,29 +86,26 @@ function* getNotesListFromFirestore(user: firebase.User) {
   }
 }
 
-function* saveNotesListToFirestore({
+function* firestoreSetActiveNoteValue({
   activeNoteId,
 }: {
   type: typeof types.SET_ACTIVE_NOTE_VALUE;
   activeNoteId: string;
-  value: Value;
-  updateLastModified: boolean;
-  preview: string;
 }) {
   try {
     let user = yield select(getUser);
     let notesList = yield select(getNotesList);
-
     let secret = user.uid;
-
-    yield call(
-      rsf.firestore.setDocument,
-      `notes/${user.email}`,
-      {
-        [activeNoteId]: encryptNote(notesList[activeNoteId], secret),
-      },
-      { merge: true }
-    );
+    if (Object.keys(notesList).length > 0) {
+      yield call(
+        rsf.firestore.setDocument,
+        `notes/${user.email}`,
+        {
+          [activeNoteId]: encryptNote(notesList[activeNoteId], secret),
+        },
+        { merge: true }
+      );
+    }
   } catch (err) {
     console.error(err);
   }
@@ -137,12 +134,7 @@ function* firestoreSetNoteActive({
   }
 }
 
-function* firestoreAddNewNote({
-  noteId,
-}: {
-  type: typeof types.ADD_NEW_NOTE;
-  noteId: string;
-}) {
+function* firestoreAddNewNote({ noteId }: { type: typeof types.ADD_NEW_NOTE; noteId: string }) {
   try {
     let user = yield select(getUser);
     let notesList = yield select(getNotesList);
@@ -163,12 +155,7 @@ function* firestoreAddNewNote({
   }
 }
 
-function* firestoreDeleteNote({
-  noteId,
-}: {
-  type: typeof types.DELETE_NOTE;
-  noteId: string;
-}) {
+function* firestoreDeleteNote({ noteId }: { type: typeof types.DELETE_NOTE; noteId: string }) {
   try {
     let user = yield select(getUser);
     yield call(rsf.firestore.updateDocument, `notes/${user.email}`, {
@@ -211,16 +198,15 @@ function* processFirestoreChanged({
   user: firebase.User;
 }) {
   let notesList = yield select(getNotesList);
-  let remoteNotesList:
-    | { [id: string]: IEncryptedNote }
-    | undefined = doc.data();
+  let remoteNotesList: { [id: string]: IEncryptedNote } | undefined = doc.data();
   let secret = user.uid;
-  let decryptedNotesList = Object.keys(
-    remoteNotesList as { [id: string]: IEncryptedNote }
-  ).reduce((result: INotesList, id: string) => {
-    result[id] = decryptNote(remoteNotesList![id], secret);
-    return result;
-  }, {});
+  let decryptedNotesList = Object.keys(remoteNotesList as { [id: string]: IEncryptedNote }).reduce(
+    (result: INotesList, id: string) => {
+      result[id] = decryptNote(remoteNotesList![id], secret);
+      return result;
+    },
+    {}
+  );
   let equal = isEqual(notesList, decryptedNotesList);
   if (equal) {
     yield put(updateSyncedStatusAction(true));
@@ -246,9 +232,7 @@ const decryptNote = (
     lastModified: note.lastModified,
     active: note.active,
     data: {
-      ...JSON.parse(
-        CryptoJS.AES.decrypt(note.data, secret).toString(CryptoJS.enc.Utf8)
-      ),
+      ...JSON.parse(CryptoJS.AES.decrypt(note.data, secret).toString(CryptoJS.enc.Utf8)),
     },
   };
   decrypted.data.value = Value.fromJSON(decrypted.data.value);

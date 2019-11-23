@@ -93,14 +93,3 @@ export const firebaseAuthStateChangedAction = (
   type: types.FIREBASE_AUTH_STATE_CHANGED,
   user,
 });
-
-export const firestoreUpdateNoteAction = (
-  user: firebase.User,
-  noteId: string,
-  notesList: INotesList
-): types.ActionTypes => ({
-  type: types.FIRESTORE_UPDATE_NOTE_ACTION,
-  user,
-  noteId,
-  notesList,
-});
