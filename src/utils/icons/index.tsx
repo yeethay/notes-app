@@ -8,6 +8,7 @@ import { ic_format_list_numbered } from 'react-icons-kit/md/ic_format_list_numbe
 import { ic_looks_one } from 'react-icons-kit/md/ic_looks_one';
 import { ic_looks_two } from 'react-icons-kit/md/ic_looks_two';
 import { ic_done } from 'react-icons-kit/md/ic_done';
+import { ic_delete } from 'react-icons-kit/md/ic_delete';
 
 export {
   ic_format_bold,
@@ -20,4 +21,5 @@ export {
   ic_looks_one,
   ic_looks_two,
   ic_done,
+  ic_delete,
 };

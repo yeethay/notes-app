@@ -1,4 +1,4 @@
-import NoteEditor from './NoteEditor-firebase';
+import NoteEditor from './NoteEditor-view';
 import { connect } from 'react-redux';
 import { INotesList } from '../../interfaces';
 

@@ -22,15 +22,10 @@ const NoteTitle = (props: IProps): JSX.Element => {
   );
 };
 
-const onChange = (
-  props: IProps,
-  event: React.ChangeEvent<HTMLTextAreaElement>
-) => {
+const onChange = (props: IProps, event: React.ChangeEvent<HTMLTextAreaElement>) => {
   let title = event.target.value;
 
-  let activeNoteId = Object.keys(props.notesList).find(
-    key => props.notesList[key].active === true
-  );
+  let activeNoteId = Object.keys(props.notesList).find(key => props.notesList[key].active === true);
   if (!activeNoteId) {
     console.error('Could not get active note id');
     return;

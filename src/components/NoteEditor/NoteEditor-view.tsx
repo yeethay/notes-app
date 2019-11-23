@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Editor, RenderBlockProps, RenderMarkProps } from 'slate-react';
-import {
-  setActiveNoteValueAction,
-  updateSyncedStatusAction,
-} from '../../actions';
+import { setActiveNoteValueAction, updateSyncedStatusAction } from '../../actions';
 
 import * as icons from '../../utils/icons';
 import * as plugins from '../../utils/slate/plugins';
@@ -17,7 +14,6 @@ import './NoteEditor.css';
 import { Value, Block, Document } from 'slate';
 import { ActionTypes } from '../../actions/types';
 import initialValue from '../../utils/slate/initialValue';
-import { FirebaseFunctions } from '../../utils/firebase/firebase';
 
 const DEFAULT_NODE = 'paragraph';
 
@@ -25,7 +21,6 @@ interface IProps {
   user: firebase.User;
   notesList: INotesList;
   dispatch: (arg0: ActionTypes) => void;
-  firebase: FirebaseFunctions;
   synced: boolean;
 }
 
@@ -43,11 +38,11 @@ class NoteEditor extends Component<IProps> {
     ];
   }
 
-  componentDidUpdate(): void {
-    let { user, notesList, firebase } = this.props;
-    if (user && Object.keys(notesList).length > 0) {
-      let noteId = Object.keys(notesList).find(key => notesList[key].active);
-      firebase.saveUserNoteToDB(user, noteId, notesList);
+  componentDidUpdate() {
+    const activeNote = this.getActiveNote();
+    if (activeNote) {
+      const title = activeNote.data.title;
+      document.title = `Notes App | ${title || 'Untitled note'}`;
     }
   }
 
@@ -79,9 +74,7 @@ class NoteEditor extends Component<IProps> {
 
     let preview = (value.toJSON().document!.nodes![0] as any).nodes[0].text;
 
-    this.props.dispatch(
-      setActiveNoteValueAction(activeNoteId, value, updateLastModified, preview)
-    );
+    this.props.dispatch(setActiveNoteValueAction(activeNoteId, value, updateLastModified, preview));
   };
 
   hasBlock = (type: string): boolean => {
@@ -136,10 +129,7 @@ class NoteEditor extends Component<IProps> {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item');
       const isType = value.blocks.some((block: Block) => {
-        return !!document.getClosest(
-          block.key,
-          (parent: Document) => parent.type === type
-        );
+        return !!document.getClosest(block.key, (parent: Document) => parent.type === type);
       });
 
       if (isList && isType) {
@@ -149,9 +139,7 @@ class NoteEditor extends Component<IProps> {
           .unwrapBlock('numbered-list');
       } else if (isList) {
         editor
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
-          )
+          .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
           .wrapBlock(type);
       } else {
         editor.setBlocks('list-item').wrapBlock(type);
@@ -164,11 +152,7 @@ class NoteEditor extends Component<IProps> {
     this.editor.toggleMark(type);
   };
 
-  renderBlock = (
-    props: RenderBlockProps,
-    editor: any,
-    next: () => any
-  ): any => {
+  renderBlock = (props: RenderBlockProps, editor: any, next: () => any): any => {
     switch (props.node.type) {
       case 'heading-one':
         return <h1 {...props.attributes}>{props.children}</h1>;
@@ -229,9 +213,7 @@ class NoteEditor extends Component<IProps> {
       if (blocks.size > 0) {
         const parent = document.getParent(blocks.first().key);
         isActive =
-          (this.hasBlock('list-item') &&
-            parent &&
-            (parent as { type: any }).type === type) ||
+          (this.hasBlock('list-item') && parent && (parent as { type: any }).type === type) ||
           false;
       }
     }
@@ -247,47 +229,34 @@ class NoteEditor extends Component<IProps> {
 
   render() {
     if (Object.keys(this.props.notesList).length < 1) {
+      document.title = 'Notes App';
       return null;
     } else {
       return (
         <Fragment>
-          <NoteTitle
-            text={(this.getActiveNote() || { data: { title: '' } }).data.title}
-          />
+          <NoteTitle text={(this.getActiveNote() || { data: { title: '' } }).data.title} />
           <NoteToolbar>
             {this.renderMarkButton('bold', icons.ic_format_bold)}
             {this.renderMarkButton('italic', icons.ic_format_italic)}
             {this.renderMarkButton('underline', icons.ic_format_underlined)}
             {this.renderMarkButton('code', icons.ic_code)}
             {this.renderBlockButton('block-quote', icons.ic_format_quote)}
-            {this.renderBlockButton(
-              'bulleted-list',
-              icons.ic_format_list_bulleted
-            )}
-            {this.renderBlockButton(
-              'numbered-list',
-              icons.ic_format_list_numbered
-            )}
+            {this.renderBlockButton('bulleted-list', icons.ic_format_list_bulleted)}
+            {this.renderBlockButton('numbered-list', icons.ic_format_list_numbered)}
             {this.renderBlockButton('heading-one', icons.ic_looks_one)}
             {this.renderBlockButton('heading-two', icons.ic_looks_two)}
           </NoteToolbar>
           <Editor
             ref={this.ref}
             plugins={this.pluginList}
-            value={
-              (this.getActiveNote() || { data: { value: initialValue } }).data
-                .value
-            }
+            value={(this.getActiveNote() || { data: { value: initialValue } }).data.value}
             onChange={this.onChange}
             renderBlock={this.renderBlock}
             renderMark={this.renderMark}
             autoFocus={true}
           />
           <LastModified
-            date={
-              (this.getActiveNote() || { lastModified: new Date().getTime() })
-                .lastModified
-            }
+            date={(this.getActiveNote() || { lastModified: new Date().getTime() }).lastModified}
             user={this.props.user}
             synced={this.props.synced}
           />

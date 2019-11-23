@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
-import firebase from 'firebase/app';
-import { FirebaseFunctions } from '../../utils/firebase/firebase';
+import { firebaseSignInAction } from '../../actions';
+import { ActionTypes } from '../../actions/types';
 
 interface IProps {
-  firebase: FirebaseFunctions;
+  dispatch: (arg0: ActionTypes) => void;
 }
 class SignIn extends Component<IProps> {
   onClick = () => {
-    this.props.firebase.signInPopup(new firebase.auth.GoogleAuthProvider());
+    this.props.dispatch(firebaseSignInAction());
   };
 
   render() {

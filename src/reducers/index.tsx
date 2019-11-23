@@ -1,6 +1,5 @@
 import * as types from '../actions/types';
 import initialValue from '../utils/slate/initialValue';
-import uuid from 'uuid/v4';
 import { INotesList } from '../interfaces';
 import { Value } from 'slate';
 
@@ -44,7 +43,7 @@ function rootReducer(state = initialState, action: types.ActionTypes): IState {
             },
             {}
           ),
-          [uuid()]: {
+          [action.noteId]: {
             data: {
               title: '',
               preview: '',
@@ -54,6 +53,15 @@ function rootReducer(state = initialState, action: types.ActionTypes): IState {
             lastModified: new Date().getTime(),
           },
         },
+      };
+    }
+
+    case types.DELETE_NOTE: {
+      let newNotesList = { ...state.notesList };
+      delete newNotesList[action.noteId];
+      return {
+        ...state,
+        notesList: newNotesList,
       };
     }
 

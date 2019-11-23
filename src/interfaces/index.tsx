@@ -13,3 +13,9 @@ export interface INote {
     value: Value;
   };
 }
+
+export interface IEncryptedNote {
+  active: boolean;
+  lastModified: number;
+  data: string;
+}

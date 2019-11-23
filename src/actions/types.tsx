@@ -1,6 +1,6 @@
 import { INotesList } from '../interfaces';
 import { Value } from 'slate';
-import { removeAllNotesAction } from '.';
+import { removeAllNotesAction, firebaseSignOutAction } from '.';
 
 export const UPDATE_USER = 'UPDATE_USER';
 interface updateUserAction {
@@ -11,6 +11,15 @@ interface updateUserAction {
 export const ADD_NEW_NOTE = 'ADD_NEW_NOTE';
 interface addNewNoteAction {
   type: typeof ADD_NEW_NOTE;
+  noteId: string;
+}
+
+export const DELETE_NOTE = 'DELETE_NOTE';
+interface deleteNoteAction {
+  type: typeof DELETE_NOTE;
+  noteId: string;
+  lastModified: number;
+  active: boolean;
 }
 
 export const SET_NOTE_ACTIVE = 'SET_NOTE_ACTIVE';
@@ -59,13 +68,36 @@ interface firestoreChangeDetectedAction {
   user: firebase.User;
 }
 
+export const FIREBASE_SIGNIN = 'FIREBASE_SIGNIN';
+
+interface firebaseSignInAction {
+  type: typeof FIREBASE_SIGNIN;
+}
+
+export const FIREBASE_SIGNOUT = 'FIREBASE_SIGNOUT';
+
+interface firebaseSignOutAction {
+  type: typeof FIREBASE_SIGNOUT;
+}
+
+export const FIREBASE_AUTH_STATE_CHANGED = 'FIREBASE_AUTH_STATE_CHANGED';
+
+interface firebaseAuthStateChangedAction {
+  type: typeof FIREBASE_AUTH_STATE_CHANGED;
+  user: firebase.User | null;
+}
+
 export type ActionTypes =
   | updateUserAction
   | setNoteActiveAction
   | setActiveNoteValueAction
   | setNoteTitleAction
   | addNewNoteAction
+  | deleteNoteAction
   | storeNotesListAction
   | removeAllNotesAction
   | updateSyncedStatusAction
-  | firestoreChangeDetectedAction;
+  | firestoreChangeDetectedAction
+  | firebaseSignInAction
+  | firebaseSignOutAction
+  | firebaseAuthStateChangedAction;

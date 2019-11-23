@@ -5,13 +5,10 @@ import store from './store';
 import './index.css';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
-import Firebase, { FirebaseContext } from './utils/firebase';
 
 ReactDOM.render(
   <Provider store={store}>
-    <FirebaseContext.Provider value={new Firebase() as any}>
-      <App />
-    </FirebaseContext.Provider>
+    <App />
   </Provider>,
   document.getElementById('root')
 );
