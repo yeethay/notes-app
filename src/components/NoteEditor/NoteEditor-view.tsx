@@ -38,6 +38,14 @@ class NoteEditor extends Component<IProps> {
     ];
   }
 
+  componentDidUpdate() {
+    const activeNote = this.getActiveNote();
+    if (activeNote) {
+      const title = activeNote.data.title;
+      document.title = `Notes App | ${title || 'Untitled note'}`;
+    }
+  }
+
   ref = (editor: any): void => {
     this.editor = editor;
   };
@@ -221,6 +229,7 @@ class NoteEditor extends Component<IProps> {
 
   render() {
     if (Object.keys(this.props.notesList).length < 1) {
+      document.title = 'Notes App';
       return null;
     } else {
       return (

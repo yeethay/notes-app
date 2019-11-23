@@ -20,6 +20,8 @@ class NavigatorItem extends Component<IProps> {
 
   onClick(): void {
     this.props.dispatch(setNoteActiveAction(this.props.id));
+    let title = this.props.notesList[this.props.id].data.title;
+    document.title = `Notes App | ${title || 'Untitled note'}`;
   }
 
   render(): JSX.Element {

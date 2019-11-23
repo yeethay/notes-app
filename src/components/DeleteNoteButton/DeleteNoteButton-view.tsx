@@ -24,11 +24,7 @@ class DeleteNoteButton extends Component<IProps> {
   onClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     this.props.dispatch(
-      deleteNoteAction(
-        this.props.id,
-        this.props.lastModified,
-        this.props.active
-      )
+      deleteNoteAction(this.props.id, this.props.lastModified, this.props.active)
     );
   };
 }

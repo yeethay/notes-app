@@ -36,7 +36,6 @@ export function* firebaseSaga() {
   yield takeEvery(types.DELETE_NOTE, firestoreDeleteNote);
   yield takeEvery(types.ADD_NEW_NOTE, firestoreAddNewNote);
   yield takeEvery(types.FIRESTORE_CHANGE_DETECTED, processFirestoreChanged);
-  yield takeEvery(types.STORE_NOTES_LIST, updateDocumentTitleSaga);
   yield debounce(2000, types.SET_NOTE_ACTIVE, firestoreSetNoteActive);
   yield debounce(2000, types.SET_ACTIVE_NOTE_VALUE, firestoreSetActiveNoteValue);
   yield debounce(2000, types.SET_NOTE_TITLE, firestoreSetNoteTitle);
@@ -245,13 +244,3 @@ const decryptNote = (
   decrypted.data.value = Value.fromJSON(decrypted.data.value);
   return decrypted;
 };
-
-function* updateDocumentTitleSaga({
-  notesList,
-}: {
-  type: typeof types.STORE_NOTES_LIST;
-  notesList: INotesList;
-}) {
-  let activeId = Object.keys(notesList).find(id => notesList[id].active);
-  yield (document.title = 'Notes App | ' + notesList[activeId!].data.title);
-}
